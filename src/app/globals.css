@@ -2,20 +2,31 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background: #f8f4f0;
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+@layer component {
+  .finance-wrapper {
+    grid-template-columns: 18.75rem 1fr;
+  }
+
+  .finance-wrapper_isCollapsed {
+    grid-template-columns: 5.5rem 1fr;
+  }
+
+  .finance-wrapper > .sidebar {
+    width: 18.75rem;
+    transition: width 0.5s ease-in-out;
+  }
+
+  .finance-wrapper_isCollapsed > .sidebar {
+    width: 5.5rem;
+    transition: width 0.5s ease-in-out;
+  }
 }

@@ -1,14 +1,12 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Public_Sans } from "next/font/google";
 import "./globals.css";
+import LayoutWrapper from "@/components/layoutWrapper";
+import Sidebar from "@/components/sidebar";
+import { CollapseStoreProvider } from "@/providers/collapse-store-provider";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const publicSans = Public_Sans({
+  variable: "--font-public-sans",
   subsets: ["latin"],
 });
 
@@ -22,12 +20,18 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // use zustand to manage state of collapsible sidebar
+
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+      <body className={`${publicSans.variable} antialiased`}>
+        <CollapseStoreProvider>
+          <LayoutWrapper>
+            {" "}
+            <Sidebar />
+            {children}
+          </LayoutWrapper>
+        </CollapseStoreProvider>
       </body>
     </html>
   );
