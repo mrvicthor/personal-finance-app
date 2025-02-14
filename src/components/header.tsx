@@ -8,7 +8,7 @@ import { usePathname } from "next/navigation";
 const Header = () => {
   const pathname = usePathname();
   return (
-    <footer className="h-[4.625rem] md:hidden bg-[#201f24] absolute bottom-0 w-screen px-6 pt-2">
+    <footer className="h-[4.625rem] md:hidden bg-[#201f24] fixed bottom-0 w-screen px-6 pt-2">
       <ul className="flex justify-around">
         {links.map((link) => {
           const isActive = pathname === link.href;
