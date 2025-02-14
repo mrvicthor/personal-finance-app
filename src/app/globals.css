@@ -29,4 +29,10 @@
     width: 5.5rem;
     transition: width 0.5s ease-in-out;
   }
+
+  @media (width <= 48rem) {
+    .finance-wrapper {
+      grid-template-columns: 1fr;
+    }
+  }
 }
