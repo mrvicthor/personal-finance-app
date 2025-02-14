@@ -1,7 +1,9 @@
+import Title from "@/components/title";
+
 export default function Home() {
   return (
-    <main className="main">
-      <p>my content</p>
+    <main className="main px-10 pt-8">
+      <Title title="overview" />
     </main>
   );
 }
