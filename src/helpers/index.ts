@@ -6,6 +6,10 @@ export const formatCurrency = (value: number) => {
   return formatter.format(value);
 };
 
+export const formatNumber = (value: number) => {
+  return "$" + Math.round(value).toLocaleString("en-US");
+};
+
 export const links = [
   {
     label: "Overview",

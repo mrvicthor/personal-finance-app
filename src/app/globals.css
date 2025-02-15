@@ -30,6 +30,11 @@
     transition: width 0.5s ease-in-out;
   }
 
+  .main-overview {
+    grid-template-columns: 38rem 1fr;
+    grid-template-rows: 47.5625rem;
+  }
+
   @media (width <= 48rem) {
     .finance-wrapper {
       grid-template-columns: 1fr;
