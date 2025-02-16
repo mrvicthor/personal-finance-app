@@ -19,11 +19,9 @@ const Pots = async () => {
     .map((item: Pot) => item.total)
     .reduce((sum: number, acc: number) => sum + acc, 0);
 
-  const resultsToDisplay = pots.filter(
-    (item: Pot) => item.name !== "New Laptop"
-  );
+  const resultsToDisplay = pots.filter((item: Pot) => item.name !== "Holiday");
   return (
-    <section className="py-8 px-8 bg-white space-y-5 h-[13.625rem] rounded-lg">
+    <section className="py-8 px-8 bg-white space-y-5 h-[20.25rem] sm:h-[13.625rem] rounded-lg">
       <div className="flex justify-between items-center">
         <h2 className="capitalize text-[#201f24] text-xl font-bold">pots</h2>
         <Link href="/pots" className="capitalize flex gap-3">
@@ -31,8 +29,8 @@ const Pots = async () => {
           <Image src={arrowRight} alt="arrow right" />
         </Link>
       </div>
-      <div className="h-[6.8725rem] grid grid-cols-2 gap-5">
-        <div className="bg-[#f8f4f0] col-span-1 flex rounded-lg px-4 py-5 gap-4 items-center">
+      <div className="h-[6.8725rem] grid sm:grid-cols-2 gap-5">
+        <div className="bg-[#f8f4f0] sm:col-span-1 flex rounded-lg px-4 py-5 gap-4 items-center">
           <div>
             <Image src={potIcon} alt="pot icon" />
           </div>
@@ -41,7 +39,7 @@ const Pots = async () => {
             <p className="text-[2rem] font-bold">{formatNumber(totalSaved)}</p>
           </div>
         </div>
-        <ul className="col-span-1 grid grid-cols-2 gap-4">
+        <ul className="sm:col-span-1 grid grid-cols-2 gap-4">
           {resultsToDisplay.map((item: Pot) => (
             <li
               key={item.name}

@@ -39,5 +39,10 @@
     .finance-wrapper {
       grid-template-columns: 1fr;
     }
+
+    .main-overview {
+      grid-template-rows: 13.625rem 32.4375rem;
+      grid-template-columns: 1fr;
+    }
   }
 }
