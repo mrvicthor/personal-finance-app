@@ -4,9 +4,9 @@ import Link from "next/link";
 import Image from "next/image";
 import potIcon from "../../public/assets/images/icon-pot.svg";
 import arrowRight from "../../public/assets/images/icon-caret-right.svg";
-import { formatNumber } from "@/helpers";
+import { filterTheme, formatNumber } from "@/helpers";
 
-type Pot = {
+export type Pot = {
   name: string;
   target: number;
   total: number;
@@ -21,7 +21,7 @@ const Pots = async () => {
 
   const resultsToDisplay = pots.filter((item: Pot) => item.name !== "Holiday");
   return (
-    <section className="py-8 px-8 bg-white space-y-5 h-[20.25rem] sm:h-[13.625rem] rounded-lg">
+    <section className="py-8 px-8 bg-white space-y-5 rounded-lg">
       <div className="flex justify-between items-center">
         <h2 className="capitalize text-[#201f24] text-xl font-bold">pots</h2>
         <Link href="/pots" className="capitalize flex gap-3">
@@ -43,15 +43,9 @@ const Pots = async () => {
           {resultsToDisplay.map((item: Pot) => (
             <li
               key={item.name}
-              className={`border-l-4 ${
-                item.name === "Savings"
-                  ? "border-[#277c78]"
-                  : item.name === "Concert Ticket"
-                  ? "border-[#626070]"
-                  : item.name === "Gift"
-                  ? "border-[#82c9d7]"
-                  : "border-[#f2cdac]"
-              } flex flex-col justify-between px-4`}
+              className={`border-l-4 ${filterTheme(
+                item.name
+              )} flex flex-col justify-between px-4`}
             >
               <span className="block text-xs font-bold text-[#696868]">
                 {item.name}

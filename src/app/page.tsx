@@ -2,6 +2,7 @@ import Balance from "@/components/balance";
 import Header from "@/components/header";
 import Pots from "@/components/pots";
 import Title from "@/components/title";
+import Transactions from "@/components/transactions";
 
 export default function Home() {
   return (
@@ -10,8 +11,9 @@ export default function Home() {
         <Title title="overview" />
         <Balance />
         <section className="grid main-overview mt-8 gap-6">
-          <section className="grid">
+          <section className="grid main-overview-pot gap-6">
             <Pots />
+            <Transactions />
           </section>
           <section className=""></section>
         </section>

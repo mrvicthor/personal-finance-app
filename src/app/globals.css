@@ -35,6 +35,11 @@
     grid-template-rows: 47.5625rem;
   }
 
+  .main-overview-pot {
+    grid-template-columns: 1fr;
+    grid-template-rows: 13.625rem 32.4375rem;
+  }
+
   @media (width <= 48rem) {
     .finance-wrapper {
       grid-template-columns: 1fr;
@@ -43,6 +48,13 @@
     .main-overview {
       grid-template-rows: 13.625rem 32.4375rem;
       grid-template-columns: 1fr;
+    }
+  }
+
+  @media (width <= 42rem) {
+    .main-overview-pot {
+      grid-template-columns: 1fr;
+      grid-template-rows: 20.25rem 31.4375rem;
     }
   }
 }
