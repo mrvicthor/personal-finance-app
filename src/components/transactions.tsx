@@ -3,9 +3,9 @@ import React from "react";
 import Image from "next/image";
 import arrowRight from "../../public/assets/images/icon-caret-right.svg";
 import { getFinanceData } from "../../lib/data";
-import { formatCurrency } from "@/helpers";
+import Transaction from "./transaction";
 
-type Transaction = {
+export type Transaction = {
   avatar: string;
   name: string;
   category: string;
@@ -20,7 +20,7 @@ const Transactions = async () => {
     month: "long",
     year: "numeric",
   };
-  const transactionsToDisplay = data.transactions
+  const transactionsToDisplay: Transaction[] = data.transactions
     .filter((item: Transaction, index: number) => index < 5)
     .map((item: Transaction) => ({
       ...item,
@@ -37,7 +37,8 @@ const Transactions = async () => {
           <Image src={arrowRight} alt="arrow right" />
         </Link>
       </div>
-      <ul className="mt-[0.96875rem] divide-y-[1px]">
+      <Transaction transactions={transactionsToDisplay} />
+      {/* <ul className="mt-[0.96875rem] divide-y-[1px]">
         {transactionsToDisplay.map(
           (transaction: Transaction, index: number) => (
             <li key={index} className="flex justify-between py-5">
@@ -70,7 +71,7 @@ const Transactions = async () => {
             </li>
           )
         )}
-      </ul>
+      </ul> */}
     </section>
   );
 };

@@ -46,12 +46,12 @@
     }
 
     .main-overview {
-      grid-template-rows: 13.625rem 32.4375rem;
+      grid-template-rows: 47.5625rem 47.5625rem;
       grid-template-columns: 1fr;
     }
   }
 
-  @media (width <= 42rem) {
+  @media (width <= 40rem) {
     .main-overview-pot {
       grid-template-columns: 1fr;
       grid-template-rows: 20.25rem 31.4375rem;
