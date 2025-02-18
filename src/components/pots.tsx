@@ -54,7 +54,7 @@ const Pots = async () => {
                   : "border-[#f2cdac]"
               } flex flex-col justify-between px-4`}
             >
-              <span className="block text-xs font-bold text-[#696868]">
+              <span className="block text-[#696868] text-xs font-normal">
                 {item.name}
               </span>
               <span className="block text-sm font-bold text-[#201f24]">

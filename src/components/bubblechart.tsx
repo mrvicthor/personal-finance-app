@@ -58,7 +58,7 @@ const Bubblechart = ({ data }: BudgetsProps) => {
   return (
     <ChartContainer
       config={chartConfig}
-      className="mx-auto aspect-square max-h-[250px]"
+      className="max-w-[15.4375rem] aspect-square max-h-[15rem]"
     >
       <PieChart>
         <ChartTooltip

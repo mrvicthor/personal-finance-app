@@ -38,40 +38,6 @@ const Transactions = async () => {
         </Link>
       </div>
       <Transaction transactions={transactionsToDisplay} />
-      {/* <ul className="mt-[0.96875rem] divide-y-[1px]">
-        {transactionsToDisplay.map(
-          (transaction: Transaction, index: number) => (
-            <li key={index} className="flex justify-between py-5">
-              <div className="flex gap-4 items-center">
-                <Image
-                  src={`${transaction.avatar.slice(1)}`}
-                  alt={transaction.name}
-                  width={40}
-                  height={40}
-                  className="rounded-full"
-                />
-                <span className="block text-sm font-bold">
-                  {transaction.name}
-                </span>
-              </div>
-              <div className="flex flex-col gap-2">
-                <span
-                  className={`${
-                    transaction.amount > 0 && "text-[#277c78]"
-                  } block text-sm font-bold`}
-                >
-                  {transaction.amount > 0
-                    ? "+" + formatCurrency(transaction.amount)
-                    : formatCurrency(transaction.amount)}
-                </span>
-                <span className="block text-[#696868] text-xs font-normal">
-                  {transaction.date}
-                </span>
-              </div>
-            </li>
-          )
-        )}
-      </ul> */}
     </section>
   );
 };

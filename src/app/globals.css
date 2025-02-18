@@ -114,9 +114,18 @@
   }
 
   @media (width <= 40rem) {
+    .main-overview {
+      grid-template-rows: 52.6875rem 52.6875rem;
+      grid-template-columns: 1fr;
+    }
     .main-overview-pot {
       grid-template-columns: 1fr;
       grid-template-rows: 20.25rem 31.4375rem;
+    }
+
+    .main-overview-budgets {
+      grid-template-columns: 1fr;
+      grid-template-rows: 29.125rem 19.4375rem;
     }
   }
 }
