@@ -7,7 +7,7 @@ import BudgetList from "./budgetList";
 
 const Budgets = async () => {
   const data = await getFinanceData();
-  console.log(data);
+
   return (
     <section className="py-8 px-8 bg-white rounded-lg">
       <div className="flex justify-between items-center">
