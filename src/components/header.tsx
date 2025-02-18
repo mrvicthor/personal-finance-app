@@ -9,8 +9,8 @@ const Header = () => {
   const pathname = usePathname();
   return (
     <footer className="h-[4.625rem] md:hidden bg-[#201f24] fixed bottom-0 w-screen px-6">
-      <div className="flex items-end h-full">
-        <ul className="flex justify-around items-end">
+      <div className="flex items-end justify-center h-full">
+        <ul className="flex justify-around">
           {links.map((link) => {
             const isActive = pathname === link.href;
             return (
