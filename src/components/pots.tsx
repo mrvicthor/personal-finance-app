@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import potIcon from "../../public/assets/images/icon-pot.svg";
 import arrowRight from "../../public/assets/images/icon-caret-right.svg";
-import { filterTheme, formatNumber } from "@/helpers";
+import { formatNumber } from "@/helpers";
 
 export type Pot = {
   name: string;
@@ -15,9 +15,10 @@ export type Pot = {
 const Pots = async () => {
   const data = await getFinanceData();
   const pots = data.pots;
-  const totalSaved = pots
-    .map((item: Pot) => item.total)
-    .reduce((sum: number, acc: number) => sum + acc, 0);
+  const totalSaved = pots.reduce(
+    (sum: number, item: Pot) => sum + item.total,
+    0
+  );
 
   const resultsToDisplay = pots.filter((item: Pot) => item.name !== "Holiday");
   return (
@@ -43,9 +44,15 @@ const Pots = async () => {
           {resultsToDisplay.map((item: Pot) => (
             <li
               key={item.name}
-              className={`border-l-4 ${filterTheme(
-                item.name
-              )} flex flex-col justify-between px-4`}
+              className={`border-l-4 ${
+                item.name === "Savings"
+                  ? "border-[#277c78]"
+                  : item.name === "Concert Ticket"
+                  ? "border-[#626070]"
+                  : item.name === "Gift"
+                  ? "border-[#82c9d7]"
+                  : "border-[#f2cdac]"
+              } flex flex-col justify-between px-4`}
             >
               <span className="block text-xs font-bold text-[#696868]">
                 {item.name}

@@ -39,10 +39,10 @@ export const links = [
 ];
 
 const pots: Record<string, string> = {
-  Savings: "border-[#277c78]",
-  "Concert Ticket": "border-[#626070]",
-  Gift: "border-[#82c9d7]",
-  "New Laptop": "border-[#f2cdac]",
+  Savings: "#277c78",
+  "Concert Ticket": "#626070",
+  Gift: "#82c9d7",
+  "New Laptop": "#f2cdac",
 };
 
 export const filterTheme = (value: string) => pots[value];

@@ -1,4 +1,5 @@
 import Balance from "@/components/balance";
+import Budgets from "@/components/budgets";
 import Header from "@/components/header";
 import Pots from "@/components/pots";
 import Title from "@/components/title";
@@ -15,7 +16,9 @@ export default function Home() {
             <Pots />
             <Transactions />
           </section>
-          <section className=""></section>
+          <section className="grid main-overview-budgets">
+            <Budgets />
+          </section>
         </section>
       </section>
       <Header />
