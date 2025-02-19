@@ -12,7 +12,7 @@ const Card = ({ title, amount }: CardProps) => {
         title === "current" ? "bg-[#201f24] text-white" : "bg-white "
       } col-span-1 rounded-lg px-6 py-6 space-y-3 h-[6.9375rem] sm:h-[7.4375rem]`}
     >
-      <p className="capitalize text-sm">
+      <p className="capitalize text-sm text-[#696868] font-normal">
         {title === "current" ? "current balance" : title}
       </p>
       <p className="text-[2rem] font-bold">{formatCurrency(amount)}</p>
