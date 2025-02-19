@@ -1,9 +1,6 @@
-import Link from "next/link";
-import React from "react";
-import Image from "next/image";
-import arrowRight from "../../public/assets/images/icon-caret-right.svg";
 import { getFinanceData } from "../../lib/data";
 import Transaction from "./transaction";
+import Subheader from "./subheader";
 
 export type Transaction = {
   avatar: string;
@@ -28,15 +25,11 @@ const Transactions = async () => {
     }));
   return (
     <section className="py-8 px-8 bg-white rounded-lg">
-      <div className="flex justify-between items-center">
-        <h2 className="capitalize text-[#201f24] text-xl font-bold">
-          transaction
-        </h2>
-        <Link href="/transactions" className="capitalize flex gap-3">
-          <span className="text-sm text-[#696868]">view all</span>{" "}
-          <Image src={arrowRight} alt="arrow right" />
-        </Link>
-      </div>
+      <Subheader
+        title="transactions"
+        description="view all"
+        href="/transactions"
+      />
       <Transaction transactions={transactionsToDisplay} />
     </section>
   );

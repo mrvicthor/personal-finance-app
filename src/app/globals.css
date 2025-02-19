@@ -108,7 +108,7 @@
     }
 
     .main-overview {
-      grid-template-rows: 47.5625rem 47.5625rem;
+      grid-template-rows: 47.5625rem 51.5625rem;
       grid-template-columns: 1fr;
     }
   }

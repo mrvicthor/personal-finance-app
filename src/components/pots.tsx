@@ -1,10 +1,9 @@
 import React from "react";
 import { getFinanceData } from "../../lib/data";
-import Link from "next/link";
 import Image from "next/image";
 import potIcon from "../../public/assets/images/icon-pot.svg";
-import arrowRight from "../../public/assets/images/icon-caret-right.svg";
 import { formatNumber } from "@/helpers";
+import Subheader from "./subheader";
 
 export type Pot = {
   name: string;
@@ -23,13 +22,7 @@ const Pots = async () => {
   const resultsToDisplay = pots.filter((item: Pot) => item.name !== "Holiday");
   return (
     <section className="py-8 px-8 bg-white space-y-5 rounded-lg">
-      <div className="flex justify-between items-center">
-        <h2 className="capitalize text-[#201f24] text-xl font-bold">pots</h2>
-        <Link href="/pots" className="capitalize flex gap-3">
-          <span className="text-sm text-[#696868]">see details</span>{" "}
-          <Image src={arrowRight} alt="arrow right" />
-        </Link>
-      </div>
+      <Subheader title="pots" description="see details" href="/pots" />
       <div className="h-[6.8725rem] grid sm:grid-cols-2 gap-5">
         <div className="bg-[#f8f4f0] sm:col-span-1 flex rounded-lg px-4 py-5 gap-4 items-center">
           <div>
