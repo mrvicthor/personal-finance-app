@@ -4,6 +4,7 @@ import "./globals.css";
 import LayoutWrapper from "@/components/layoutWrapper";
 import Sidebar from "@/components/sidebar";
 import { CollapseStoreProvider } from "@/providers/collapse-store-provider";
+import Header from "@/components/header";
 
 const publicSans = Public_Sans({
   variable: "--font-public-sans",
@@ -29,7 +30,10 @@ export default function RootLayout({
           <LayoutWrapper>
             {" "}
             <Sidebar />
-            {children}
+            <>
+              {children}
+              <Header />
+            </>
           </LayoutWrapper>
         </CollapseStoreProvider>
       </body>
