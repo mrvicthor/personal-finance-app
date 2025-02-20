@@ -102,6 +102,10 @@
     grid-template-rows: 25.625rem 20.4375rem;
   }
 
+  .search-form {
+    width: 20rem;
+  }
+
   @media (width <= 48rem) {
     .finance-wrapper {
       grid-template-columns: 1fr;

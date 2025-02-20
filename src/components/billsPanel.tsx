@@ -21,7 +21,7 @@ const BillsPanel = async () => {
       <Subheader
         title="recurring bills"
         description="see details"
-        href="/bills"
+        href="/recurring-bills"
       />
       <Bills data={transactions} />
     </section>
