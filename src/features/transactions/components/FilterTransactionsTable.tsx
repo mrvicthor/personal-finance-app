@@ -2,7 +2,9 @@
 import React, { useState } from "react";
 import SearchBar from "./forms/SearchBar";
 import TransactionTable from "./TransactionTable";
-
+import Image from "next/image";
+import leftArrow from "../../../../public/assets/images/icon-caret-left.svg";
+import rightArrow from "../../../../public/assets/images/icon-caret-right.svg";
 import { Transaction } from "@/components/transactions";
 import SortBy from "./SortBy";
 import Category from "./Category";
@@ -31,83 +33,47 @@ export type SortBy =
   | "Highest"
   | "Lowest";
 
+const TRANSACTIONS_PER_PAGE = 10;
 const FilterTransactionsTable = ({ transactions }: Transactions) => {
   const [filterText, setFilterText] = useState<string>("");
   const [isSorted, setIsSorted] = useState<SortBy>("Latest");
   const [category, setCategory] = useState<Category>("All Transactions");
+  const [currentPage, setCurrentPage] = useState(1);
 
   const filteredTransactions =
-    category === "General"
-      ? transactions.filter((transaction) => transaction.category === "General")
-      : category === "Dining Out"
-      ? transactions.filter(
-          (transaction) => transaction.category === "Dining Out"
-        )
-      : category === "Groceries"
-      ? transactions.filter(
-          (transaction) => transaction.category === "Groceries"
-        )
-      : category === "Entertainment"
-      ? transactions.filter(
-          (transaction) => transaction.category === "Entertainment"
-        )
-      : category === "Transportation"
-      ? transactions.filter(
-          (transaction) => transaction.category === "Transportation"
-        )
-      : category === "Lifestyle"
-      ? transactions.filter(
-          (transaction) => transaction.category === "Lifestyle"
-        )
-      : category === "Personal Care"
-      ? transactions.filter(
-          (transaction) => transaction.category === "Personal Care"
-        )
-      : category === "Education"
-      ? transactions.filter(
-          (transaction) => transaction.category === "Education"
-        )
-      : category === "Bills"
-      ? transactions.filter((transaction) => transaction.category === "Bills")
-      : category === "Shopping"
-      ? transactions.filter(
-          (transaction) => transaction.category === "Shopping"
-        )
-      : transactions;
+    category === "All Transactions"
+      ? transactions
+      : transactions.filter((transaction) => transaction.category === category);
 
-  const sortedTransactions =
-    isSorted === "A to Z"
-      ? filteredTransactions.sort((itemA: Transaction, itemB: Transaction) =>
-          itemA.name.localeCompare(itemB.name)
-        )
-      : isSorted === "Z to A"
-      ? filteredTransactions.sort((itemA: Transaction, itemB: Transaction) =>
-          itemB.name.localeCompare(itemA.name)
-        )
-      : isSorted === "Lowest"
-      ? filteredTransactions.toSorted(
-          (itemA: Transaction, itemB: Transaction) =>
-            itemA.amount - itemB.amount
-        )
-      : isSorted === "Highest"
-      ? filteredTransactions.toSorted(
-          (itemA: Transaction, itemB: Transaction) =>
-            itemB.amount - itemA.amount
-        )
-      : isSorted === "Latest"
-      ? filteredTransactions.sort((itemA: Transaction, itemB: Transaction) => {
-          const dateA = new Date(itemA.date);
-          const dateB = new Date(itemB.date);
-          return dateA.getTime() - dateB.getTime();
-        })
-      : isSorted === "Oldest"
-      ? filteredTransactions.sort((itemA: Transaction, itemB: Transaction) => {
-          const dateA = new Date(itemA.date);
-          const dateB = new Date(itemB.date);
-          return dateB.getTime() - dateA.getTime();
-        })
-      : filteredTransactions;
+  const sortingStrategies = {
+    "A to Z": (a: Transaction, b: Transaction) => a.name.localeCompare(b.name),
+    "Z to A": (a: Transaction, b: Transaction) => b.name.localeCompare(a.name),
+    Lowest: (a: Transaction, b: Transaction) => a.amount - b.amount,
+    Highest: (a: Transaction, b: Transaction) => b.amount - a.amount,
+    Latest: (a: Transaction, b: Transaction) =>
+      new Date(a.date).getTime() - new Date(b.date).getTime(),
+    Oldest: (a: Transaction, b: Transaction) =>
+      new Date(b.date).getTime() - new Date(a.date).getTime(),
+  } as const;
 
+  const sortedTransactions = filteredTransactions.sort(
+    sortingStrategies[isSorted]
+  );
+
+  const totalPages = Math.ceil(
+    sortedTransactions.length / TRANSACTIONS_PER_PAGE
+  );
+
+  const startIndex = (currentPage - 1) * TRANSACTIONS_PER_PAGE;
+
+  const paginatedTransactions = sortedTransactions.slice(
+    startIndex,
+    startIndex + TRANSACTIONS_PER_PAGE
+  );
+
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(Math.max(1, Math.min(newPage, totalPages)));
+  };
   return (
     <div>
       <div className="flex items-center justify-between gap-6">
@@ -119,8 +85,43 @@ const FilterTransactionsTable = ({ transactions }: Transactions) => {
       </div>
       <TransactionTable
         filterText={filterText}
-        transactions={sortedTransactions}
+        transactions={paginatedTransactions}
       />
+      {totalPages > 1 && (
+        <div className="flex justify-between items-center mt-6">
+          <button
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            className="flex w-[5.875rem] h-[2.5rem] items-center gap-6 px-4 border border-[#98908B] hover:bg-[#98908B] hover:text-white rounded-lg cursor-pointer"
+          >
+            <Image src={leftArrow} alt="previous arrow icon" className="" />
+            <span className="capitalize">prev</span>
+          </button>
+          <div className="flex gap-2">
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              <button
+                className={`${
+                  page === currentPage
+                    ? "bg-[#201F24] text-white"
+                    : "text-[#201F24]"
+                } h-[2.5rem] w-[2.5rem] rounded-lg hover:bg-[#98908B] hover:text-white border border-[#98908B] cursor-pointer`}
+                key={page}
+                onClick={() => handlePageChange(page)}
+              >
+                {page}
+              </button>
+            ))}
+          </div>
+          <button
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className="flex w-[5.875rem] h-[2.5rem] items-center gap-6 px-4 border border-[#98908B] hover:bg-[#98908B] hover:text-white rounded-lg cursor-pointer"
+          >
+            <Image src={rightArrow} alt="next arrow icon" />
+            <span className="capitalize">next</span>
+          </button>
+        </div>
+      )}
     </div>
   );
 };

@@ -31,7 +31,7 @@ const SearchBar = ({ filterText, onFilterTextChange }: SearchBarProps) => {
       <Image
         src={searchIcon}
         alt="search icon"
-        className="absolute top-2 right-4"
+        className="absolute top-4 right-4"
       />
     </form>
   );
