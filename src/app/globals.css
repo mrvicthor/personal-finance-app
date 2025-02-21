@@ -102,8 +102,52 @@
     grid-template-rows: 25.625rem 20.4375rem;
   }
 
+  .my-shadow {
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px 0px;
+  }
+
+  .sort-list {
+    top: 2.5rem;
+    right: 2rem;
+    width: 7.125rem;
+    border-radius: 8px;
+    height: 18.75rem;
+    overflow: hidden;
+    overflow-y: scroll;
+  }
+
+  .sort-list > li:not(:last-child) {
+    border-bottom: 1px solid #f8f4f0 !important;
+  }
+
+  .sort-list-item {
+    padding: 1.25rem 0.75rem;
+    color: #201f24;
+  }
   .search-form {
     width: 20rem;
+  }
+  .sortby-text,
+  .category-text {
+    color: #696868;
+    font-size: 0.875rem;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  td,
+  th {
+    border-bottom: 1px solid #f8f4f0 !important;
+    padding-block: 1rem;
+    text-align: left;
+  }
+
+  tr > th {
+    font-weight: 300;
+    color: #696868;
   }
 
   @media (width <= 48rem) {
@@ -115,11 +159,14 @@
       grid-template-rows: 47.5625rem 51.5625rem;
       grid-template-columns: 1fr;
     }
+    .search-form {
+      width: 10.0625rem;
+    }
   }
 
   @media (width <= 40rem) {
     .main-overview {
-      grid-template-rows: 52.6875rem 52.6875rem;
+      grid-template-rows: 52.6875rem 58rem;
       grid-template-columns: 1fr;
     }
     .main-overview-pot {
@@ -129,7 +176,11 @@
 
     .main-overview-budgets {
       grid-template-columns: 1fr;
-      grid-template-rows: 29.125rem 19.4375rem;
+      grid-template-rows: 33.125rem 20.4375rem;
+    }
+
+    .search-form {
+      width: 13.4375rem;
     }
   }
 }

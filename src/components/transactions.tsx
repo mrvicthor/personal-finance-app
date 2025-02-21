@@ -14,8 +14,11 @@ const Transactions = async () => {
   const data = await getFinanceData();
   const options: Intl.DateTimeFormatOptions = {
     day: "numeric",
-    month: "long",
+    month: "short",
     year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
   };
   const transactionsToDisplay: Transaction[] = data.transactions
     .filter((item: Transaction, index: number) => index < 5)
