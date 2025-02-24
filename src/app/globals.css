@@ -157,6 +157,10 @@
     border-bottom: 1px solid #f8f4f0 !important;
   }
 
+  .budgets-wrapper {
+    grid-template-columns: 26.75rem 1fr;
+  }
+
   @media (width <= 48rem) {
     .finance-wrapper {
       grid-template-columns: 1fr;
