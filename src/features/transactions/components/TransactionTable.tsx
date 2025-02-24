@@ -13,9 +13,6 @@ const TransactionTable = ({ filterText, transactions }: TransactionProps) => {
     day: "numeric",
     month: "short",
     year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
   };
   const rows: Transaction[] = [];
   transactions.forEach((transaction) => {

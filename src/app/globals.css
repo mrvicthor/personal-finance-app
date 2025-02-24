@@ -140,7 +140,6 @@
 
   td,
   th {
-    border-bottom: 1px solid #f8f4f0 !important;
     padding-block: 1rem;
     text-align: left;
   }
@@ -148,6 +147,14 @@
   tr > th {
     font-weight: 300;
     color: #696868;
+  }
+
+  thead tr {
+    border-bottom: 1px solid #f8f4f0 !important;
+  }
+
+  tbody tr:not(:last-child) {
+    border-bottom: 1px solid #f8f4f0 !important;
   }
 
   @media (width <= 48rem) {
@@ -181,6 +188,10 @@
 
     .search-form {
       width: 13.4375rem;
+    }
+
+    thead tr {
+      border-bottom: none !important;
     }
   }
 }
