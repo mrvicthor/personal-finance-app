@@ -1,7 +1,7 @@
 import { formatCurrency } from "@/helpers";
 import React from "react";
 
-type Budget = {
+export type Budget = {
   category: string;
   maximum: number;
   theme: string;

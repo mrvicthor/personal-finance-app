@@ -1,10 +1,10 @@
 import Bubblechart from "@/components/bubblechart";
 import { getFinanceData } from "../../../lib/data";
 import SpendingSummary from "@/features/budgets/components/SpendingSummary";
+import Budgets from "@/features/budgets/components/Budgets";
 
 export default async function Page() {
   const data = await getFinanceData();
-  console.log(data.budgets);
   return (
     <section className="main py-8 h-screen overflow-hidden overflow-y-scroll">
       <section className="px-4 sm:px-10">
@@ -14,14 +14,16 @@ export default async function Page() {
             + add new budget
           </button>
         </div>
-        <section className=" budgets-wrapper grid mt-8">
+        <section className=" budgets-wrapper grid mt-8 gap-6">
           <section className="bg-white px-8 rounded-lg">
             <div className="flex items-center justify-center">
               <Bubblechart data={data.budgets} />
             </div>
             <SpendingSummary data={data.budgets} />
           </section>
-          <section></section>
+          <section>
+            <Budgets data={data.transactions} budgetList={data.budgets} />
+          </section>
         </section>
       </section>
     </section>
