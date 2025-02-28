@@ -7,6 +7,8 @@ import { Transaction } from "@/components/transactions";
 import SortBy from "./SortBy";
 import Category from "./Category";
 import RenderPagination from "./RenderPagination";
+import useDebounce from "@/hooks/useDebounce";
+
 type Transactions = {
   transactions: Transaction[];
 };
@@ -35,6 +37,7 @@ export type SortBy =
 const TRANSACTIONS_PER_PAGE = 10;
 const FilterTransactionsTable = ({ transactions }: Transactions) => {
   const [filterText, setFilterText] = useState<string>("");
+  const debouncedValue = useDebounce(filterText);
   const [isSorted, setIsSorted] = useState<SortBy>("Latest");
   const [category, setCategory] = useState<Category>("All Transactions");
   const [currentPage, setCurrentPage] = useState(1);
@@ -74,6 +77,17 @@ const FilterTransactionsTable = ({ transactions }: Transactions) => {
     setCurrentPage(Math.max(1, Math.min(newPage, totalPages)));
   };
 
+  const rows: Transaction[] = [];
+  paginatedTransactions.forEach((transaction) => {
+    if (
+      transaction.name.toLowerCase().indexOf(debouncedValue.toLowerCase()) ===
+      -1
+    ) {
+      return;
+    }
+    rows.push(transaction);
+  });
+
   return (
     <div>
       <div className="flex items-center justify-between gap-6">
@@ -83,15 +97,18 @@ const FilterTransactionsTable = ({ transactions }: Transactions) => {
           <Category onHandleCategory={setCategory} category={category} />
         </div>
       </div>
-      <TransactionTable
-        filterText={filterText}
-        transactions={paginatedTransactions}
-      />
-      <RenderPagination
-        totalPages={totalPages}
-        handlePageChange={handlePageChange}
-        currentPage={currentPage}
-      />
+      {rows.length === 0 ? (
+        <p className="mt-6">Oops! There are no transactions to display</p>
+      ) : (
+        <TransactionTable transactions={rows} />
+      )}
+      {rows.length > 0 && (
+        <RenderPagination
+          totalPages={totalPages}
+          handlePageChange={handlePageChange}
+          currentPage={currentPage}
+        />
+      )}
     </div>
   );
 };

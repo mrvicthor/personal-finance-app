@@ -4,25 +4,16 @@ import Image from "next/image";
 import { formatCurrency } from "@/helpers";
 
 type TransactionProps = {
-  filterText: string;
   transactions: Transaction[];
 };
 
-const TransactionTable = ({ filterText, transactions }: TransactionProps) => {
+const TransactionTable = ({ transactions }: TransactionProps) => {
   const options: Intl.DateTimeFormatOptions = {
     day: "numeric",
     month: "short",
     year: "numeric",
   };
-  const rows: Transaction[] = [];
-  transactions.forEach((transaction) => {
-    if (
-      transaction.name.toLowerCase().indexOf(filterText.toLowerCase()) === -1
-    ) {
-      return;
-    }
-    rows.push(transaction);
-  });
+
   return (
     <table className="mt-6 w-full border-collapse">
       <thead className="">
@@ -34,7 +25,7 @@ const TransactionTable = ({ filterText, transactions }: TransactionProps) => {
         </tr>
       </thead>
       <tbody>
-        {rows.map((transaction, index) => (
+        {transactions.map((transaction, index) => (
           <tr key={index} className="py-4">
             <td className=" flex items-center gap-3 py-4">
               <Image

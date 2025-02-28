@@ -11,7 +11,7 @@ const SearchBar = ({ filterText, onFilterTextChange }: SearchBarProps) => {
   return (
     <form className="search-form flex items-center justify-between relative ">
       <input
-        type="search"
+        type="text"
         value={filterText}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
           onFilterTextChange(e.target.value)
@@ -20,7 +20,7 @@ const SearchBar = ({ filterText, onFilterTextChange }: SearchBarProps) => {
         className="hidden md:block w-full h-[2.8125rem] px-4 border border-[#98908b] rounded-lg"
       />
       <input
-        type="search"
+        type="text"
         value={filterText}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
           onFilterTextChange(e.target.value)
