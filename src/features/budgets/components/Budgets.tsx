@@ -1,10 +1,11 @@
 import React from "react";
-import Image from "next/image";
-import ellipsisIcon from "../../../../public/assets/images/icon-ellipsis.svg";
+
 import { Transaction } from "@/components/transactions";
 import { Budget } from "@/components/budgetList";
-import { formatCurrency } from "@/helpers";
-import BudgetRange from "./BudgetRange";
+import Spending from "./Spending";
+import Subheader from "./Subheader";
+import Expenses from "./Expenses";
+import Title from "./Title";
 
 type BudgetProps = {
   data: Transaction[];
@@ -24,25 +25,11 @@ const Budgets = ({ data, budgetList }: BudgetProps) => {
     <div>
       {entertainments && (
         <div className="bg-white py-8 px-8 rounded-lg">
-          <div className="flex items-center gap-4 justify-between">
-            <div className="bg-[#277C78] h-4 w-4 rounded-full" />
-            <h2 className="capitalize mr-auto text-[#201F24] text-[1.25rem] font-bold">
-              entertainment
-            </h2>
-            <Image src={ellipsisIcon} alt="ellipsis" />
-          </div>
-          <div className="mt-5">
-            <p className="text-sm text-[#696868]">
-              maximum of {formatCurrency(maximumEntertainment as number)}
-            </p>
-            <div className="mt-4">
-              <div className="h-8 bg-[#F8F4F0] rounded-md py-1 px-1">
-                <BudgetRange
-                  spent={15}
-                  amount={maximumEntertainment as number}
-                />
-              </div>
-            </div>
+          <Title title="entertainment" />
+          <Spending amountSpent={15} maximum={maximumEntertainment as number} />
+          <div className="bg-[#F8F4F0] pt-5 px-5 rounded-lg mt-5">
+            <Subheader title="latest spending" description="see all" href="/" />
+            <Expenses data={entertainments} />
           </div>
         </div>
       )}
