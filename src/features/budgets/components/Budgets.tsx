@@ -4,6 +4,8 @@ import ellipsisIcon from "../../../../public/assets/images/icon-ellipsis.svg";
 import { Transaction } from "@/components/transactions";
 import { Budget } from "@/components/budgetList";
 import { formatCurrency } from "@/helpers";
+import BudgetRange from "./BudgetRange";
+
 type BudgetProps = {
   data: Transaction[];
   budgetList: Budget[];
@@ -34,7 +36,12 @@ const Budgets = ({ data, budgetList }: BudgetProps) => {
               maximum of {formatCurrency(maximumEntertainment as number)}
             </p>
             <div className="mt-4">
-              <div className="h-8"></div>
+              <div className="h-8 bg-[#F8F4F0] rounded-md py-1 px-1">
+                <BudgetRange
+                  spent={15}
+                  amount={maximumEntertainment as number}
+                />
+              </div>
             </div>
           </div>
         </div>
