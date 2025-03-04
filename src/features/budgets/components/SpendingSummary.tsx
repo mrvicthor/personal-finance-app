@@ -32,7 +32,7 @@ const SpendingSummary = ({ data }: SpendingSummaryProps) => {
   ];
 
   return (
-    <div className="max-w-[18rem] sm:max-w-[18.5rem] md:min-w-[22.75rem]">
+    <div className="min-w-[18rem] sm:max-w-[18.5rem] md:min-w-[22.75rem]">
       <h3 className="text-[1.25rem] font-bold capitalize">spending summary</h3>
       <motion.ul
         variants={containerVariants}
