@@ -32,7 +32,7 @@ const SpendingSummary = ({ data }: SpendingSummaryProps) => {
   ];
 
   return (
-    <div>
+    <div className="max-w-[18rem] sm:max-w-[18.5rem] md:min-w-[22.75rem]">
       <h3 className="text-[1.25rem] font-bold capitalize">spending summary</h3>
       <motion.ul
         variants={containerVariants}
@@ -41,22 +41,11 @@ const SpendingSummary = ({ data }: SpendingSummaryProps) => {
         className="mt-2 divide-y-[1px]"
       >
         {summary.map((item) => (
-          <motion.li
-            variants={itemVariants}
-            className={`py-4`}
-            key={item.category}
-          >
+          <motion.li variants={itemVariants} className={``} key={item.category}>
             <div className="flex items-center justify-between my-4 h-[1.3125rem] gap-2">
               <span
-                className={`${
-                  item.category === "Entertainment"
-                    ? "bg-[#277C78]"
-                    : item.category === "Bills"
-                    ? "bg-[#82c9d7]"
-                    : item.category === "Dining Out"
-                    ? "bg-[#f2cdac]"
-                    : "bg-[#626070]"
-                } h-full w-1 block rounded`}
+                style={{ backgroundColor: item.theme }}
+                className={` h-full w-1 block rounded`}
               />
               <span className="text-[#696868] text-sm">{item.category}</span>
               <span className="ml-auto font-bold">

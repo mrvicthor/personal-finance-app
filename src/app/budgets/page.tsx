@@ -15,7 +15,7 @@ export default async function Page() {
           </button>
         </div>
         <section className=" budgets-wrapper grid mt-8 gap-6">
-          <section className="bg-white px-8 rounded-lg">
+          <section className="bg-white px-4 md:px-8 rounded-lg sm:flex sm:items-center md:flex-col">
             <div className="flex items-center justify-center">
               <Bubblechart data={data.budgets} />
             </div>

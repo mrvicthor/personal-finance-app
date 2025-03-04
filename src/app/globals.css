@@ -159,7 +159,7 @@
 
   .budgets-wrapper {
     grid-template-columns: 26.75rem 1fr;
-    grid-template-rows: 41.8rem 1fr;
+    grid-template-rows: 35rem 1fr;
   }
 
   @media (width <= 48rem) {
@@ -173,6 +173,11 @@
     }
     .search-form {
       width: 10.0625rem;
+    }
+
+    .budgets-wrapper {
+      grid-template-columns: 1fr;
+      grid-template-rows: 21.5rem 1fr;
     }
   }
 
@@ -197,6 +202,11 @@
 
     thead tr {
       border-bottom: none !important;
+    }
+
+    .budgets-wrapper {
+      grid-template-columns: 1fr;
+      grid-template-rows: 35rem 1fr;
     }
   }
 }

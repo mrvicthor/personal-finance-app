@@ -46,9 +46,9 @@ const Budgets = ({ data, budgetList }: BudgetProps) => {
   );
   const maximunmPersonalCare = personalCareBudget?.maximum;
   return (
-    <div className="space-y-6 pb-8">
+    <div className="space-y-6 pb-12 sm:pb-16 md:pb-8">
       {entertainments && (
-        <div className="bg-white py-8 px-8 rounded-lg">
+        <div className="bg-white px-4 py-8 sm:px-8 rounded-lg">
           <Title title="entertainment" />
           <Spending
             amountSpent={15}
@@ -62,7 +62,7 @@ const Budgets = ({ data, budgetList }: BudgetProps) => {
         </div>
       )}
       {bills && (
-        <div className="bg-white py-8 px-8 rounded-lg">
+        <div className="bg-white px-4 py-8 sm:px-8 rounded-lg">
           <Title title="bills" />
           <Spending
             amountSpent={150}
@@ -76,7 +76,7 @@ const Budgets = ({ data, budgetList }: BudgetProps) => {
         </div>
       )}
       {diningOut && (
-        <div className="bg-white py-8 px-8 rounded-lg">
+        <div className="bg-white px-4 py-8 sm:px-8 rounded-lg">
           <Title title="dining out" />
           <Spending
             amountSpent={133.75}
@@ -90,7 +90,7 @@ const Budgets = ({ data, budgetList }: BudgetProps) => {
         </div>
       )}
       {personalCare && (
-        <div className="bg-white py-8 px-8 rounded-lg">
+        <div className="bg-white px-4 py-8 sm:px-8 rounded-lg">
           <Title title="dining out" />
           <Spending
             amountSpent={40}

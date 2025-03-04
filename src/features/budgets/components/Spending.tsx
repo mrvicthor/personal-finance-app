@@ -24,7 +24,10 @@ const Spending = ({ maximum, amountSpent, theme }: SpendingProps) => {
       </div>
       <div className="grid grid-cols-2 mt-4">
         <div className="flex gap-4">
-          <div className="bg-[#277C78] h-[2.6875rem] w-1 rounded-md" />
+          <div
+            style={{ backgroundColor: theme }}
+            className="h-[2.6875rem] w-1 rounded-md"
+          />
           <div className="flex flex-col gap-2">
             <span className="capitalize text-xs text-[#696868]">spent</span>
             <span className="text-[#201F24] text-sm font-bold">
