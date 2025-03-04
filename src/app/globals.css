@@ -159,6 +159,7 @@
 
   .budgets-wrapper {
     grid-template-columns: 26.75rem 1fr;
+    grid-template-rows: 41.8rem 1fr;
   }
 
   @media (width <= 48rem) {

@@ -5,16 +5,21 @@ import BudgetRange from "./BudgetRange";
 type SpendingProps = {
   amountSpent: number;
   maximum: number;
+  theme: string;
 };
-const Spending = ({ maximum, amountSpent }: SpendingProps) => {
+const Spending = ({ maximum, amountSpent, theme }: SpendingProps) => {
   return (
     <div className="mt-5">
       <p className="text-sm text-[#696868]">
         maximum of {formatCurrency(maximum as number)}
       </p>
       <div className="mt-4">
-        <div className="h-8 bg-[#F8F4F0] rounded-md py-1 px-1">
-          <BudgetRange spent={15} amount={maximum as number} />
+        <div className="h-8 bg-[#F8F4F0] rounded-md py-1 px-1 overflow-hidden">
+          <BudgetRange
+            spent={amountSpent}
+            amount={maximum as number}
+            theme={theme}
+          />
         </div>
       </div>
       <div className="grid grid-cols-2 mt-4">
