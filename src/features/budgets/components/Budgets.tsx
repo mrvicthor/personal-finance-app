@@ -49,7 +49,10 @@ const Budgets = ({ data, budgetList }: BudgetProps) => {
     <div className="space-y-6 pb-12 sm:pb-16 md:pb-8">
       {entertainments && (
         <div className="bg-white px-4 py-8 sm:px-8 rounded-lg">
-          <Title title="entertainment" />
+          <Title
+            title="entertainment"
+            theme={entertainmentBudget?.theme as string}
+          />
           <Spending
             amountSpent={15}
             maximum={maximumEntertainment as number}
@@ -63,7 +66,7 @@ const Budgets = ({ data, budgetList }: BudgetProps) => {
       )}
       {bills && (
         <div className="bg-white px-4 py-8 sm:px-8 rounded-lg">
-          <Title title="bills" />
+          <Title title="bills" theme={billBudget?.theme as string} />
           <Spending
             amountSpent={150}
             maximum={maximumBills as number}
@@ -77,7 +80,7 @@ const Budgets = ({ data, budgetList }: BudgetProps) => {
       )}
       {diningOut && (
         <div className="bg-white px-4 py-8 sm:px-8 rounded-lg">
-          <Title title="dining out" />
+          <Title title="dining out" theme={diningOutBudget?.theme as string} />
           <Spending
             amountSpent={133.75}
             maximum={maximumDiningOut as number}
@@ -91,7 +94,10 @@ const Budgets = ({ data, budgetList }: BudgetProps) => {
       )}
       {personalCare && (
         <div className="bg-white px-4 py-8 sm:px-8 rounded-lg">
-          <Title title="dining out" />
+          <Title
+            title="dining out"
+            theme={personalCareBudget?.theme as string}
+          />
           <Spending
             amountSpent={40}
             maximum={maximunmPersonalCare as number}

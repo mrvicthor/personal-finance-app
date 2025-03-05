@@ -6,11 +6,11 @@ import Budgets from "@/features/budgets/components/Budgets";
 export default async function Page() {
   const data = await getFinanceData();
   return (
-    <section className="main py-8 h-screen overflow-hidden overflow-y-scroll">
+    <section className="main py-6 sm:py-8 h-screen overflow-hidden overflow-y-scroll">
       <section className="px-4 sm:px-10">
         <div className="flex items-center justify-between">
           <h1 className="text-[2rem] font-bold capitalize">budgets</h1>
-          <button className="text-white bg-[#201F24] h-[3.3125rem] w-[9.6875rem] rounded-lg">
+          <button className="text-white bg-[#201F24] h-[3.3125rem] w-[9.6875rem] rounded-lg capitalize">
             + add new budget
           </button>
         </div>
