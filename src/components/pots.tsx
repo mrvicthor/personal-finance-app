@@ -37,15 +37,8 @@ const Pots = async () => {
           {resultsToDisplay.map((item: Pot) => (
             <li
               key={item.name}
-              className={`border-l-4 ${
-                item.name === "Savings"
-                  ? "border-[#277c78]"
-                  : item.name === "Concert Ticket"
-                  ? "border-[#626070]"
-                  : item.name === "Gift"
-                  ? "border-[#82c9d7]"
-                  : "border-[#f2cdac]"
-              } flex flex-col justify-between px-4`}
+              style={{ borderColor: item.theme }}
+              className={`border-l-4 flex flex-col justify-between px-4`}
             >
               <span className="block text-[#696868] text-xs font-normal">
                 {item.name}

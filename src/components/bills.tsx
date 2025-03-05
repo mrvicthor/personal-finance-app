@@ -21,9 +21,10 @@ const Bills = ({ data }: Bills) => {
     {
       label: "paid bills",
       amount: 190,
+      theme: "#277c78",
     },
-    { label: "total upcoming", amount: 194.98 },
-    { label: "due soon", amount: 59.98 },
+    { label: "total upcoming", amount: 194.98, theme: "#f2cdac" },
+    { label: "due soon", amount: 59.98, theme: "#82c9d7" },
   ];
   return (
     <motion.ul
@@ -35,14 +36,9 @@ const Bills = ({ data }: Bills) => {
       {bills.map((bill, index: number) => (
         <motion.li
           key={index}
+          style={{ borderColor: bill.theme }}
           variants={itemVariants}
-          className={`h-[3.8125rem] bg-[#f8f4f0] rounded-lg flex items-center justify-between px-4 border-l-4 ${
-            bill.label === "paid bills"
-              ? "border-[#277c78]"
-              : bill.label === "total upcoming"
-              ? "border-[#f2cdac]"
-              : "border-[#82c9d7]"
-          }`}
+          className={`h-[3.8125rem] bg-[#f8f4f0] rounded-lg flex items-center justify-between px-4 border-l-4`}
         >
           <span className="capitalize text-sm text-[#696868]">
             {bill.label}
