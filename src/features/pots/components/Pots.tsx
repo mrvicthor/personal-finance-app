@@ -22,7 +22,7 @@ const Pots = ({ data }: PotsProps) => {
       variants={containerVariants}
       initial="hidden"
       animate="visible"
-      className="grid grid-cols-2 gap-6 mt-8"
+      className="grid md:grid-cols-2 gap-6 mt-8 mb-12 sm:mb-16 md:mb-0"
     >
       {data.map((pot, index: number) => (
         <motion.li
