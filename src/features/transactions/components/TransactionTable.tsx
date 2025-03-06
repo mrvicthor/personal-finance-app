@@ -1,7 +1,9 @@
+"use client";
 import React from "react";
 import { Transaction } from "@/components/transactions";
 import Image from "next/image";
-import { formatCurrency } from "@/helpers";
+import { formatCurrency, containerVariants, itemVariants } from "@/helpers";
+import { motion } from "motion/react";
 
 type TransactionProps = {
   transactions: Transaction[];
@@ -15,8 +17,13 @@ const TransactionTable = ({ transactions }: TransactionProps) => {
   };
 
   return (
-    <table className="mt-6 w-full border-collapse">
-      <thead className="">
+    <motion.table
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+      className="mt-6 w-full border-collapse"
+    >
+      <thead>
         <tr>
           <th className="hidden sm:table-cell">Recipient / Sender</th>
           <th className="hidden sm:table-cell">Category</th>
@@ -26,7 +33,7 @@ const TransactionTable = ({ transactions }: TransactionProps) => {
       </thead>
       <tbody>
         {transactions.map((transaction, index) => (
-          <tr key={index} className="py-4">
+          <motion.tr variants={itemVariants} key={index} className="py-4">
             <td className=" flex items-center gap-3 py-4">
               <Image
                 src={transaction.avatar.slice(1)}
@@ -63,10 +70,10 @@ const TransactionTable = ({ transactions }: TransactionProps) => {
                 </span>
               </div>
             </td>
-          </tr>
+          </motion.tr>
         ))}
       </tbody>
-    </table>
+    </motion.table>
   );
 };
 

@@ -1,6 +1,7 @@
 import Bills from "@/features/recurring-bills/components/Bills";
 import { getFinanceData } from "../../../lib/data";
 import { Transaction } from "@/components/transactions";
+import FilterBillsTable from "@/features/recurring-bills/components/FilterBillsTable";
 
 export default async function Page() {
   const data = await getFinanceData();
@@ -15,7 +16,10 @@ export default async function Page() {
         <div className="flex items-center">
           <h1 className="text-[2rem] font-bold capitalize">recurring bills</h1>
         </div>
-        <Bills data={recurringBills} />
+        <section className="grid recurring-bills-wrapper gap-6 mt-8">
+          <Bills data={recurringBills} />
+          <FilterBillsTable data={recurringBills} />
+        </section>
       </section>
     </section>
   );

@@ -1,3 +1,5 @@
+import { Transaction } from "@/components/transactions";
+
 export const formatCurrency = (value: number) => {
   const formatter = new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -72,4 +74,41 @@ export const itemVariants = {
       duration: 0.5,
     },
   },
+};
+
+export function formatDate(value: string) {
+  const date = new Date(value);
+  const day = date.getDate();
+  const ordinalSuffix = getOrdinalSuffix(day);
+  return `Monthly - ${day}${ordinalSuffix}`;
+}
+
+function getOrdinalSuffix(day: number) {
+  if (day > 3 && day < 21) return "th";
+  switch (day % 10) {
+    case 1:
+      return "st";
+    case 2:
+      return "nd";
+    case 3:
+      return "rd";
+    default:
+      return "th";
+  }
+}
+
+export const sortUniqueArray = (value: Transaction[]) => {
+  const sortedArray = [...value].sort((a: Transaction, b: Transaction) => {
+    return new Date(b.date).getTime() - new Date(a.date).getTime();
+  });
+
+  const uniqueNames = new Set();
+  const result = [];
+  for (const item of sortedArray) {
+    if (!uniqueNames.has(item.name)) {
+      uniqueNames.add(item.name);
+      result.push(item);
+    }
+  }
+  return result;
 };

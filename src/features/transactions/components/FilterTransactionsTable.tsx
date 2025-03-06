@@ -89,7 +89,7 @@ const FilterTransactionsTable = ({ transactions }: Transactions) => {
   });
 
   return (
-    <div>
+    <>
       <div className="flex items-center justify-between gap-6">
         <SearchBar filterText={filterText} onFilterTextChange={setFilterText} />
         <div className="flex gap-6">
@@ -109,7 +109,7 @@ const FilterTransactionsTable = ({ transactions }: Transactions) => {
           currentPage={currentPage}
         />
       )}
-    </div>
+    </>
   );
 };
 

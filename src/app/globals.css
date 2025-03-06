@@ -164,6 +164,12 @@
   .recurring-bills-wrapper {
     grid-template-columns: 21.0625rem 1fr;
   }
+
+  .recurring-bills-wrapper-child {
+    grid-template-columns: 1fr;
+    grid-template-rows: 11.875rem 12.75rem;
+  }
+
   @media (width <= 48rem) {
     .finance-wrapper {
       grid-template-columns: 1fr;
