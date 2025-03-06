@@ -20,16 +20,16 @@ const Bills = ({ data }: BillsProps) => {
       variants={containerVariants}
       initial="hidden"
       animate="visible"
-      className="grid recurring-bills-wrapper-child gap-6"
+      className="grid recurring-bills-wrapper-child gap-3 sm:gap-6"
     >
       <motion.div
         variants={itemVariants}
-        className="py-6 px-6 bg-[#201F24] rounded-lg space-y-8"
+        className="grid grid-cols-5 justify-center items-center py-6 px-6 bg-[#201F24] rounded-lg sm:space-y-8"
       >
-        <div>
+        <div className="col-span-1">
           <Image src={billsIcon} alt="recurring bills" />
         </div>
-        <div className="space-y-[0.6875rem]">
+        <div className="space-y-[0.6875rem] col-span-4">
           <p className="text-sm text-white capitalize">total bills</p>
           <p className="text-[2rem] text-white font-bold">
             {formatCurrency(totalBills)}

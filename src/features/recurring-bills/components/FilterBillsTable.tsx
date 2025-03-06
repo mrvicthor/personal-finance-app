@@ -43,7 +43,7 @@ const FilterBillsTable = ({ data }: FilterBillsTableProps) => {
   });
 
   return (
-    <div className="pt-8 pb-4 px-8 bg-white rounded-lg">
+    <div className="pt-6 sm:pt-8 pb-4 px-5 sm:px-8 bg-white rounded-lg">
       <div className="flex items-center justify-between gap-6">
         <SearchBar filterText={filterText} onFilterTextChange={setFilterText} />
         <SortBy onHandleSort={setIsSorted} sortBy={isSorted} />

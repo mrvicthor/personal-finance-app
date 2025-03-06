@@ -187,6 +187,16 @@
       grid-template-columns: 1fr;
       grid-template-rows: 21.5rem 1fr;
     }
+
+    .recurring-bills-wrapper {
+      grid-template-columns: 1fr;
+      grid-template-rows: 12.75rem 1fr;
+      padding-bottom: 5rem;
+    }
+
+    .recurring-bills-wrapper-child {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
 
   @media (width <= 40rem) {
@@ -215,6 +225,15 @@
     .budgets-wrapper {
       grid-template-columns: 1fr;
       grid-template-rows: 35rem 1fr;
+    }
+
+    .recurring-bills-wrapper {
+      grid-template-rows: 20.875rem 1fr;
+    }
+
+    .recurring-bills-wrapper-child {
+      grid-template-columns: 1fr;
+      grid-template-rows: 7.375rem 12.75rem;
     }
   }
 }

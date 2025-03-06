@@ -16,7 +16,7 @@ const SearchBar = ({ filterText, onFilterTextChange }: SearchBarProps) => {
           onFilterTextChange(e.target.value)
         }
         placeholder="Search bills"
-        className="hidden md:block w-full h-[2.8125rem] px-4 border border-[#98908b] rounded-lg"
+        className=" w-full h-[2.8125rem] px-4 border border-[#98908b] rounded-lg"
       />
       <Image
         src={searchIcon}
