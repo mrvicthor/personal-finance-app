@@ -9,7 +9,6 @@ export default async function Page() {
     (transaction: Transaction) => transaction.recurring === true
   );
 
-  console.log(recurringBills);
   return (
     <section className="main py-6 sm:py-8 h-screen overflow-hidden overflow-y-scroll">
       <section className="px-4 sm:px-10">
