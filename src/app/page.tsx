@@ -7,7 +7,7 @@ import Transactions from "@/components/transactions";
 
 export default function Home() {
   return (
-    <main className="main pt-6 sm:py-8 h-screen overflow-hidden overflow-y-scroll">
+    <main className="main pt-6 sm:py-8 h-screen overflow-hidden overflow-y-scroll border border-red-500">
       <section className="px-4 sm:px-10">
         <Title title="overview" />
         <Balance />
