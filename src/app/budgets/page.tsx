@@ -6,7 +6,7 @@ import Budgets from "@/features/budgets/components/Budgets";
 export default async function Page() {
   const data = await getFinanceData();
   return (
-    <section className="main py-6 sm:py-8 md:h-screen overflow-hidden overflow-y-scroll">
+    <section className="main pt-6 sm:pt-8 md:h-screen overflow-hidden overflow-y-scroll">
       <section className="px-4 sm:px-10">
         <div className="flex items-center justify-between">
           <h1 className="text-[2rem] font-bold capitalize">budgets</h1>
@@ -14,7 +14,7 @@ export default async function Page() {
             + add new budget
           </button>
         </div>
-        <section className=" budgets-wrapper grid mt-8 gap-6">
+        <section className=" budgets-wrapper grid my-8 sm:mb-12 md:mb-8 gap-6">
           <section className="bg-white px-4 md:px-8 rounded-lg sm:flex sm:items-center md:flex-col">
             <div className="flex items-center justify-center">
               <Bubblechart data={data.budgets} />

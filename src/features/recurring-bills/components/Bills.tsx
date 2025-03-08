@@ -24,7 +24,7 @@ const Bills = ({ data }: BillsProps) => {
     >
       <motion.div
         variants={itemVariants}
-        className="grid grid-cols-5 justify-center items-center py-6 px-6 bg-[#201F24] rounded-lg sm:space-y-8"
+        className="grid grid-cols-5 justify-center items-center sm:grid-cols-1 py-6 px-6 bg-[#201F24] rounded-lg sm:space-y-8"
       >
         <div className="col-span-1">
           <Image src={billsIcon} alt="recurring bills" />
