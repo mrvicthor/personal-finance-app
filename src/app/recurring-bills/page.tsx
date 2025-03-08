@@ -10,7 +10,7 @@ export default async function Page() {
   );
 
   return (
-    <section className="main py-6 sm:py-8 h-screen overflow-hidden overflow-y-scroll">
+    <section className="main py-6 sm:py-8 md:h-screen overflow-hidden overflow-y-scroll">
       <section className="px-4 sm:px-10">
         <div className="flex items-center">
           <h1 className="text-[2rem] font-bold capitalize">recurring bills</h1>

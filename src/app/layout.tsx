@@ -21,8 +21,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // use zustand to manage state of collapsible sidebar
-
   return (
     <html lang="en">
       <body className={`${publicSans.variable} antialiased`}>
