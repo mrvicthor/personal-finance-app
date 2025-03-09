@@ -21,7 +21,7 @@ const Bubblechart = ({ data }: BudgetsProps) => {
   const [mounted, setMounted] = React.useState(false);
   const totalBudget = useMemo(() => {
     return data.reduce((acc: number, item: Budget) => acc + item.maximum, 0);
-  }, []);
+  }, [data]);
 
   const chartData = data.map((item: Budget) => ({
     ...item,

@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useMemo } from "react";
 import { Transaction } from "@/components/transactions";
 import Image from "next/image";
 import billsIcon from "../../../../public/assets/images/icon-nav-recurring-bills.svg";
@@ -10,9 +10,9 @@ type BillsProps = {
   data: Transaction[];
 };
 const Bills = ({ data }: BillsProps) => {
-  const totalBills = data.reduce(
-    (acc: number, item: Transaction) => acc + item.amount,
-    0
+  const totalBills = useMemo(
+    () => data.reduce((acc: number, item: Transaction) => acc + item.amount, 0),
+    [data]
   );
 
   return (

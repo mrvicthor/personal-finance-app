@@ -19,7 +19,7 @@ const Bills = ({ data }: Bills) => {
             bill.category === "Bills"
         )
         .reduce((acc, bill) => acc + bill.amount, 0),
-    []
+    [data]
   );
   console.log(billsPaid);
 
