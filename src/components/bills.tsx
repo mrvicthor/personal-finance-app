@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useMemo } from "react";
 import { Bill } from "./billsPanel";
 import { motion } from "motion/react";
 import { formatCurrency, itemVariants, containerVariants } from "@/helpers";
@@ -9,12 +9,18 @@ type Bills = {
 };
 
 const Bills = ({ data }: Bills) => {
-  const billsPaid = data
-    .filter(
-      (bill: Bill) =>
-        bill.recurring === false && bill.amount < 0 && bill.category === "Bills"
-    )
-    .reduce((acc, bill) => acc + bill.amount, 0);
+  const billsPaid = useMemo(
+    () =>
+      data
+        .filter(
+          (bill: Bill) =>
+            bill.recurring === false &&
+            bill.amount < 0 &&
+            bill.category === "Bills"
+        )
+        .reduce((acc, bill) => acc + bill.amount, 0),
+    []
+  );
   console.log(billsPaid);
 
   const bills = [

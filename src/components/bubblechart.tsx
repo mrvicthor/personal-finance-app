@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useMemo } from "react";
 import { Label, Pie, PieChart } from "recharts";
 import {
   ChartConfig,
@@ -19,7 +19,7 @@ type BudgetsProps = {
 };
 const Bubblechart = ({ data }: BudgetsProps) => {
   const [mounted, setMounted] = React.useState(false);
-  const totalBudget = React.useMemo(() => {
+  const totalBudget = useMemo(() => {
     return data.reduce((acc: number, item: Budget) => acc + item.maximum, 0);
   }, []);
 
