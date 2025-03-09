@@ -46,7 +46,7 @@ const RenderPagination = ({
                         ? "bg-[#201F24] text-white"
                         : "text-[#201F24]"
                     } h-[2.5rem] w-[2.5rem] rounded-lg hover:bg-[#98908B] hover:text-white border border-[#98908B] cursor-pointer`}
-                    onClick={() => handlePageChange(totalPages)}
+                    onClick={() => handlePageChange(button.page as number)}
                   >
                     {button.label}
                   </button>
