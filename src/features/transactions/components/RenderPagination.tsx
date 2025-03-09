@@ -3,6 +3,7 @@ import React from "react";
 import Image from "next/image";
 import leftArrow from "../../../../public/assets/images/icon-caret-left.svg";
 import rightArrow from "../../../../public/assets/images/icon-caret-right.svg";
+import { renderPaginationButtons } from "@/helpers";
 
 type PaginationProps = {
   totalPages: number;
@@ -15,38 +16,6 @@ const RenderPagination = ({
   handlePageChange,
   currentPage,
 }: PaginationProps) => {
-  const renderPaginationButtons = () => {
-    return (
-      <>
-        {[1, 2].map((page) => (
-          <button
-            className={`${
-              page === currentPage
-                ? "bg-[#201F24] text-white"
-                : "text-[#201F24]"
-            } h-[2.5rem] w-[2.5rem] rounded-lg hover:bg-[#98908B] hover:text-white border border-[#98908B] cursor-pointer`}
-            key={page}
-            onClick={() => handlePageChange(page)}
-          >
-            {page}
-          </button>
-        ))}
-        <span className="flex items-center justify-center h-[2.5rem] w-[2.5rem] font-semibold rounded-lg border border-[#98908B]">
-          ...
-        </span>
-        <button
-          className={`${
-            totalPages === currentPage
-              ? "bg-[#201F24] text-white"
-              : "text-[#201F24]"
-          } h-[2.5rem] w-[2.5rem] rounded-lg hover:bg-[#98908B] hover:text-white border border-[#98908B] cursor-pointer`}
-          onClick={() => handlePageChange(totalPages)}
-        >
-          {totalPages}
-        </button>
-      </>
-    );
-  };
   return (
     <>
       {totalPages > 1 && (
@@ -60,7 +29,29 @@ const RenderPagination = ({
             <span className="hidden sm:block capitalize">prev</span>
           </button>
           <div className="flex items-center gap-1 sm:hidden ">
-            {renderPaginationButtons()}
+            {renderPaginationButtons(totalPages, currentPage).map(
+              (button, index) =>
+                button.type === "ellipsis" ? (
+                  <span
+                    key={`ellipsis-${index}`}
+                    className="flex items-center justify-center h-[2.5rem] w-[2.5rem] font-semibold rounded-lg border border-[#98908B]"
+                  >
+                    ...
+                  </span>
+                ) : (
+                  <button
+                    key={`button-${button.page}`}
+                    className={`${
+                      button.isActive
+                        ? "bg-[#201F24] text-white"
+                        : "text-[#201F24]"
+                    } h-[2.5rem] w-[2.5rem] rounded-lg hover:bg-[#98908B] hover:text-white border border-[#98908B] cursor-pointer`}
+                    onClick={() => handlePageChange(totalPages)}
+                  >
+                    {button.label}
+                  </button>
+                )
+            )}
           </div>
           <div className="hidden sm:flex gap-2">
             {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
