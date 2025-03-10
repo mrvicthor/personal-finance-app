@@ -1,24 +1,14 @@
 import React from "react";
+import SignupForm from "./form";
 
 const Page = () => {
   return (
-    <div>
-      <div>
-        <h1>sign up</h1>
-        <form>
-          <div>
-            <label>name</label>
-            <input type="text" />
-          </div>
-          <div>
-            <label>email</label>
-            <input type="email" />
-          </div>
-          <div>
-            <label>create password</label>
-            <input type="password" />
-          </div>
-        </form>
+    <div className="flex items-center justify-center h-screen">
+      <div className="bg-white rounded-lg w-[35rem] py-8 px-8">
+        <h1 className="text-[2rem] font-bold capitalize text-[#201F24]">
+          sign up
+        </h1>
+        <SignupForm />
       </div>
     </div>
   );
