@@ -209,6 +209,10 @@
     .recurring-bills-wrapper-child {
       grid-template-columns: repeat(2, 1fr);
     }
+
+    .auth-container {
+      grid-template-columns: 1fr;
+    }
   }
 
   @media (width <= 40rem) {

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import bannerImage from "../../../public/assets/images/illustration-authentication.svg";
 import financeLogo from "../../../public/assets/images/logo-large.svg";
+import Header from "./header";
 export default function AuthLayout({
   children,
 }: {
@@ -8,7 +9,7 @@ export default function AuthLayout({
 }) {
   return (
     <section className="grid auth-container h-screen">
-      <div className="px-5 py-5 relative h-screen w-full">
+      <div className="px-5 py-5 hidden md:block relative md:h-screen w-full">
         <Image
           src={bannerImage}
           alt="illustration authentication"
@@ -29,7 +30,10 @@ export default function AuthLayout({
           </p>
         </article>
       </div>
-      {children}
+      <>
+        <Header />
+        {children}
+      </>
     </section>
   );
 }
