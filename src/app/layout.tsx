@@ -1,10 +1,6 @@
 import type { Metadata } from "next";
 import { Public_Sans } from "next/font/google";
 import "./globals.css";
-import LayoutWrapper from "@/components/layoutWrapper";
-import Sidebar from "@/components/sidebar";
-import { CollapseStoreProvider } from "@/providers/collapse-store-provider";
-import Header from "@/components/header";
 
 const publicSans = Public_Sans({
   variable: "--font-public-sans",
@@ -23,18 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${publicSans.variable} antialiased`}>
-        <CollapseStoreProvider>
-          <LayoutWrapper>
-            {" "}
-            <Sidebar />
-            <>
-              {children}
-              <Header />
-            </>
-          </LayoutWrapper>
-        </CollapseStoreProvider>
-      </body>
+      <body className={`${publicSans.variable} antialiased`}>{children}</body>
     </html>
   );
 }

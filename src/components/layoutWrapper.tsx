@@ -1,6 +1,6 @@
 "use client";
-import { useCollapseStore } from "@/providers/collapse-store-provider";
 import React from "react";
+import { useCollapseStore } from "@/providers/collapse-store-provider";
 
 const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
   const { isCollapsed } = useCollapseStore((state) => state);
