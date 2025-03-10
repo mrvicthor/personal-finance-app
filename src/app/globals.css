@@ -170,6 +170,18 @@
     grid-template-rows: 11.875rem 12.75rem;
   }
 
+  .auth-container {
+    grid-template-columns: 37.5rem 1fr;
+  }
+
+  .auth-container-title {
+    max-width: 20ch;
+  }
+
+  .auth-container-text {
+    max-width: 50ch;
+  }
+
   @media (width <= 48rem) {
     .finance-wrapper {
       grid-template-columns: 1fr;
