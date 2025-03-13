@@ -65,7 +65,6 @@ export async function signup(
       inputs: rawData,
     };
   }
-
   //   create session
   await createSession(user.id);
 
