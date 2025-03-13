@@ -2,8 +2,14 @@ import Bubblechart from "@/components/bubblechart";
 import { getFinanceData } from "../../../../lib/data";
 import SpendingSummary from "@/features/budgets/components/SpendingSummary";
 import Budgets from "@/features/budgets/components/Budgets";
+import { getUser } from "@/app/lib/dal";
+import { redirect } from "next/navigation";
 
 export default async function Page() {
+  const user = await getUser();
+  if (!user) {
+    redirect("/login");
+  }
   const data = await getFinanceData();
   return (
     <section className="px-4 sm:px-10">

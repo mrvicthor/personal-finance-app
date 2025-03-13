@@ -5,6 +5,7 @@ import { db } from "@/db";
 import { cookies } from "next/headers";
 import { SessionPayload } from "../lib/definition";
 import { eq } from "drizzle-orm";
+import { redirect } from "next/navigation";
 
 const secretKey = process.env.JWT_SECRET_KEY;
 const key = new TextEncoder().encode(secretKey);
@@ -84,4 +85,14 @@ export async function updateSession() {
     sameSite: "lax",
     path: "/",
   });
+}
+
+export async function deleteSession() {
+  const cookie = (await cookies()).get("session")?.value;
+  const session = await decrypt(cookie);
+  if (session) {
+    await db.delete(sessions).where(eq(sessions.id, Number(session.id)));
+  }
+  (await cookies()).delete("session");
+  redirect("/login");
 }

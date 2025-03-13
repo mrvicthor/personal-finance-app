@@ -11,7 +11,7 @@ import { db } from "@/db";
 import { users } from "@/db/schema";
 import bcrypt from "bcrypt";
 import { redirect } from "next/navigation";
-import { createSession } from "./session";
+import { createSession, deleteSession } from "./session";
 
 export async function signup(
   state: SignupActionResponse | null,
@@ -69,4 +69,8 @@ export async function signup(
   await createSession(user.id);
 
   redirect("/");
+}
+
+export async function logout() {
+  await deleteSession();
 }

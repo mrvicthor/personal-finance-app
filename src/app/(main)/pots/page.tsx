@@ -1,7 +1,13 @@
+import { getUser } from "@/app/lib/dal";
 import { getFinanceData } from "../../../../lib/data";
 import Pots from "@/features/pots/components/Pots";
+import { redirect } from "next/navigation";
 
 export default async function Page() {
+  const user = await getUser();
+  if (!user) {
+    redirect("/login");
+  }
   const data = await getFinanceData();
   const pots = data.pots;
   return (

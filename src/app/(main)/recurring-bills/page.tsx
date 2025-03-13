@@ -2,8 +2,14 @@ import Bills from "@/features/recurring-bills/components/Bills";
 import { getFinanceData } from "../../../../lib/data";
 import { Transaction } from "@/components/transactions";
 import FilterBillsTable from "@/features/recurring-bills/components/FilterBillsTable";
+import { redirect } from "next/navigation";
+import { getUser } from "@/app/lib/dal";
 
 export default async function Page() {
+  const user = await getUser();
+  if (!user) {
+    redirect("/login");
+  }
   const data = await getFinanceData();
   const recurringBills = data.transactions.filter(
     (transaction: Transaction) => transaction.recurring === true
