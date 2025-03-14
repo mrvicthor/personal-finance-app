@@ -2,6 +2,9 @@
 
 import { eq } from "drizzle-orm";
 import {
+  LoginActionResponse,
+  LoginFormData,
+  loginFormSchema,
   SignupActionResponse,
   SignupFormData,
   signupFormSchema,
@@ -68,6 +71,52 @@ export async function signup(
   //   create session
   await createSession(user.id);
 
+  redirect("/");
+}
+
+export async function login(
+  state: LoginActionResponse | null,
+  formData: FormData
+) {
+  const rawData: LoginFormData = {
+    email: formData.get("email") as string,
+    password: formData.get("password") as string,
+  };
+
+  const validateFields = loginFormSchema.safeParse(rawData);
+  if (!validateFields.success) {
+    return {
+      success: false,
+      message: "Please fix all errors in the form",
+      errors: validateFields.error.flatten().fieldErrors,
+      inputs: rawData,
+    };
+  }
+  const { email, password } = validateFields.data;
+
+  const data = await db.query.users.findFirst({
+    where: eq(users.email, email),
+  });
+
+  if (!data) {
+    return {
+      success: false,
+      message: "Invalid Credentials",
+      inputs: rawData,
+    };
+  }
+
+  const isPasswordCorrect = await bcrypt.compare(password, data.password);
+
+  if (!isPasswordCorrect) {
+    return {
+      success: false,
+      message: "Invalid Credentials",
+      inputs: rawData,
+    };
+  }
+
+  await createSession(data.id);
   redirect("/");
 }
 
