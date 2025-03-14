@@ -94,11 +94,11 @@ export async function login(
   }
   const { email, password } = validateFields.data;
 
-  const data = await db.query.users.findFirst({
+  const user = await db.query.users.findFirst({
     where: eq(users.email, email),
   });
 
-  if (!data) {
+  if (!user) {
     return {
       success: false,
       message: "Invalid Credentials",
@@ -106,7 +106,7 @@ export async function login(
     };
   }
 
-  const isPasswordCorrect = await bcrypt.compare(password, data.password);
+  const isPasswordCorrect = await bcrypt.compare(password, user.password);
 
   if (!isPasswordCorrect) {
     return {
@@ -116,7 +116,7 @@ export async function login(
     };
   }
 
-  await createSession(data.id);
+  await createSession(user.id);
   redirect("/");
 }
 

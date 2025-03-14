@@ -30,7 +30,7 @@ const LoginForm = () => {
             id="email"
             name="email"
             defaultValue={state.inputs?.email}
-            className="border-[#98908B] border rounded-lg h-[2.8125rem]"
+            className="border-[#98908B] border rounded-lg h-[2.8125rem] px-5"
             type="email"
           />
         </div>
@@ -50,7 +50,7 @@ const LoginForm = () => {
               name="password"
               type={showPassword ? "text" : "password"}
               defaultValue={state.inputs?.password}
-              className="border-[#98908B] border rounded-lg h-[2.8125rem] w-full"
+              className="border-[#98908B] border rounded-lg h-[2.8125rem] w-full px-5"
             />
             <Image
               onClick={toggleVisibility}
@@ -58,7 +58,7 @@ const LoginForm = () => {
               alt="eye-icon"
               width={16}
               height={16}
-              className="absolute right-2 top-1/2 -translate-y-1/2"
+              className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer"
             />
           </div>
         </div>

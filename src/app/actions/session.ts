@@ -34,9 +34,9 @@ export async function createSession(id: number) {
   const data = await db
     .insert(sessions)
     .values({ userId: id, expiresAt })
-    .returning({ id: sessions.id });
+    .returning({ user_id: sessions.userId });
 
-  const sessionId = data[0].id;
+  const sessionId = data[0]?.user_id;
 
   const session = await encrypt({ userId: sessionId, expiresAt });
 
