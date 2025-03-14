@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useActionState } from "react";
 import Image from "next/image";
 import eyeIcon from "../../../../public/assets/images/icon-show-password.svg";
