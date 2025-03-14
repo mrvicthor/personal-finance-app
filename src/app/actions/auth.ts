@@ -29,7 +29,7 @@ export async function signup(
       success: false,
       message: "Please fill in all the required fields",
       inputs: rawData,
-      errors: validateFields.error.errors,
+      errors: validateFields.error.flatten().fieldErrors,
     };
   }
 

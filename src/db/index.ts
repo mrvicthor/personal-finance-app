@@ -8,6 +8,9 @@ export const client = new Pool({
   user: process.env.PGUSER,
   password: process.env.PGPASSWORD,
   database: process.env.PGDATABASE,
+  ssl: {
+    rejectUnauthorized: false,
+  },
 });
 
 export const db = drizzle(client, { schema });

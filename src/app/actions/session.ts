@@ -91,7 +91,7 @@ export async function deleteSession() {
   const cookie = (await cookies()).get("session")?.value;
   const session = await decrypt(cookie);
   if (session) {
-    await db.delete(sessions).where(eq(sessions.id, Number(session.id)));
+    await db.delete(sessions).where(eq(sessions.id, Number(session.userId)));
   }
   (await cookies()).delete("session");
   redirect("/login");

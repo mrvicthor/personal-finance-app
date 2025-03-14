@@ -3,6 +3,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Icon from "./icon";
 import { links } from "@/helpers";
+import { logout } from "@/app/actions/auth";
 
 type NavProps = {
   isMinimized: boolean;
@@ -36,6 +37,12 @@ const Navlinks = ({ isMinimized }: NavProps) => {
           </Link>
         );
       })}
+      <button
+        onClick={() => logout()}
+        className="ml-6 text-[#b3b3b3] mt-4 hover:text-[#f2f2f2]"
+      >
+        <span className="block">Sign Out</span>
+      </button>
     </div>
   );
 };
