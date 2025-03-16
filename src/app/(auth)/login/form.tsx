@@ -80,6 +80,7 @@ const LoginForm = () => {
           "login"
         )}
       </button>
+      {state.message && <p className="text-red-500 mt-4">{state.message}</p>}
       <p className="text-[#696868] text-xs mt-4 text-center">
         Need to create an account?{" "}
         <Link href="/signup" className="text-[#201F24] font-bold">

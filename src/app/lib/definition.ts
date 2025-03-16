@@ -31,6 +31,7 @@ export type SignupActionResponse = {
 };
 
 export type SessionPayload = {
+  id: number;
   userId: number;
   expiresAt: Date;
 };

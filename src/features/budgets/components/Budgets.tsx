@@ -95,7 +95,7 @@ const Budgets = ({ data, budgetList }: BudgetProps) => {
       {personalCare && (
         <div className="bg-white px-4 py-8 sm:px-8 rounded-lg">
           <Title
-            title="dining out"
+            title="personal care"
             theme={personalCareBudget?.theme as string}
           />
           <Spending

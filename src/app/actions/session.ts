@@ -34,11 +34,9 @@ export async function createSession(id: number) {
   const data = await db
     .insert(sessions)
     .values({ userId: id, expiresAt })
-    .returning({ user_id: sessions.userId });
+    .returning({ id: sessions.id });
 
-  const sessionId = data[0]?.user_id;
-
-  const session = await encrypt({ userId: sessionId, expiresAt });
+  const session = await encrypt({ id: data[0].id, userId: id, expiresAt });
 
   (await cookies()).set("session", session, {
     httpOnly: true,
@@ -59,7 +57,7 @@ export async function updateSession() {
 
   // check for session in db and update it
   const sessionInDatabase = await db.query.sessions.findFirst({
-    where: eq(sessions.id, Number(payload.userId)),
+    where: eq(sessions.id, Number(payload.id)),
   });
 
   if (sessionInDatabase && sessionInDatabase?.expiresAt.getTime() > now) {
@@ -90,8 +88,9 @@ export async function updateSession() {
 export async function deleteSession() {
   const cookie = (await cookies()).get("session")?.value;
   const session = await decrypt(cookie);
+  console.log({ session });
   if (session) {
-    await db.delete(sessions).where(eq(sessions.id, Number(session.userId)));
+    await db.delete(sessions).where(eq(sessions.id, Number(session.id)));
   }
   (await cookies()).delete("session");
   redirect("/login");
