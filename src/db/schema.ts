@@ -4,6 +4,8 @@ import {
   varchar,
   timestamp,
   uniqueIndex,
+  decimal,
+  boolean,
 } from "drizzle-orm/pg-core";
 import { InferInsertModel } from "drizzle-orm";
 export const users = pgTable(
@@ -32,5 +34,52 @@ export const sessions = pgTable("sessions", {
   expiresAt: timestamp("expires_at").notNull(),
 });
 
+export const balance = pgTable("balance", {
+  id: serial("id").primaryKey(),
+  userId: serial("user_id")
+    .references(() => users.id)
+    .notNull(),
+  current: decimal("current").notNull(),
+  income: decimal("income").notNull(),
+  expenses: decimal("expenses").notNull(),
+});
+
+export const transactions = pgTable("transactions", {
+  id: serial("id").primaryKey(),
+  userId: serial("user_id")
+    .references(() => users.id)
+    .notNull(),
+  avatar: varchar("avatar").notNull(),
+  name: varchar("name").notNull(),
+  category: varchar("category").notNull(),
+  date: timestamp("date").notNull(),
+  amount: decimal("amount").notNull(),
+  recurring: boolean("recurring").notNull(),
+});
+
+export const budgets = pgTable("budgets", {
+  id: serial("id").primaryKey(),
+  userId: serial("user_id")
+    .references(() => users.id)
+    .notNull(),
+  category: varchar("category").notNull(),
+  maximum: decimal("maximum").notNull(),
+  spent: decimal("spent").notNull(),
+});
+
+export const pots = pgTable("pots", {
+  id: serial("id").primaryKey(),
+  userId: serial("user_id")
+    .references(() => users.id)
+    .notNull(),
+  name: varchar("name").notNull(),
+  target: decimal("target").notNull(),
+  total: decimal("total").notNull(),
+});
+
 export type Session = InferInsertModel<typeof sessions>;
 export type User = InferInsertModel<typeof users>;
+export type Balance = InferInsertModel<typeof balance>;
+export type Transaction = InferInsertModel<typeof transactions>;
+export type Budget = InferInsertModel<typeof budgets>;
+export type Pot = InferInsertModel<typeof pots>;
