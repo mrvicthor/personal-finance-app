@@ -42,11 +42,6 @@ const FilterTransactionsTable = ({ transactions }: Transactions) => {
   const [category, setCategory] = useState<Category>("All Transactions");
   const [currentPage, setCurrentPage] = useState(1);
 
-  console.log(
-    transactions.reduce((acc, transaction) => acc + transaction.amount, 0),
-    "vic"
-  );
-
   const filteredTransactions =
     category === "All Transactions"
       ? transactions

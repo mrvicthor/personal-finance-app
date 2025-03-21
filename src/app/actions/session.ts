@@ -88,7 +88,6 @@ export async function updateSession() {
 export async function deleteSession() {
   const cookie = (await cookies()).get("session")?.value;
   const session = await decrypt(cookie);
-  console.log({ session });
   if (session) {
     await db.delete(sessions).where(eq(sessions.id, Number(session.id)));
   }

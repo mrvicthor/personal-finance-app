@@ -54,7 +54,7 @@ export async function addBalance(
       message: "Balance updated successfully",
     };
   }
-  const [data] = await db
+  await db
     .insert(balance)
     .values({
       userId: Number(session?.userId),
@@ -68,7 +68,6 @@ export async function addBalance(
       income: balance.income,
       expenses: balance.expenses,
     });
-  console.log({ data });
   return {
     success: true,
     message: "Balance added successfully",
