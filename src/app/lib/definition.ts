@@ -52,3 +52,22 @@ export type LoginActionResponse = {
   inputs?: LoginFormData;
   errors?: { [K in keyof LoginFormData]?: string[] };
 };
+
+export const addBalanceFormSchema = z.object({
+  current: z.number().min(0, { message: "balance cannot be negative" }),
+  income: z.number().min(0, { message: "income cannot be negative" }),
+  expenses: z.number().min(0, { message: "expenses cannot be negative" }),
+});
+
+export type AddBalanceFormData = {
+  current: number;
+  income: number;
+  expenses: number;
+};
+
+export type AddBalanceActionResponse = {
+  success: boolean;
+  message: string;
+  inputs?: AddBalanceFormData;
+  errors?: { [K in keyof AddBalanceFormData]?: string[] };
+};

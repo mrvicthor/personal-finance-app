@@ -1,5 +1,5 @@
 {
-  "id": "8727b045-8cb8-4e0f-97e3-7997556177a6",
+  "id": "2efa08d4-0dc3-42d5-9b68-bd0de931a444",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -22,21 +22,24 @@
         },
         "current": {
           "name": "current",
-          "type": "numeric",
+          "type": "double precision",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false,
+          "default": 0
         },
         "income": {
           "name": "income",
-          "type": "numeric",
+          "type": "double precision",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false,
+          "default": 0
         },
         "expenses": {
           "name": "expenses",
-          "type": "numeric",
+          "type": "double precision",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false,
+          "default": 0
         }
       },
       "indexes": {},
@@ -85,15 +88,16 @@
         },
         "maximum": {
           "name": "maximum",
-          "type": "numeric",
+          "type": "double precision",
           "primaryKey": false,
           "notNull": true
         },
         "spent": {
           "name": "spent",
-          "type": "numeric",
+          "type": "double precision",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false,
+          "default": 0
         }
       },
       "indexes": {},
@@ -142,15 +146,17 @@
         },
         "target": {
           "name": "target",
-          "type": "numeric",
+          "type": "double precision",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false,
+          "default": 0
         },
         "total": {
           "name": "total",
-          "type": "numeric",
+          "type": "double precision",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false,
+          "default": 0
         }
       },
       "indexes": {},
@@ -262,7 +268,7 @@
         },
         "amount": {
           "name": "amount",
-          "type": "numeric",
+          "type": "double precision",
           "primaryKey": false,
           "notNull": true
         },
@@ -270,7 +276,8 @@
           "name": "recurring",
           "type": "boolean",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false,
+          "default": false
         }
       },
       "indexes": {},

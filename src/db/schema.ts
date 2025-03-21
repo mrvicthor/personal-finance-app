@@ -4,8 +4,8 @@ import {
   varchar,
   timestamp,
   uniqueIndex,
-  decimal,
   boolean,
+  doublePrecision,
 } from "drizzle-orm/pg-core";
 import { InferInsertModel } from "drizzle-orm";
 export const users = pgTable(
@@ -39,9 +39,9 @@ export const balance = pgTable("balance", {
   userId: serial("user_id")
     .references(() => users.id)
     .notNull(),
-  current: decimal("current").notNull(),
-  income: decimal("income").notNull(),
-  expenses: decimal("expenses").notNull(),
+  current: doublePrecision("current").default(0),
+  income: doublePrecision("income").default(0),
+  expenses: doublePrecision("expenses").default(0),
 });
 
 export const transactions = pgTable("transactions", {
@@ -53,8 +53,8 @@ export const transactions = pgTable("transactions", {
   name: varchar("name").notNull(),
   category: varchar("category").notNull(),
   date: timestamp("date").notNull(),
-  amount: decimal("amount").notNull(),
-  recurring: boolean("recurring").notNull(),
+  amount: doublePrecision("amount").notNull(),
+  recurring: boolean("recurring").default(false),
 });
 
 export const budgets = pgTable("budgets", {
@@ -63,8 +63,8 @@ export const budgets = pgTable("budgets", {
     .references(() => users.id)
     .notNull(),
   category: varchar("category").notNull(),
-  maximum: decimal("maximum").notNull(),
-  spent: decimal("spent").notNull(),
+  maximum: doublePrecision("maximum").notNull(),
+  spent: doublePrecision("spent").default(0),
 });
 
 export const pots = pgTable("pots", {
@@ -73,8 +73,8 @@ export const pots = pgTable("pots", {
     .references(() => users.id)
     .notNull(),
   name: varchar("name").notNull(),
-  target: decimal("target").notNull(),
-  total: decimal("total").notNull(),
+  target: doublePrecision("target").default(0),
+  total: doublePrecision("total").default(0),
 });
 
 export type Session = InferInsertModel<typeof sessions>;

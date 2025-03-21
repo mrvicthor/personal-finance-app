@@ -28,9 +28,7 @@ export default function AddBalance({ onClose }: AddBalanceProps) {
             className="cursor-pointer"
           />
         </div>
-        <p className="mt-5 text-sm text-[#696868]">
-          Add your income, expenses and balance
-        </p>
+
         <AddBalanceForm />
       </div>
     </>

@@ -1,25 +1,25 @@
 CREATE TABLE "balance" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"user_id" serial NOT NULL,
-	"current" numeric NOT NULL,
-	"income" numeric NOT NULL,
-	"expenses" numeric NOT NULL
+	"current" double precision DEFAULT 0,
+	"income" double precision DEFAULT 0,
+	"expenses" double precision DEFAULT 0
 );
 --> statement-breakpoint
 CREATE TABLE "budgets" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"user_id" serial NOT NULL,
 	"category" varchar NOT NULL,
-	"maximum" numeric NOT NULL,
-	"spent" numeric NOT NULL
+	"maximum" double precision NOT NULL,
+	"spent" double precision DEFAULT 0
 );
 --> statement-breakpoint
 CREATE TABLE "pots" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"user_id" serial NOT NULL,
 	"name" varchar NOT NULL,
-	"target" numeric NOT NULL,
-	"total" numeric NOT NULL
+	"target" double precision DEFAULT 0,
+	"total" double precision DEFAULT 0
 );
 --> statement-breakpoint
 CREATE TABLE "sessions" (
@@ -35,8 +35,8 @@ CREATE TABLE "transactions" (
 	"name" varchar NOT NULL,
 	"category" varchar NOT NULL,
 	"date" timestamp NOT NULL,
-	"amount" numeric NOT NULL,
-	"recurring" boolean NOT NULL
+	"amount" double precision NOT NULL,
+	"recurring" boolean DEFAULT false
 );
 --> statement-breakpoint
 CREATE TABLE "users" (
