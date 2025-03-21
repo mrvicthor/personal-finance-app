@@ -1,9 +1,11 @@
 "use client";
 import React, { useState } from "react";
 import { createPortal } from "react-dom";
+import { FaArrowRightFromBracket } from "react-icons/fa6";
 import Title from "./title";
 import Button from "./button";
 import AddBalance from "./addBalance";
+import { logout } from "@/app/actions/auth";
 
 const HomeClient = ({ children }: { children: React.ReactNode }) => {
   const [showModal, setShowModal] = useState(false);
@@ -14,6 +16,11 @@ const HomeClient = ({ children }: { children: React.ReactNode }) => {
         <Button
           title="add new balance"
           handleModal={() => setShowModal(true)}
+        />
+        <FaArrowRightFromBracket
+          className="md:hidden"
+          size={24}
+          onClick={() => logout()}
         />
       </div>
       {showModal &&

@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Icon from "./icon";
+import { FaArrowRightFromBracket } from "react-icons/fa6";
 import { links } from "@/helpers";
 import { logout } from "@/app/actions/auth";
 
@@ -39,8 +40,9 @@ const Navlinks = ({ isMinimized }: NavProps) => {
       })}
       <button
         onClick={() => logout()}
-        className="ml-6 text-[#b3b3b3] mt-4 hover:text-[#f2f2f2]"
+        className="ml-6 text-[#b3b3b3] mt-4 hover:text-[#f2f2f2] flex items-center gap-2"
       >
+        <FaArrowRightFromBracket />
         <span className="block">Sign Out</span>
       </button>
     </div>
