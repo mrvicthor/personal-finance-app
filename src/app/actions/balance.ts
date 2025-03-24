@@ -9,6 +9,7 @@ import {
 } from "../lib/definition";
 import { balance, users } from "@/db/schema";
 import { eq } from "drizzle-orm";
+import { revalidatePath } from "next/cache";
 
 export async function addBalance(
   state: AddBalanceActionResponse | null,
@@ -49,6 +50,7 @@ export async function addBalance(
         expenses,
       })
       .where(eq(balance.id, existingBalance.id));
+    revalidatePath("/");
     return {
       success: true,
       message: "Balance updated successfully",
@@ -68,6 +70,7 @@ export async function addBalance(
       income: balance.income,
       expenses: balance.expenses,
     });
+  revalidatePath("/");
   return {
     success: true,
     message: "Balance added successfully",
