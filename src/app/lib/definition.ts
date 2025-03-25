@@ -71,3 +71,22 @@ export type AddBalanceActionResponse = {
   inputs?: AddBalanceFormData;
   errors?: { [K in keyof AddBalanceFormData]?: string[] };
 };
+
+export const addBudgetFormSchema = z.object({
+  category: z.string().min(2, { message: "Category cannot be empty" }),
+  maximum: z.number().min(0, { message: "Maximum cannot be negative" }),
+  theme: z.string().min(2, { message: "Theme cannot be empty" }),
+});
+
+export type AddBudgetFormData = {
+  category: string;
+  maximum: number;
+  theme: string;
+};
+
+export type AddBudgetActionResponse = {
+  success: boolean;
+  message: string;
+  inputs?: AddBudgetFormData;
+  errors?: { [K in keyof AddBudgetFormData]?: string[] };
+};

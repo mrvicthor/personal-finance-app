@@ -1,0 +1,1 @@
+ALTER TABLE "budgets" RENAME COLUMN "spent" TO "theme";

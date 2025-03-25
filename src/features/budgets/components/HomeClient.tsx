@@ -4,9 +4,11 @@ import { createPortal } from "react-dom";
 import { logout } from "@/app/actions/auth";
 import Button from "@/components/button";
 import { FaArrowRightFromBracket } from "react-icons/fa6";
+import AddBudget from "./AddBudget";
 
 const HomeClient = ({ children }: { children: React.ReactNode }) => {
   const [showModal, setShowModal] = useState(false);
+  //   create a relationship between budget and transactions
   return (
     <section className="px-4 sm:px-10">
       <div className="flex items-center justify-between">
@@ -18,7 +20,11 @@ const HomeClient = ({ children }: { children: React.ReactNode }) => {
           onClick={() => logout()}
         />
       </div>
-      {showModal && createPortal(<p>adp new budget</p>, document.body)}
+      {showModal &&
+        createPortal(
+          <AddBudget onClose={() => setShowModal(false)} />,
+          document.body
+        )}
       {children}
     </section>
   );

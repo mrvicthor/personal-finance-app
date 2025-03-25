@@ -64,7 +64,7 @@ export const budgets = pgTable("budgets", {
     .notNull(),
   category: varchar("category").notNull(),
   maximum: doublePrecision("maximum").notNull(),
-  spent: doublePrecision("spent").default(0),
+  theme: varchar("theme").notNull(),
 });
 
 export const pots = pgTable("pots", {
