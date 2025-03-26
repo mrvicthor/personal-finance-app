@@ -1,6 +1,7 @@
-import React, { useActionState } from "react";
+"use client";
+import React, { useActionState, useEffect, useState } from "react";
 import { AddBudgetActionResponse } from "@/app/lib/definition";
-import addBudget from "../../db/budget";
+import addBudget, { getBudget } from "../../db/budget";
 import { categories, themes } from "@/helpers";
 import {
   Select,
@@ -14,8 +15,20 @@ const initialState: AddBudgetActionResponse = {
   success: false,
   message: "",
 };
-const AddBudgetForm = () => {
+
+const CreateBudgetForm = () => {
   const [state, action, pending] = useActionState(addBudget, initialState);
+  const [usedThemes, setUsedThemes] = useState<string[]>([]);
+
+  useEffect(() => {
+    const updateTheme = async () => {
+      const data = await getBudget();
+      const themes = data.map((budget) => budget.theme);
+      setUsedThemes(themes);
+    };
+
+    updateTheme();
+  }, []);
 
   return (
     <>
@@ -82,25 +95,36 @@ const AddBudgetForm = () => {
                 theme
               </label>
               <Select name="theme">
-                <SelectTrigger id="theme" className="h-[45px] border-[#98908B]">
+                <SelectTrigger
+                  id="theme"
+                  className="h-[45px] w-full border-[#98908B]"
+                >
                   <SelectValue placeholder="Theme" />
                 </SelectTrigger>
 
                 <SelectContent>
-                  {themes.map((theme) => (
-                    <SelectItem
-                      key={theme.theme}
-                      value={theme.theme}
-                      className="flex item-center gap-4"
-                    >
-                      <span
-                        className="h-4 w-4 rounded-full relative top-[2px] inline-block"
-                        style={{ backgroundColor: theme.theme }}
-                      />
+                  {themes.map((theme) => {
+                    const isUsed = usedThemes.includes(theme.theme);
+                    return (
+                      <SelectItem
+                        key={theme.theme}
+                        value={theme.theme}
+                        className="flex justify-between item-center gap-4 text-xs"
+                      >
+                        <span
+                          className="h-4 w-4 rounded-full relative top-[2px] inline-block"
+                          style={{ backgroundColor: theme.theme }}
+                        />
 
-                      <span className="inline-block pl-2">{theme.label}</span>
-                    </SelectItem>
-                  ))}
+                        <span className="inline-block pl-2">{theme.label}</span>
+                        {isUsed && (
+                          <span className="absolute top-[6px] right-4">
+                            Already Used
+                          </span>
+                        )}
+                      </SelectItem>
+                    );
+                  })}
                 </SelectContent>
               </Select>
             </div>
@@ -129,4 +153,4 @@ const AddBudgetForm = () => {
   );
 };
 
-export default AddBudgetForm;
+export default CreateBudgetForm;

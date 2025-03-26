@@ -212,17 +212,18 @@ export const categories = [
 ];
 
 export const themes = [
-  { label: "Green", theme: "#277C78" },
-  { label: "Yellow", theme: "#F2CDAC" },
-  { label: "Cyan", theme: "#82C9D7" },
-  { label: "Navy", theme: "#626070" },
+  { label: "Green", theme: "#277C78", isUsed: false },
+  { label: "Yellow", theme: "#F2CDAC", isUsed: false },
+  { label: "Cyan", theme: "#82C9D7", isUsed: false },
+  { label: "Navy", theme: "#626070", isUsed: false },
   {
     label: "Red",
     theme: "#C94736",
+    isUsed: false,
   },
-  { label: "Purple", theme: "#826CB0" },
-  { label: "Turquoise", theme: "#597C7C" },
-  { label: "Brown", theme: "#93674F" },
-  { label: "Magenta", theme: "#934F6F" },
-  { label: "Blue", theme: "#3F82B2" },
+  { label: "Purple", theme: "#826CB0", isUsed: false },
+  { label: "Turquoise", theme: "#597C7C", isUsed: false },
+  { label: "Brown", theme: "#93674F", isUsed: false },
+  { label: "Magenta", theme: "#934F6F", isUsed: false },
+  { label: "Blue", theme: "#3F82B2", isUsed: false },
 ];

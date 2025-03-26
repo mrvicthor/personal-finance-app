@@ -7,8 +7,24 @@ import {
 } from "@/app/lib/definition";
 import { db } from "@/db";
 import { budgets } from "@/db/schema";
+import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
+
+export async function getBudget() {
+  const cookie = (await cookies()).get("session")?.value;
+  const session = await decrypt(cookie);
+  const data = await db.query.budgets.findMany({
+    where: eq(budgets.userId, Number(session?.userId)),
+    columns: {
+      id: true,
+      category: true,
+      maximum: true,
+      theme: true,
+    },
+  });
+  return data;
+}
 
 export default async function addBudget(
   state: AddBudgetActionResponse | null,

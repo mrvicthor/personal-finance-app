@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import closeIcon from "../../../../public/assets/images/icon-close-modal.svg";
-import AddBudgetForm from "./forms/AddBudgetForm";
+import CreateBudgetForm from "./forms/CreateForm";
 
 type AddBudgetProps = {
   onClose: () => void;
@@ -29,7 +29,7 @@ const AddBudget = ({ onClose }: AddBudgetProps) => {
           />
         </div>
 
-        <AddBudgetForm />
+        <CreateBudgetForm />
       </div>
     </>
   );
