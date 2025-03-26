@@ -19,7 +19,6 @@ export default async function addBudget(
     maximum: Number(formData.get("maximum")) as unknown as number,
     theme: formData.get("theme") as string,
   };
-  console.log({ rawData });
   const validateFields = addBudgetFormSchema.safeParse(rawData);
   if (!validateFields.success) {
     return {

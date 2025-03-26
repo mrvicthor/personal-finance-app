@@ -43,7 +43,7 @@ const Navlinks = ({ isMinimized }: NavProps) => {
         className="ml-6 text-[#b3b3b3] mt-4 hover:text-[#f2f2f2] flex items-center gap-2"
       >
         <FaArrowRightFromBracket />
-        <span className="block">Sign Out</span>
+        {!isMinimized ? <span>Sign out</span> : null}
       </button>
     </div>
   );

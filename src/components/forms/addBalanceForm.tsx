@@ -37,7 +37,9 @@ const AddBalanceForm = () => {
                 />
               </div>
               {state?.errors?.current && (
-                <p className="text-red-500">{state.errors.current}</p>
+                <p aria-live="polite" className="text-red-500">
+                  {state.errors.current}
+                </p>
               )}
               <div className="flex flex-col gap-1">
                 <label
@@ -57,7 +59,9 @@ const AddBalanceForm = () => {
                 />
               </div>
               {state?.errors?.income && (
-                <p className="text-red-500">{state.errors.income}</p>
+                <p aria-live="polite" className="text-red-500">
+                  {state.errors.income}
+                </p>
               )}
               <div className="flex flex-col gap-1">
                 <label
@@ -77,7 +81,9 @@ const AddBalanceForm = () => {
                 />
               </div>
               {state?.errors?.expenses && (
-                <p className="text-red-500">{state.errors.expenses}</p>
+                <p aria-live="polite" className="text-red-500">
+                  {state.errors.expenses}
+                </p>
               )}
             </div>
             <button
