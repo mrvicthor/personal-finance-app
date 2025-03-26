@@ -109,6 +109,7 @@ const CreateBudgetForm = () => {
                       <SelectItem
                         key={theme.theme}
                         value={theme.theme}
+                        disabled={isUsed}
                         className="flex justify-between item-center gap-4 text-xs"
                       >
                         <span
