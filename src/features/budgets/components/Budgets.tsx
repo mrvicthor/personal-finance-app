@@ -54,13 +54,21 @@ const Budgets = ({ data, budgetList }: BudgetProps) => {
             <div className="absolute top-16 right-8 flex flex-col divide-y-[1px] items-center justify-center px-5 py-3 h-[5.6875rem] w-[8.375rem] bg-white modal-box-shadow rounded-lg">
               <button
                 className="text-sm text-[#201F24] pb-3 capitalize"
-                onClick={() => console.log(budget.category)}
+                onClick={() => {
+                  setShowOptions(false);
+                  setSelected("");
+                  console.log(budget.category);
+                }}
               >
                 edit budget
               </button>
               <button
                 className="text-sm text-[#C94736] capitalize pt-3"
-                onClick={() => console.log(budget.category)}
+                onClick={() => {
+                  setShowOptions(false);
+                  setSelected("");
+                  console.log(budget.category);
+                }}
               >
                 delete budget
               </button>
