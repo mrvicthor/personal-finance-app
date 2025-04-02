@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 
 import { Transaction } from "@/components/transactions";
 import { Budget } from "@/components/budgetList";
@@ -12,103 +13,61 @@ type BudgetProps = {
   budgetList: Budget[];
 };
 const Budgets = ({ data, budgetList }: BudgetProps) => {
-  const checkList = ["Entertainment", "Bills", "Dining Out", "Personal Care"];
-  const budgets = data.filter((budget) => checkList.includes(budget.category));
-  const entertainments = budgets.filter(
-    (budget) => budget.category === "Entertainment"
-  );
+  const [showOptions, setShowOptions] = useState(false);
+  const [selected, setSelected] = useState<string>("");
 
-  const entertainmentBudget = budgetList.find(
-    (item) => item.category === "Entertainment"
-  );
-  const maximumEntertainment = entertainmentBudget?.maximum;
-
-  const bills = budgets.filter((budget) => budget.category === "Bills");
-
-  const billBudget = budgetList.find((item) => item.category === "Bills");
-  const maximumBills = billBudget?.maximum;
-
-  const diningOut = budgets.filter(
-    (budget) => budget.category === "Dining Out"
-  );
-
-  const diningOutBudget = budgetList.find(
-    (item) => item.category === "Dining Out"
-  );
-  const maximumDiningOut = diningOutBudget?.maximum;
-
-  const personalCare = budgets.filter(
-    (budget) => budget.category === "Personal Care"
-  );
-
-  const personalCareBudget = budgetList.find(
-    (item) => item.category === "Personal Care"
-  );
-  const maximunmPersonalCare = personalCareBudget?.maximum;
   return (
     <div className="space-y-6 pb-12 sm:pb-16 md:pb-8">
-      {entertainments && (
-        <div className="bg-white px-4 py-8 sm:px-8 rounded-lg">
+      {budgetList.map((budget, index) => (
+        <div
+          key={index}
+          className="bg-white px-4 py-8 sm:px-8 rounded-lg relative"
+        >
           <Title
-            title="entertainment"
-            theme={entertainmentBudget?.theme as string}
+            title={budget.category}
+            theme={
+              budgetList.find((item) => item.category === budget.category)
+                ?.theme as string
+            }
+            toggleOptions={() => {
+              setShowOptions(true);
+              setSelected(budget.category);
+            }}
           />
           <Spending
             amountSpent={15}
-            maximum={maximumEntertainment as number}
-            theme={entertainmentBudget?.theme as string}
+            maximum={
+              budgetList.find((item) => item.category === budget.category)
+                ?.maximum as number
+            }
+            theme={budget.theme as string}
           />
           <div className="bg-[#F8F4F0] pt-5 px-5 rounded-lg mt-5">
             <Subheader title="latest spending" description="see all" href="/" />
-            <Expenses data={entertainments.slice(0, 3)} />
+            <Expenses
+              data={data
+                .filter((item) => item.category === budget.category)
+                .slice(0, 3)}
+            />
           </div>
+          {showOptions && selected === budget.category && (
+            <div className="absolute top-16 right-8 flex flex-col divide-y-[1px] items-center justify-center px-5 py-3 h-[5.6875rem] w-[8.375rem] bg-white modal-box-shadow rounded-lg">
+              <button
+                className="text-sm text-[#201F24] pb-3 capitalize"
+                onClick={() => console.log(budget.category)}
+              >
+                edit budget
+              </button>
+              <button
+                className="text-sm text-[#C94736] capitalize pt-3"
+                onClick={() => console.log(budget.category)}
+              >
+                delete budget
+              </button>
+            </div>
+          )}
         </div>
-      )}
-      {bills && (
-        <div className="bg-white px-4 py-8 sm:px-8 rounded-lg">
-          <Title title="bills" theme={billBudget?.theme as string} />
-          <Spending
-            amountSpent={150}
-            maximum={maximumBills as number}
-            theme={billBudget?.theme as string}
-          />
-          <div className="bg-[#F8F4F0] pt-5 px-5 rounded-lg mt-5">
-            <Subheader title="latest spending" description="see all" href="/" />
-            <Expenses data={bills.slice(0, 3)} />
-          </div>
-        </div>
-      )}
-      {diningOut && (
-        <div className="bg-white px-4 py-8 sm:px-8 rounded-lg">
-          <Title title="dining out" theme={diningOutBudget?.theme as string} />
-          <Spending
-            amountSpent={133.75}
-            maximum={maximumDiningOut as number}
-            theme={diningOutBudget?.theme as string}
-          />
-          <div className="bg-[#F8F4F0] pt-5 px-5 rounded-lg mt-5">
-            <Subheader title="latest spending" description="see all" href="/" />
-            <Expenses data={diningOut.slice(0, 3)} />
-          </div>
-        </div>
-      )}
-      {personalCare && (
-        <div className="bg-white px-4 py-8 sm:px-8 rounded-lg">
-          <Title
-            title="personal care"
-            theme={personalCareBudget?.theme as string}
-          />
-          <Spending
-            amountSpent={40}
-            maximum={maximunmPersonalCare as number}
-            theme={personalCareBudget?.theme as string}
-          />
-          <div className="bg-[#F8F4F0] pt-5 px-5 rounded-lg mt-5">
-            <Subheader title="latest spending" description="see all" href="/" />
-            <Expenses data={personalCare.slice(0, 3)} />
-          </div>
-        </div>
-      )}
+      ))}
     </div>
   );
 };
