@@ -19,11 +19,14 @@ const initialState: AddBudgetActionResponse = {
 const CreateBudgetForm = () => {
   const [state, action, pending] = useActionState(addBudget, initialState);
   const [usedThemes, setUsedThemes] = useState<string[]>([]);
+  const [usedCategory, setUsedCategory] = useState<string[]>([]);
 
   useEffect(() => {
     const updateTheme = async () => {
       const data = await getBudget();
       const themes = data.map((budget) => budget.theme);
+      const usedCategories = data.map((budget) => budget.category);
+      setUsedCategory(usedCategories);
       setUsedThemes(themes);
     };
 
@@ -55,11 +58,18 @@ const CreateBudgetForm = () => {
                 </SelectTrigger>
 
                 <SelectContent>
-                  {categories.map((category) => (
-                    <SelectItem key={category.value} value={category.value}>
-                      {category.label}
-                    </SelectItem>
-                  ))}
+                  {categories.map((category) => {
+                    const isUsed = usedCategory.includes(category.label);
+                    return (
+                      <SelectItem
+                        disabled={isUsed}
+                        key={category.value}
+                        value={category.value}
+                      >
+                        {category.label}
+                      </SelectItem>
+                    );
+                  })}
                 </SelectContent>
               </Select>
             </div>
