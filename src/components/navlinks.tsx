@@ -10,7 +10,6 @@ type NavProps = {
   isMinimized: boolean;
 };
 
-// create still and use transition to add opacity to link
 const Navlinks = ({ isMinimized }: NavProps) => {
   const pathname = usePathname();
 

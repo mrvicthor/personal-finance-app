@@ -19,10 +19,27 @@ type BudgetsProps = {
   data: Budget[];
   transactions: Transaction[];
 };
+
+type BudgetOption =
+  | "general"
+  | "entertainment"
+  | "bills"
+  | "dining out"
+  | "personalCare"
+  | "shopping"
+  | "lifestyle"
+  | "education"
+  | "groceries"
+  | "transportation"
+  | "maximum";
+
 const Bubblechart = ({ data, transactions }: BudgetsProps) => {
-  const totalAmountSpent = transactions
-    .filter((item) => data.some((budget) => budget.category === item.category))
-    .reduce((acc, item) => acc + item.amount, 0);
+  const amountSpent = transactions.filter((item) =>
+    data.some((budget) => budget.category === item.category)
+  );
+  const totalAmountSpent = useMemo(() => {
+    return amountSpent.reduce((acc, item) => acc + item.amount, 0);
+  }, [amountSpent]);
 
   const [mounted, setMounted] = React.useState(false);
   const totalBudget = useMemo(() => {
@@ -34,27 +51,24 @@ const Bubblechart = ({ data, transactions }: BudgetsProps) => {
     fill: item.theme,
   }));
 
-  const chartConfig = {
-    maximum: {
-      label: "Maximums",
-    },
-    entertainment: {
-      label: "Entertainment",
-      color: "#277C78",
-    },
-    bills: {
-      label: "Bills",
-      color: "#82C9D7",
-    },
-    diningOut: {
-      label: "Dining Out",
-      color: "#F2CDAC",
-    },
-    personalCare: {
-      label: "Personal Care",
-      color: "#626070",
-    },
-  } satisfies ChartConfig;
+  const getConfig = (data: Budget[]) => {
+    const configMap: Partial<ChartConfig> = {};
+    for (let i = 0; i < data.length; i++) {
+      const category = data[i].category.toLowerCase() as BudgetOption;
+      if (!configMap[category]) {
+        configMap[category] = {
+          label: data[i].category,
+          color: data[i].theme,
+        };
+      }
+    }
+    return configMap as ChartConfig;
+  };
+
+  const chartConfig = getConfig(data);
+  chartConfig.maximum = {
+    label: "Maximums",
+  };
 
   React.useEffect(() => {
     setMounted(true);
@@ -63,7 +77,7 @@ const Bubblechart = ({ data, transactions }: BudgetsProps) => {
   if (!mounted) return null;
   return (
     <ChartContainer
-      config={chartConfig}
+      config={chartConfig satisfies ChartConfig}
       style={{ width: 300, height: 300 }}
       // className="max-w-[15.4375rem] aspect-square max-h-[15rem]"
     >

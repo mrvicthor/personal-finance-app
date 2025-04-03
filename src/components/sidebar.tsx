@@ -5,6 +5,7 @@ import financeLogo from "../../public/assets/images/logo-large.svg";
 import smallFinanceLogo from "../../public/assets/images/logo-small.svg";
 import Navlinks from "./navlinks";
 import Icon from "./icon";
+import Link from "next/link";
 
 const Sidebar = () => {
   const { isCollapsed, toggleCollapse } = useCollapseStore((state) => state);
@@ -18,7 +19,9 @@ const Sidebar = () => {
   return (
     <section className="sidebar bg-[#201f24] h-screen rounded-r-lg relative hidden md:block">
       <div className="px-6 h-[6.36rem] flex items-center">
-        <Image src={appLogo} alt="finance logo" priority />
+        <Link href="/">
+          <Image src={appLogo} alt="finance logo" priority />
+        </Link>
       </div>
       <Navlinks isMinimized={isCollapsed} />
 
