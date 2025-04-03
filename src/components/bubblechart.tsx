@@ -7,8 +7,9 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { formatNumber } from "@/helpers";
+import { formatNumber, getCategoryTotal, getConfig } from "@/helpers";
 import { Transaction } from "./transactions";
+
 type Budget = {
   category: string;
   maximum: number;
@@ -20,54 +21,24 @@ type BudgetsProps = {
   transactions: Transaction[];
 };
 
-type BudgetOption =
-  | "general"
-  | "entertainment"
-  | "bills"
-  | "dining out"
-  | "personalCare"
-  | "shopping"
-  | "lifestyle"
-  | "education"
-  | "groceries"
-  | "transportation"
-  | "maximum";
-
 const Bubblechart = ({ data, transactions }: BudgetsProps) => {
-  const amountSpent = transactions.filter((item) =>
+  const filteredBudget = transactions.filter((item) =>
     data.some((budget) => budget.category === item.category)
   );
   const totalAmountSpent = useMemo(() => {
-    return amountSpent.reduce((acc, item) => acc + item.amount, 0);
-  }, [amountSpent]);
+    return filteredBudget.reduce((acc, item) => acc + item.amount, 0);
+  }, [filteredBudget]);
 
   const [mounted, setMounted] = React.useState(false);
   const totalBudget = useMemo(() => {
     return data.reduce((acc: number, item: Budget) => acc + item.maximum, 0);
   }, [data]);
 
-  const chartData = data.map((item: Budget) => ({
-    ...item,
-    fill: item.theme,
-  }));
-
-  const getConfig = (data: Budget[]) => {
-    const configMap: Partial<ChartConfig> = {};
-    for (let i = 0; i < data.length; i++) {
-      const category = data[i].category.toLowerCase() as BudgetOption;
-      if (!configMap[category]) {
-        configMap[category] = {
-          label: data[i].category,
-          color: data[i].theme,
-        };
-      }
-    }
-    return configMap as ChartConfig;
-  };
+  const chartData = getCategoryTotal(filteredBudget, data);
 
   const chartConfig = getConfig(data);
-  chartConfig.maximum = {
-    label: "Maximums",
+  chartConfig.total = {
+    label: "Total",
   };
 
   React.useEffect(() => {
@@ -88,7 +59,7 @@ const Bubblechart = ({ data, transactions }: BudgetsProps) => {
         />
         <Pie
           data={chartData}
-          dataKey="maximum"
+          dataKey="total"
           nameKey="category"
           innerRadius={80}
           strokeWidth={5}

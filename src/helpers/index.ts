@@ -1,4 +1,19 @@
+import { Budget } from "@/components/budgetList";
 import { Transaction } from "@/components/transactions";
+import { ChartConfig } from "@/components/ui/chart";
+
+type BudgetOption =
+  | "general"
+  | "entertainment"
+  | "bills"
+  | "dining out"
+  | "personalCare"
+  | "shopping"
+  | "lifestyle"
+  | "education"
+  | "groceries"
+  | "transportation"
+  | "maximum";
 
 export const formatCurrency = (value: number) => {
   const formatter = new Intl.NumberFormat("en-US", {
@@ -238,5 +253,45 @@ export const removeDuplicates = (
       return true;
     }
     return false;
+  });
+};
+
+export const getConfig = (data: Budget[]) => {
+  const configMap: Partial<ChartConfig> = {};
+  for (let i = 0; i < data.length; i++) {
+    const category = data[i].category.toLowerCase() as BudgetOption;
+    if (!configMap[category]) {
+      configMap[category] = {
+        label: data[i].category,
+        color: data[i].theme,
+      };
+    }
+  }
+  return configMap as ChartConfig;
+};
+
+export const getCategoryTotal = (
+  transactions: Transaction[],
+  budgets: Budget[]
+) => {
+  const categoryMap = new Map<string, number>();
+  for (const transaction of transactions) {
+    const category = transaction.category;
+    if (categoryMap.has(category)) {
+      categoryMap.set(
+        category,
+        categoryMap.get(category)! + transaction.amount
+      );
+    } else {
+      categoryMap.set(category, transaction.amount);
+    }
+  }
+  return Array.from(categoryMap, ([category, total]) => {
+    const budget = budgets.find((budget) => budget.category === category);
+    return {
+      category,
+      total: Math.abs(total),
+      fill: budget?.theme,
+    };
   });
 };
