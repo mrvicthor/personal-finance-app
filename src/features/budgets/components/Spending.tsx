@@ -1,13 +1,18 @@
 import { formatCurrency } from "@/helpers";
 import React from "react";
 import BudgetRange from "./BudgetRange";
+import { Transaction } from "@/components/transactions";
 
 type SpendingProps = {
-  amountSpent: number;
+  data: Transaction[];
+  category: string;
   maximum: number;
   theme: string;
 };
-const Spending = ({ maximum, amountSpent, theme }: SpendingProps) => {
+const Spending = ({ maximum, category, theme, data }: SpendingProps) => {
+  const amountSpent = data
+    .filter((item) => item.category === category)
+    .reduce((acc, item) => acc + item.amount, 0);
   return (
     <div className="mt-5">
       <p className="text-sm text-[#696868]">
@@ -16,7 +21,7 @@ const Spending = ({ maximum, amountSpent, theme }: SpendingProps) => {
       <div className="mt-4">
         <div className="h-8 bg-[#F8F4F0] rounded-md py-1 px-1 overflow-hidden">
           <BudgetRange
-            spent={amountSpent}
+            spent={Math.abs(amountSpent)}
             amount={maximum as number}
             theme={theme}
           />
@@ -31,7 +36,7 @@ const Spending = ({ maximum, amountSpent, theme }: SpendingProps) => {
           <div className="flex flex-col gap-2">
             <span className="capitalize text-xs text-[#696868]">spent</span>
             <span className="text-[#201F24] text-sm font-bold">
-              {formatCurrency(amountSpent)}
+              {formatCurrency(Math.abs(amountSpent))}
             </span>
           </div>
         </div>

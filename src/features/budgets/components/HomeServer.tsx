@@ -12,9 +12,9 @@ const HomeServer = async () => {
     <section className="budgets-wrapper grid my-8 sm:mb-12 gap-6">
       <section className="bg-white px-4 md:px-8 rounded-lg sm:flex sm:items-center md:flex-col">
         <div className="flex items-center justify-center">
-          <Bubblechart data={data.budgets} />
+          <Bubblechart data={data.budgets} transactions={data.transactions} />
         </div>
-        <SpendingSummary data={data.budgets} />
+        <SpendingSummary data={data.budgets} transactions={data.transactions} />
       </section>
       <section>
         <Budgets data={data.transactions} budgetList={data.budgets} />

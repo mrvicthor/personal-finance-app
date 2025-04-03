@@ -7,6 +7,7 @@ import Spending from "./Spending";
 import Subheader from "./Subheader";
 import Expenses from "./Expenses";
 import Title from "./Title";
+// import { removeDuplicates } from "@/helpers";
 
 type BudgetProps = {
   data: Transaction[];
@@ -35,7 +36,8 @@ const Budgets = ({ data, budgetList }: BudgetProps) => {
             }}
           />
           <Spending
-            amountSpent={15}
+            data={data}
+            category={budget.category}
             maximum={
               budgetList.find((item) => item.category === budget.category)
                 ?.maximum as number

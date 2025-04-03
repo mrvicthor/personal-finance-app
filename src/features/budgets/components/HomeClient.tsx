@@ -8,7 +8,7 @@ import AddBudget from "./AddBudget";
 
 const HomeClient = ({ children }: { children: React.ReactNode }) => {
   const [showModal, setShowModal] = useState(false);
-  //   create a relationship between budget and transactions
+
   return (
     <section className="px-4 sm:px-10">
       <div className="flex items-center justify-between">

@@ -8,6 +8,7 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { formatNumber } from "@/helpers";
+import { Transaction } from "./transactions";
 type Budget = {
   category: string;
   maximum: number;
@@ -16,8 +17,13 @@ type Budget = {
 
 type BudgetsProps = {
   data: Budget[];
+  transactions: Transaction[];
 };
-const Bubblechart = ({ data }: BudgetsProps) => {
+const Bubblechart = ({ data, transactions }: BudgetsProps) => {
+  const totalAmountSpent = transactions
+    .filter((item) => data.some((budget) => budget.category === item.category))
+    .reduce((acc, item) => acc + item.amount, 0);
+
   const [mounted, setMounted] = React.useState(false);
   const totalBudget = useMemo(() => {
     return data.reduce((acc: number, item: Budget) => acc + item.maximum, 0);
@@ -88,7 +94,7 @@ const Bubblechart = ({ data }: BudgetsProps) => {
                       y={viewBox.cy}
                       className="fill-foreground text-3xl font-bold"
                     >
-                      {formatNumber(totalBudget)}
+                      {formatNumber(Math.abs(totalAmountSpent))}
                     </tspan>
                     <tspan
                       x={viewBox.cx}

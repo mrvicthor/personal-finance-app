@@ -11,7 +11,7 @@ const Budgets = async () => {
       <Subheader title="budgets" description="see details" href="/budgets" />
       <div className="py-8 flex flex-col sm:flex-row sm:items-center sm:justify-between">
         <div className="">
-          <Bubblechart data={data.budgets} />
+          <Bubblechart data={data.budgets} transactions={data.transactions} />
         </div>
         <BudgetList list={data.budgets} />
       </div>
