@@ -112,6 +112,19 @@ const AddTransactionForm = () => {
           Is it <em>Recurring?</em>
         </label>
       </div>
+      <button
+        type="submit"
+        className="mt-8 text-white bg-[#201F24] h-[3.3125rem] w-full rounded-lg capitalize font-bold"
+      >
+        {/*       
+          <span className="flex items-center justify-center gap-2">
+            <span className="animate-spin">⚪</span>
+            processing...
+          </span>
+        ) : ( */}
+        add transaction
+        {/* )} */}
+      </button>
     </form>
   );
 };

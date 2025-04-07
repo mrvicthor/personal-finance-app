@@ -5,6 +5,8 @@ import FilterBillsTable from "@/features/recurring-bills/components/FilterBillsT
 import { redirect } from "next/navigation";
 import { getUser } from "@/app/lib/dal";
 import { sortUniqueArray } from "@/helpers";
+import { Suspense } from "react";
+import Loading from "@/components/loading";
 
 export default async function Page() {
   const user = await getUser();
@@ -19,14 +21,16 @@ export default async function Page() {
   const sortedBills = sortUniqueArray(recurringBills);
 
   return (
-    <section className="px-4 sm:px-10">
-      <div className="flex items-center">
-        <h1 className="text-[2rem] font-bold capitalize">recurring bills</h1>
-      </div>
-      <section className="grid recurring-bills-wrapper gap-6 mt-8 sm:mb-8">
-        <Bills data={sortedBills} />
-        <FilterBillsTable data={recurringBills} />
+    <Suspense fallback={<Loading />}>
+      <section className="px-4 sm:px-10">
+        <div className="flex items-center">
+          <h1 className="text-[2rem] font-bold capitalize">recurring bills</h1>
+        </div>
+        <section className="grid recurring-bills-wrapper gap-6 mt-8 sm:mb-8">
+          <Bills data={sortedBills} />
+          <FilterBillsTable data={recurringBills} />
+        </section>
       </section>
-    </section>
+    </Suspense>
   );
 }
