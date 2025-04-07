@@ -22,6 +22,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 
 const AddTransactionForm = () => {
   const [date, setDate] = useState<Date | undefined>();
+  console.log(date);
   return (
     <form className="mt-5 space-y-4">
       <div className="flex flex-col gap-1">
