@@ -11,10 +11,18 @@ import { sortUniqueArray } from "@/helpers";
 type FilterBillsTableProps = {
   data: Transaction[];
 };
+
 const FilterBillsTable = ({ data }: FilterBillsTableProps) => {
+  console.log("filter bills", data);
   const [filterText, setFilterText] = useState("");
   const [isSorted, setIsSorted] = useState<SortProps>("Latest");
   const debouncedValue = useDebounce(filterText);
+
+  const searchResult = data.filter(
+    (transaction) =>
+      transaction.name.toLowerCase().indexOf(debouncedValue.toLowerCase()) !==
+      -1
+  );
 
   const sortingStrategies = {
     "A to Z": (a: Transaction, b: Transaction) => a.name.localeCompare(b.name),
@@ -27,20 +35,10 @@ const FilterBillsTable = ({ data }: FilterBillsTableProps) => {
       new Date(b.date).getTime() - new Date(a.date).getTime(),
   } as const;
 
-  const sortedTransactions = sortUniqueArray(data);
+  const sortedTransactions = sortUniqueArray(searchResult);
 
-  const sortedBills = sortedTransactions.sort(sortingStrategies[isSorted]);
-
-  const rows: Transaction[] = [];
-  sortedBills.forEach((transaction: Transaction) => {
-    if (
-      transaction.name.toLowerCase().indexOf(debouncedValue.toLowerCase()) ===
-      -1
-    ) {
-      return;
-    }
-    rows.push(transaction);
-  });
+  const sortedBills = searchResult.sort(sortingStrategies[isSorted]);
+  console.log("sorted bills", sortedBills);
 
   return (
     <div className="pt-6 sm:pt-8 pb-4 px-5 sm:px-8 bg-white rounded-lg">
@@ -48,10 +46,10 @@ const FilterBillsTable = ({ data }: FilterBillsTableProps) => {
         <SearchBar filterText={filterText} onFilterTextChange={setFilterText} />
         <SortBy onHandleSort={setIsSorted} sortBy={isSorted} />
       </div>
-      {rows.length === 0 ? (
+      {sortedBills.length === 0 ? (
         <p className="mt-6">Oops! There are no bills to display</p>
       ) : (
-        <BillsTable bills={rows} />
+        <BillsTable bills={sortedBills} />
       )}
     </div>
   );

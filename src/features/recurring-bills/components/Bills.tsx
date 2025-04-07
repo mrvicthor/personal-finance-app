@@ -10,6 +10,7 @@ type BillsProps = {
   data: Transaction[];
 };
 const Bills = ({ data }: BillsProps) => {
+  console.log("recurring bills", data);
   const totalBills = useMemo(
     () => data.reduce((acc: number, item: Transaction) => acc + item.amount, 0),
     [data]
@@ -32,7 +33,7 @@ const Bills = ({ data }: BillsProps) => {
         <div className="space-y-[0.6875rem] col-span-4">
           <p className="text-sm text-white capitalize">total bills</p>
           <p className="text-[2rem] text-white font-bold">
-            {formatCurrency(totalBills)}
+            {formatCurrency(Math.abs(totalBills))}
           </p>
         </div>
       </motion.div>

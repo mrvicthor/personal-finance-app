@@ -49,7 +49,7 @@ export const transactions = pgTable("transactions", {
   userId: serial("user_id")
     .references(() => users.id)
     .notNull(),
-  avatar: varchar("avatar").notNull(),
+  avatar: varchar("avatar"),
   name: varchar("name").notNull(),
   category: varchar("category").notNull(),
   date: timestamp("date").notNull(),

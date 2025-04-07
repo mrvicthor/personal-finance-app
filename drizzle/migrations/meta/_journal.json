@@ -15,6 +15,13 @@
       "when": 1742917689713,
       "tag": "0001_flat_namorita",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1744044249664,
+      "tag": "0002_cute_nekra",
+      "breakpoints": true
     }
   ]
 }

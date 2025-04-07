@@ -1,0 +1,1 @@
+ALTER TABLE "transactions" ALTER COLUMN "avatar" DROP NOT NULL;

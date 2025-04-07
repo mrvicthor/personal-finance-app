@@ -2,12 +2,12 @@
 import React, { useState } from "react";
 import SearchBar from "./forms/SearchBar";
 import TransactionTable from "./TransactionTable";
-
 import { Transaction } from "@/components/transactions";
 import SortBy from "./SortBy";
 import Category from "./Category";
 import RenderPagination from "./RenderPagination";
 import useDebounce from "@/hooks/useDebounce";
+import usePagination from "@/hooks/usePagination";
 
 type Transactions = {
   transactions: Transaction[];
@@ -34,13 +34,11 @@ export type SortBy =
   | "Highest"
   | "Lowest";
 
-const TRANSACTIONS_PER_PAGE = 10;
 const FilterTransactionsTable = ({ transactions }: Transactions) => {
   const [filterText, setFilterText] = useState<string>("");
   const debouncedValue = useDebounce(filterText);
   const [isSorted, setIsSorted] = useState<SortBy>("Latest");
   const [category, setCategory] = useState<Category>("All Transactions");
-  const [currentPage, setCurrentPage] = useState(1);
 
   const searchResult = transactions.filter(
     (transaction) =>
@@ -68,20 +66,8 @@ const FilterTransactionsTable = ({ transactions }: Transactions) => {
     sortingStrategies[isSorted]
   );
 
-  const totalPages = Math.ceil(
-    sortedTransactions.length / TRANSACTIONS_PER_PAGE
-  );
-
-  const startIndex = (currentPage - 1) * TRANSACTIONS_PER_PAGE;
-
-  const paginatedTransactions = sortedTransactions.slice(
-    startIndex,
-    startIndex + TRANSACTIONS_PER_PAGE
-  );
-
-  const handlePageChange = (newPage: number) => {
-    setCurrentPage(Math.max(1, Math.min(newPage, totalPages)));
-  };
+  const { paginatedTransactions, totalPages, handlePageChange, currentPage } =
+    usePagination(sortedTransactions);
 
   return (
     <>
