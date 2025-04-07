@@ -4,6 +4,7 @@ import { Transaction } from "@/components/transactions";
 import FilterBillsTable from "@/features/recurring-bills/components/FilterBillsTable";
 import { redirect } from "next/navigation";
 import { getUser } from "@/app/lib/dal";
+import { sortUniqueArray } from "@/helpers";
 
 export default async function Page() {
   const user = await getUser();
@@ -15,13 +16,15 @@ export default async function Page() {
     (transaction: Transaction) => transaction.recurring === true
   );
 
+  const sortedBills = sortUniqueArray(recurringBills);
+
   return (
     <section className="px-4 sm:px-10">
       <div className="flex items-center">
         <h1 className="text-[2rem] font-bold capitalize">recurring bills</h1>
       </div>
       <section className="grid recurring-bills-wrapper gap-6 mt-8 sm:mb-8">
-        <Bills data={recurringBills} />
+        <Bills data={sortedBills} />
         <FilterBillsTable data={recurringBills} />
       </section>
     </section>

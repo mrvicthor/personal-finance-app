@@ -7,6 +7,8 @@ import SortBy from "./SortBy";
 import { SortBy as SortProps } from "../../transactions/components/FilterTransactionsTable";
 import BillsTable from "./BillsTable";
 import { sortUniqueArray } from "@/helpers";
+import usePagination from "@/hooks/usePagination";
+import RenderPagination from "@/features/transactions/components/RenderPagination";
 
 type FilterBillsTableProps = {
   data: Transaction[];
@@ -37,8 +39,10 @@ const FilterBillsTable = ({ data }: FilterBillsTableProps) => {
 
   const sortedTransactions = sortUniqueArray(searchResult);
 
-  const sortedBills = searchResult.sort(sortingStrategies[isSorted]);
-  console.log("sorted bills", sortedBills);
+  const sortedBills = sortedTransactions.sort(sortingStrategies[isSorted]);
+
+  const { paginatedTransactions, totalPages, handlePageChange, currentPage } =
+    usePagination(sortedBills);
 
   return (
     <div className="pt-6 sm:pt-8 pb-4 px-5 sm:px-8 bg-white rounded-lg">
@@ -50,6 +54,13 @@ const FilterBillsTable = ({ data }: FilterBillsTableProps) => {
         <p className="mt-6">Oops! There are no bills to display</p>
       ) : (
         <BillsTable bills={sortedBills} />
+      )}
+      {paginatedTransactions.length > 0 && (
+        <RenderPagination
+          totalPages={totalPages}
+          handlePageChange={handlePageChange}
+          currentPage={currentPage}
+        />
       )}
     </div>
   );
