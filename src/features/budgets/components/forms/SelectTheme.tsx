@@ -22,6 +22,7 @@ type Budget = {
 
 const SelectTheme = async ({ name }: SelectThemeProps) => {
   const data = await getBudget();
+  if (!data) return null;
   const usedThemes = data.map((budget: Budget) => budget.theme);
   return (
     <div className="flex flex-col gap-1">
