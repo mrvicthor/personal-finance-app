@@ -11,11 +11,17 @@ import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
-export async function getBudget() {
+const getSessionId = async () => {
   const cookie = (await cookies()).get("session")?.value;
   const session = await decrypt(cookie);
+  return session?.userId;
+};
+
+export async function getBudget() {
+  const sessionId = await getSessionId();
+  if (!sessionId) return null;
   const data = await db.query.budgets.findMany({
-    where: eq(budgets.userId, Number(session?.userId)),
+    where: eq(budgets.userId, Number(sessionId)),
     columns: {
       id: true,
       category: true,
@@ -46,12 +52,12 @@ export default async function addBudget(
   }
 
   const { category, maximum, theme } = validateFields.data;
-  const cookie = (await cookies()).get("session")?.value;
-  const session = await decrypt(cookie);
+  const sessionId = await getSessionId();
+  if (!sessionId) return null;
   await db
     .insert(budgets)
     .values({
-      userId: Number(session?.userId),
+      userId: Number(sessionId),
       category,
       maximum,
       theme,

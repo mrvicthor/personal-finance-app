@@ -90,3 +90,14 @@ export type AddBudgetActionResponse = {
   inputs?: AddBudgetFormData;
   errors?: { [K in keyof AddBudgetFormData]?: string[] };
 };
+
+export const addTransactionFormSchema = z.object({
+  sender: z
+    .string()
+    .min(2, { message: "Name must be at least 2 characters long. " })
+    .trim(),
+  category: z.string().min(2, { message: "Category cannot be empty" }),
+  date: z.string().min(2, { message: "Date cannot be empty" }),
+  amount: z.number().min(0, { message: "Amount cannot be negative" }),
+  recurring: z.boolean().optional(),
+});
