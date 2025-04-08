@@ -24,6 +24,7 @@ const CreateBudgetForm = () => {
   useEffect(() => {
     const updateTheme = async () => {
       const data = await getBudget();
+      if (!data) return;
       const themes = data.map((budget) => budget.theme);
       const usedCategories = data.map((budget) => budget.category);
       setUsedCategory(usedCategories);
@@ -35,8 +36,8 @@ const CreateBudgetForm = () => {
 
   return (
     <>
-      {state.success === true ? (
-        <p className="text-green-500">{state.message}</p>
+      {state?.success === true ? (
+        <p className="text-green-500">{state?.message}</p>
       ) : (
         <>
           <p className="mt-5 text-sm text-[#696868]">
