@@ -13,7 +13,6 @@ export default function MainLayout({
     <CollapseStoreProvider>
       <LayoutWrapper>
         <Sidebar />
-
         <main className="main pt-6 sm:pt-8 md:h-screen overflow-hidden overflow-y-scroll">
           {children}
           <Header />

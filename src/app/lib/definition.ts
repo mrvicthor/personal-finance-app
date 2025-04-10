@@ -23,12 +23,14 @@ export interface SignupFormData {
   password: string;
 }
 
-export type SignupActionResponse = {
+export type ActionResponse<T> = {
   success: boolean;
   message: string;
-  inputs?: SignupFormData;
-  errors?: { [K in keyof SignupFormData]?: string[] };
+  inputs?: T;
+  errors?: { [K in keyof T]?: string[] };
 };
+
+export type SignupActionResponse = ActionResponse<SignupFormData>;
 
 export type SessionPayload = {
   id: number;
@@ -46,12 +48,7 @@ export type LoginFormData = {
   password: string;
 };
 
-export type LoginActionResponse = {
-  success: boolean;
-  message: string;
-  inputs?: LoginFormData;
-  errors?: { [K in keyof LoginFormData]?: string[] };
-};
+export type LoginActionResponse = ActionResponse<LoginFormData>;
 
 export const addBalanceFormSchema = z.object({
   current: z.number().min(0, { message: "balance cannot be negative" }),
@@ -65,12 +62,7 @@ export type AddBalanceFormData = {
   expenses: number;
 };
 
-export type AddBalanceActionResponse = {
-  success: boolean;
-  message: string;
-  inputs?: AddBalanceFormData;
-  errors?: { [K in keyof AddBalanceFormData]?: string[] };
-};
+export type AddBalanceActionResponse = ActionResponse<AddBalanceFormData>;
 
 export const addBudgetFormSchema = z.object({
   category: z.string().min(2, { message: "Category cannot be empty" }),
@@ -84,13 +76,17 @@ export type AddBudgetFormData = {
   theme: string;
 };
 
-export type AddBudgetActionResponse = {
-  success: boolean;
-  message: string;
-  inputs?: AddBudgetFormData;
-  errors?: { [K in keyof AddBudgetFormData]?: string[] };
+export type AddBudgetActionResponse = ActionResponse<AddBudgetFormData>;
+
+export const editBudgetFormSchema = addBudgetFormSchema.extend({
+  id: z.number(),
+});
+
+export type EditBudgetFormData = AddBudgetFormData & {
+  id: number;
 };
 
+export type EditBudgetActionResponse = ActionResponse<EditBudgetFormData>;
 export const addTransactionFormSchema = z.object({
   sender: z
     .string()
@@ -110,9 +106,5 @@ export type AddTransactionFormData = {
   recurring: boolean;
 };
 
-export type AddTransactionActionResponse = {
-  success: boolean;
-  message: string;
-  inputs?: AddTransactionFormData;
-  errors?: { [K in keyof AddTransactionFormData]?: string[] };
-};
+export type AddTransactionActionResponse =
+  ActionResponse<AddTransactionFormData>;

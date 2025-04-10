@@ -4,6 +4,9 @@ import {
   AddBudgetActionResponse,
   AddBudgetFormData,
   addBudgetFormSchema,
+  EditBudgetActionResponse,
+  EditBudgetFormData,
+  editBudgetFormSchema,
 } from "@/app/lib/definition";
 import { db } from "@/db";
 import { budgets } from "@/db/schema";
@@ -72,5 +75,44 @@ export default async function addBudget(
   return {
     success: true,
     message: "Budget added successfully",
+  };
+}
+
+export async function editBudget(
+  state: EditBudgetActionResponse | null,
+  formData: FormData
+) {
+  const rawData: EditBudgetFormData = {
+    id: Number(formData.get("id")) as number,
+    category: formData.get("category") as string,
+    maximum: Number(formData.get("maximum")) as unknown as number,
+    theme: formData.get("theme") as string,
+  };
+
+  const validateFields = editBudgetFormSchema.safeParse(rawData);
+  if (!validateFields.success) {
+    return {
+      success: false,
+      message: "Please fill in all the required fields",
+      inputs: rawData,
+      errors: validateFields.error.flatten().fieldErrors,
+    };
+  }
+  const { id, category, maximum, theme } = validateFields.data;
+  const sessionId = await getSessionId();
+  if (!sessionId) return null;
+  await db
+    .update(budgets)
+    .set({
+      category,
+      maximum,
+      theme,
+    })
+    .where(eq(budgets.id, id));
+
+  revalidatePath("/budgets");
+  return {
+    success: true,
+    message: "Budget edited successfully",
   };
 }

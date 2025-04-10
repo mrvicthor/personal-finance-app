@@ -19,7 +19,6 @@ export async function addTransaction(
   state: AddTransactionActionResponse | null,
   formData: FormData
 ) {
-  console.log(formData);
   const rawData: AddTransactionFormData = {
     sender: formData.get("sender") as string,
     category: formData.get("category") as string,

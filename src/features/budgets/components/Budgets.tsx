@@ -1,12 +1,13 @@
 "use client";
 import React, { useState } from "react";
-
+import { createPortal } from "react-dom";
 import { Transaction } from "@/components/transactions";
 import { Budget } from "@/components/budgetList";
 import Spending from "./Spending";
 import Subheader from "./Subheader";
 import Expenses from "./Expenses";
 import Title from "./Title";
+import EditBudget from "./EditBudget";
 // import { removeDuplicates } from "@/helpers";
 
 type BudgetProps = {
@@ -16,12 +17,13 @@ type BudgetProps = {
 const Budgets = ({ data, budgetList }: BudgetProps) => {
   const [showOptions, setShowOptions] = useState(false);
   const [selected, setSelected] = useState<string>("");
+  const [editBudget, setEditBudget] = useState(false);
 
   return (
     <div className="space-y-6 pb-12 sm:pb-16 md:pb-8">
-      {budgetList.map((budget, index) => (
+      {budgetList.map((budget) => (
         <div
-          key={index}
+          key={budget.category}
           className="bg-white px-4 py-8 sm:px-8 rounded-lg relative"
         >
           <Title
@@ -31,7 +33,7 @@ const Budgets = ({ data, budgetList }: BudgetProps) => {
                 ?.theme as string
             }
             toggleOptions={() => {
-              setShowOptions(true);
+              setShowOptions(!showOptions);
               setSelected(budget.category);
             }}
           />
@@ -58,8 +60,7 @@ const Budgets = ({ data, budgetList }: BudgetProps) => {
                 className="text-sm text-[#201F24] pb-3 capitalize"
                 onClick={() => {
                   setShowOptions(false);
-                  setSelected("");
-                  console.log(budget.category);
+                  setEditBudget(true);
                 }}
               >
                 edit budget
@@ -68,7 +69,6 @@ const Budgets = ({ data, budgetList }: BudgetProps) => {
                 className="text-sm text-[#C94736] capitalize pt-3"
                 onClick={() => {
                   setShowOptions(false);
-                  setSelected("");
                   console.log(budget.category);
                 }}
               >
@@ -78,6 +78,14 @@ const Budgets = ({ data, budgetList }: BudgetProps) => {
           )}
         </div>
       ))}
+      {editBudget &&
+        createPortal(
+          <EditBudget
+            onClose={() => setEditBudget(false)}
+            selected={selected}
+          />,
+          document.body
+        )}
     </div>
   );
 };
