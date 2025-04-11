@@ -41,7 +41,7 @@ const EditBudegtForm = ({
 
   return (
     <Suspense fallback={<Loading />}>
-      {state?.success === true ? (
+      {state?.success ? (
         <p className="text-green-500">{state?.message}</p>
       ) : (
         <>

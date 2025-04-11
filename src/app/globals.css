@@ -202,7 +202,6 @@
 
     .budgets-wrapper {
       grid-template-columns: 1fr;
-      grid-template-rows: 21.5rem 1fr;
     }
 
     .recurring-bills-wrapper {
@@ -245,7 +244,6 @@
 
     .budgets-wrapper {
       grid-template-columns: 1fr;
-      grid-template-rows: 35rem 1fr;
     }
 
     .recurring-bills-wrapper {

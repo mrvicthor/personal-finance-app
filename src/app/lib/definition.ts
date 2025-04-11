@@ -98,6 +98,16 @@ export const addTransactionFormSchema = z.object({
   recurring: z.boolean().default(false).optional(),
 });
 
+export const deleteBudgetFormSchema = z.object({
+  id: z.number(),
+});
+
+export type DeleteBudgetFormData = {
+  id: number;
+};
+
+export type DeleteBudgetActionResponse = ActionResponse<DeleteBudgetFormData>;
+
 export type AddTransactionFormData = {
   sender: string;
   category: string;

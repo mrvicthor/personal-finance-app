@@ -4,6 +4,9 @@ import {
   AddBudgetActionResponse,
   AddBudgetFormData,
   addBudgetFormSchema,
+  DeleteBudgetActionResponse,
+  DeleteBudgetFormData,
+  deleteBudgetFormSchema,
   EditBudgetActionResponse,
   EditBudgetFormData,
   editBudgetFormSchema,
@@ -99,8 +102,7 @@ export async function editBudget(
     };
   }
   const { id, category, maximum, theme } = validateFields.data;
-  const sessionId = await getSessionId();
-  if (!sessionId) return null;
+
   await db
     .update(budgets)
     .set({
@@ -114,5 +116,33 @@ export async function editBudget(
   return {
     success: true,
     message: "Budget edited successfully",
+  };
+}
+
+export async function deleteBudget(
+  state: DeleteBudgetActionResponse | null,
+  formData: FormData
+) {
+  const rawData: DeleteBudgetFormData = {
+    id: Number(formData.get("id")) as number,
+  };
+
+  const validateFields = deleteBudgetFormSchema.safeParse(rawData);
+  if (!validateFields.success) {
+    return {
+      success: false,
+      message: "Budget not found",
+      inputs: rawData,
+      errors: validateFields.error.flatten().fieldErrors,
+    };
+  }
+
+  const { id } = validateFields.data;
+
+  await db.delete(budgets).where(eq(budgets.id, id));
+  revalidatePath("/budgets");
+  return {
+    success: true,
+    message: "Budget deleted successfully",
   };
 }

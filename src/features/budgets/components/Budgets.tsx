@@ -8,6 +8,7 @@ import Subheader from "./Subheader";
 import Expenses from "./Expenses";
 import Title from "./Title";
 import EditBudget from "./EditBudget";
+import DeleteBudget from "./DeleteBudget";
 
 type BudgetProps = {
   data: Transaction[];
@@ -17,6 +18,7 @@ const Budgets = ({ data, budgetList }: BudgetProps) => {
   const [showOptions, setShowOptions] = useState(false);
   const [selected, setSelected] = useState<string>("");
   const [editBudget, setEditBudget] = useState(false);
+  const [deleteBudget, setDeleteBudget] = useState(false);
 
   return (
     <div className="space-y-6 pb-12 sm:pb-16 md:pb-8">
@@ -68,7 +70,7 @@ const Budgets = ({ data, budgetList }: BudgetProps) => {
                 className="text-sm text-[#C94736] capitalize pt-3"
                 onClick={() => {
                   setShowOptions(false);
-                  console.log(budget.category);
+                  setDeleteBudget(true);
                 }}
               >
                 delete budget
@@ -81,6 +83,15 @@ const Budgets = ({ data, budgetList }: BudgetProps) => {
         createPortal(
           <EditBudget
             onClose={() => setEditBudget(false)}
+            selected={selected}
+          />,
+          document.body
+        )}
+
+      {deleteBudget &&
+        createPortal(
+          <DeleteBudget
+            onClose={() => setDeleteBudget(false)}
             selected={selected}
           />,
           document.body
