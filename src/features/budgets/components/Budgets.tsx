@@ -8,7 +8,6 @@ import Subheader from "./Subheader";
 import Expenses from "./Expenses";
 import Title from "./Title";
 import EditBudget from "./EditBudget";
-// import { removeDuplicates } from "@/helpers";
 
 type BudgetProps = {
   data: Transaction[];

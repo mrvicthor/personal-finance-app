@@ -3,21 +3,23 @@ import React from "react";
 import SpendingSummary from "./SpendingSummary";
 import Budgets from "./Budgets";
 import { getFinanceData } from "../../../../lib/data";
-// import { getBudget } from "../db/budget";
+import { getBudget } from "../db/budget";
 
 const HomeServer = async () => {
   const data = await getFinanceData();
-  //   const budget = await getBudget();
+  const budget = await getBudget();
+  const dataToUse =
+    Array.isArray(budget) && budget.length > 0 ? budget : data.budgets;
   return (
     <section className="budgets-wrapper grid my-8 sm:mb-12 gap-6">
-      <section className="bg-white px-4 md:px-8 rounded-lg sm:flex sm:items-center md:flex-col">
+      <section className="bg-white px-4 md:px-8 rounded-lg sm:flex sm:items-center md:flex-col md:self-start">
         <div className="flex items-center justify-center">
-          <Bubblechart data={data.budgets} transactions={data.transactions} />
+          <Bubblechart data={dataToUse} transactions={data.transactions} />
         </div>
-        <SpendingSummary data={data.budgets} transactions={data.transactions} />
+        <SpendingSummary data={dataToUse} transactions={data.transactions} />
       </section>
       <section>
-        <Budgets data={data.transactions} budgetList={data.budgets} />
+        <Budgets data={data.transactions} budgetList={dataToUse} />
       </section>
     </section>
   );
