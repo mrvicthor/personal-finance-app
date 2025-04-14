@@ -7,6 +7,7 @@ import {
 } from "@/app/lib/definition";
 import { db } from "@/db";
 import { transactions } from "@/db/schema";
+import { eq } from "drizzle-orm";
 import { cookies } from "next/headers";
 
 const getSessionId = async () => {
@@ -56,4 +57,20 @@ export async function addTransaction(
     success: true,
     message: "Transaction added successfully",
   };
+}
+
+export async function getTransactions() {
+  const sessionId = await getSessionId();
+  if (!sessionId) return null;
+  return await db.query.transactions.findMany({
+    where: eq(transactions.userId, Number(sessionId)),
+    columns: {
+      id: true,
+      name: true,
+      category: true,
+      date: true,
+      amount: true,
+      recurring: true,
+    },
+  });
 }

@@ -35,13 +35,15 @@ const TransactionTable = ({ transactions }: TransactionProps) => {
         {transactions.map((transaction, index) => (
           <motion.tr variants={itemVariants} key={index} className="py-4">
             <td className=" flex items-center gap-3 py-4">
-              <Image
-                src={transaction.avatar.slice(1)}
-                width={40}
-                height={40}
-                className="rounded-full w-8 h-8 sm:w-10 sm:h-10"
-                alt={transaction.name}
-              />{" "}
+              {transaction.avatar ? (
+                <Image
+                  src={transaction.avatar.slice(1)}
+                  width={40}
+                  height={40}
+                  className="rounded-full w-8 h-8 sm:w-10 sm:h-10"
+                  alt={transaction.name}
+                />
+              ) : null}{" "}
               <div className="flex flex-col">
                 <span className="font-bold">{transaction.name}</span>
                 <span className=" sm:hidden md:hidden">
