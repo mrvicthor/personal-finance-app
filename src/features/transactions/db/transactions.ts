@@ -7,6 +7,7 @@ import {
 } from "@/app/lib/definition";
 import { db } from "@/db";
 import { transactions } from "@/db/schema";
+import { capitaliseFirstLetters } from "@/helpers/capitaliseFirstLetters";
 import { eq } from "drizzle-orm";
 import { cookies } from "next/headers";
 
@@ -47,7 +48,7 @@ export async function addTransaction(
 
   await db.insert(transactions).values({
     userId: Number(sessionId),
-    name: sender,
+    name: capitaliseFirstLetters(sender),
     category,
     date: new Date(transactionDate),
     amount,

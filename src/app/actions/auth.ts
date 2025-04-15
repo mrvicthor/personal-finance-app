@@ -15,6 +15,7 @@ import { users } from "@/db/schema";
 import bcrypt from "bcrypt";
 import { redirect } from "next/navigation";
 import { createSession, deleteSession } from "./session";
+import { capitaliseFirstLetters } from "@/helpers/capitaliseFirstLetters";
 
 export async function signup(
   state: SignupActionResponse | null,
@@ -55,7 +56,7 @@ export async function signup(
   const [user] = await db
     .insert(users)
     .values({
-      name,
+      name: capitaliseFirstLetters(name),
       email,
       password: hashedPassword,
     })
