@@ -8,6 +8,7 @@ import {
 import { db } from "@/db";
 import { pots } from "@/db/schema";
 import { capitaliseFirstLetters } from "@/helpers/capitaliseFirstLetters";
+import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
 export async function addPot(
@@ -54,4 +55,18 @@ export async function addPot(
     success: true,
     message: "Pot added successfully",
   };
+}
+
+export async function getPots() {
+  const sessionId = await getSessionId();
+  return db.query.pots.findMany({
+    where: eq(pots.userId, Number(sessionId)),
+    columns: {
+      id: true,
+      name: true,
+      target: true,
+      total: true,
+      theme: true,
+    },
+  });
 }

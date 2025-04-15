@@ -8,7 +8,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { AddPotActionResponse } from "@/app/lib/definition";
-import { addPot } from "../../actions/pots";
+import { addPot, getPots } from "../../actions/pots";
 import { themes } from "@/helpers";
 
 const initialState: AddPotActionResponse = {
@@ -18,12 +18,17 @@ const initialState: AddPotActionResponse = {
 
 const CreatePotForm = () => {
   const [state, action, pending] = useActionState(addPot, initialState);
-  //   const [usedThemes, setUsedThemes] = useState<string[]>([]);
+  const [usedThemes, setUsedThemes] = useState<string[]>([]);
 
   useEffect(() => {
-    const updateTheme = async () => {};
+    const updateTheme = async () => {
+      const data = await getPots();
+      if (!data) return;
+      const themes = data.map((pot) => pot.theme);
+      setUsedThemes(themes);
+    };
     updateTheme();
-  });
+  }, []);
   return (
     <>
       {state?.success === true ? (
@@ -95,12 +100,12 @@ const CreatePotForm = () => {
 
                 <SelectContent>
                   {themes.map((theme) => {
-                    // const isUsed = usedThemes.includes(theme.theme);
+                    const isUsed = usedThemes.includes(theme.theme);
                     return (
                       <SelectItem
                         key={theme.theme}
                         value={theme.theme}
-                        // disabled={isUsed}
+                        disabled={isUsed}
                         className="flex justify-between item-center gap-4 text-xs"
                       >
                         <span
@@ -109,11 +114,11 @@ const CreatePotForm = () => {
                         />
 
                         <span className="inline-block pl-2">{theme.label}</span>
-                        {/* {isUsed && (
+                        {isUsed && (
                           <span className="absolute top-[6px] right-4">
                             Already Used
                           </span>
-                        )} */}
+                        )}
                       </SelectItem>
                     );
                   })}
