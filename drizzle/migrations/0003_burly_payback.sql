@@ -1,0 +1,1 @@
+ALTER TABLE "pots" ADD COLUMN "theme" varchar NOT NULL;

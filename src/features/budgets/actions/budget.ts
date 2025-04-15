@@ -1,5 +1,5 @@
 "use server";
-import { decrypt } from "@/app/actions/session";
+import { getSessionId } from "@/app/actions/session";
 import {
   AddBudgetActionResponse,
   AddBudgetFormData,
@@ -15,13 +15,6 @@ import { db } from "@/db";
 import { budgets } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
-import { cookies } from "next/headers";
-
-const getSessionId = async () => {
-  const cookie = (await cookies()).get("session")?.value;
-  const session = await decrypt(cookie);
-  return session?.userId;
-};
 
 export async function getBudget() {
   const sessionId = await getSessionId();

@@ -1,6 +1,6 @@
 import React, { Suspense, useActionState } from "react";
 import { Budget } from "../EditBudget";
-import { deleteBudget } from "../../db/budget";
+import { deleteBudget } from "../../actions/budget";
 import { DeleteBudgetActionResponse } from "@/app/lib/definition";
 import Loading from "@/components/loading";
 

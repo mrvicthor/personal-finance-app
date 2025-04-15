@@ -87,6 +87,7 @@ export type EditBudgetFormData = AddBudgetFormData & {
 };
 
 export type EditBudgetActionResponse = ActionResponse<EditBudgetFormData>;
+
 export const addTransactionFormSchema = z.object({
   sender: z
     .string()
@@ -118,3 +119,19 @@ export type AddTransactionFormData = {
 
 export type AddTransactionActionResponse =
   ActionResponse<AddTransactionFormData>;
+
+export const addPotFormSchema = z.object({
+  potName: z.string().min(2, { message: "Name cannot be empty" }),
+  target: z.number().min(0, { message: "Target cannot be negative" }),
+  total: z.number().min(0, { message: "Total cannot be negative" }),
+  theme: z.string().min(2, { message: "Theme cannot be empty" }),
+});
+
+export type AddPotFormData = {
+  potName: string;
+  target: number;
+  total: number;
+  theme: string;
+};
+
+export type AddPotActionResponse = ActionResponse<AddPotFormData>;

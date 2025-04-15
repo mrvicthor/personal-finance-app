@@ -3,7 +3,7 @@ import React from "react";
 import SpendingSummary from "./SpendingSummary";
 import Budgets from "./Budgets";
 import { getFinanceData } from "../../../../lib/data";
-import { getBudget } from "../db/budget";
+import { getBudget } from "../actions/budget";
 
 const HomeServer = async () => {
   const data = await getFinanceData();

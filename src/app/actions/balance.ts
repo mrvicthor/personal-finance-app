@@ -1,7 +1,5 @@
 "use server";
 import { db } from "@/db";
-import { cookies } from "next/headers";
-import { decrypt } from "./session";
 import {
   AddBalanceActionResponse,
   AddBalanceFormData,
@@ -10,6 +8,7 @@ import {
 import { balance, users } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
+import { getSessionId } from "./session";
 
 export async function addBalance(
   state: AddBalanceActionResponse | null,
@@ -33,13 +32,12 @@ export async function addBalance(
 
   const { current, income, expenses } = validateFields.data;
   // get user from session
-  const cookie = (await cookies()).get("session")?.value;
-  const session = await decrypt(cookie);
+  const sessionId = await getSessionId();
   await db.query.users.findFirst({
-    where: eq(users.id, Number(session?.userId)),
+    where: eq(users.id, Number(sessionId)),
   });
   const existingBalance = await db.query.balance.findFirst({
-    where: eq(balance.userId, Number(session?.userId)),
+    where: eq(balance.userId, Number(sessionId)),
   });
   if (existingBalance) {
     await db
@@ -59,7 +57,7 @@ export async function addBalance(
   await db
     .insert(balance)
     .values({
-      userId: Number(session?.userId),
+      userId: Number(sessionId),
       current,
       income,
       expenses,

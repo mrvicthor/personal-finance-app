@@ -1,39 +1,29 @@
 "use client";
 import React, { useActionState, useEffect, useState } from "react";
-import { AddBudgetActionResponse } from "@/app/lib/definition";
-import addBudget, { getBudget } from "../../actions/budget";
-import { categories, themes } from "@/helpers";
 import {
   Select,
   SelectContent,
+  SelectItem,
   SelectTrigger,
   SelectValue,
-  SelectItem,
 } from "@/components/ui/select";
+import { AddPotActionResponse } from "@/app/lib/definition";
+import { addPot } from "../../actions/pots";
+import { themes } from "@/helpers";
 
-const initialState: AddBudgetActionResponse = {
+const initialState: AddPotActionResponse = {
   success: false,
   message: "",
 };
 
-const CreateBudgetForm = () => {
-  const [state, action, pending] = useActionState(addBudget, initialState);
-  const [usedThemes, setUsedThemes] = useState<string[]>([]);
-  const [usedCategory, setUsedCategory] = useState<string[]>([]);
+const CreatePotForm = () => {
+  const [state, action, pending] = useActionState(addPot, initialState);
+  //   const [usedThemes, setUsedThemes] = useState<string[]>([]);
 
   useEffect(() => {
-    const updateTheme = async () => {
-      const data = await getBudget();
-      if (!data) return;
-      const themes = data.map((budget) => budget.theme);
-      const usedCategories = data.map((budget) => budget.category);
-      setUsedCategory(usedCategories);
-      setUsedThemes(themes);
-    };
-
+    const updateTheme = async () => {};
     updateTheme();
-  }, []);
-
+  });
   return (
     <>
       {state?.success === true ? (
@@ -41,69 +31,59 @@ const CreateBudgetForm = () => {
       ) : (
         <>
           <p className="mt-5 text-sm text-[#696868]">
-            Choose a category to set a spending budget. These categories can
-            help you monitor spending.
+            Create a pot to set savings targets. These can help keep you on
+            track as you save for special purchases.
           </p>
 
           <form action={action} className="mt-5 space-y-4">
+            <input type="hidden" value={0} name="total" />
             <div className="flex flex-col gap-1">
               <label
-                htmlFor="category"
+                htmlFor="potName"
                 className="capitalize text-[#696868] text-xs font-bold"
               >
-                budget category
+                pot name
               </label>
-              <Select name="category">
-                <SelectTrigger className="h-[45px] border-[#98908B]">
-                  <SelectValue placeholder="Entertainment" />
-                </SelectTrigger>
-
-                <SelectContent>
-                  {categories.map((category) => {
-                    const isUsed = usedCategory.includes(category.label);
-                    return (
-                      <SelectItem
-                        disabled={isUsed}
-                        key={category.value}
-                        value={category.value}
-                      >
-                        {category.label}
-                      </SelectItem>
-                    );
-                  })}
-                </SelectContent>
-              </Select>
+              <input
+                id="potName"
+                name="potName"
+                className="border-[#98908B] border rounded-lg h-[2.8125rem] px-5"
+                defaultValue={state?.inputs?.potName}
+                type="text"
+                placeholder="e.g Rainy Days"
+                required
+              />
             </div>
-            {state?.errors?.category && (
-              <p className="text-red-500">{state.errors.category}</p>
+            {state?.errors?.potName && (
+              <p className="text-red-500">{state.errors.potName}</p>
             )}
 
             <div className="flex flex-col gap-1">
               <label
-                htmlFor="maximum"
+                htmlFor="target"
                 className="capitalize text-[#696868] text-xs font-bold"
               >
-                maximum spend
+                target
               </label>
               <input
-                id="maximum"
-                name="maximum"
+                id="target"
+                name="target"
                 className="border-[#98908B] border rounded-lg h-[2.8125rem] px-5"
-                defaultValue={state?.inputs?.maximum}
+                defaultValue={state?.inputs?.target}
                 type="text"
                 placeholder="$ e.g 2000"
                 required
               />
             </div>
-            {state?.errors?.maximum && (
-              <p className="text-red-500">{state.errors.maximum}</p>
+            {state?.errors?.target && (
+              <p className="text-red-500">{state.errors.target}</p>
             )}
             <div className="flex flex-col gap-1">
               <label
                 htmlFor="theme"
                 className="capitalize text-[#696868] text-xs font-bold"
               >
-                theme
+                color tag
               </label>
               <Select name="theme">
                 <SelectTrigger
@@ -115,12 +95,12 @@ const CreateBudgetForm = () => {
 
                 <SelectContent>
                   {themes.map((theme) => {
-                    const isUsed = usedThemes.includes(theme.theme);
+                    // const isUsed = usedThemes.includes(theme.theme);
                     return (
                       <SelectItem
                         key={theme.theme}
                         value={theme.theme}
-                        disabled={isUsed}
+                        // disabled={isUsed}
                         className="flex justify-between item-center gap-4 text-xs"
                       >
                         <span
@@ -129,11 +109,11 @@ const CreateBudgetForm = () => {
                         />
 
                         <span className="inline-block pl-2">{theme.label}</span>
-                        {isUsed && (
+                        {/* {isUsed && (
                           <span className="absolute top-[6px] right-4">
                             Already Used
                           </span>
-                        )}
+                        )} */}
                       </SelectItem>
                     );
                   })}
@@ -155,7 +135,7 @@ const CreateBudgetForm = () => {
                   processing...
                 </span>
               ) : (
-                "add budget"
+                "add pot"
               )}
             </button>
           </form>
@@ -165,4 +145,4 @@ const CreateBudgetForm = () => {
   );
 };
 
-export default CreateBudgetForm;
+export default CreatePotForm;

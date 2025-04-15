@@ -94,3 +94,9 @@ export async function deleteSession() {
   (await cookies()).delete("session");
   redirect("/login");
 }
+
+export const getSessionId = async () => {
+  const cookie = (await cookies()).get("session")?.value;
+  const session = await decrypt(cookie);
+  return session?.userId;
+};

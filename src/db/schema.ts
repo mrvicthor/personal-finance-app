@@ -75,6 +75,7 @@ export const pots = pgTable("pots", {
   name: varchar("name").notNull(),
   target: doublePrecision("target").default(0),
   total: doublePrecision("total").default(0),
+  theme: varchar("theme").notNull(),
 });
 
 export type Session = InferInsertModel<typeof sessions>;

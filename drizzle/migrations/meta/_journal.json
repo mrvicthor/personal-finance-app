@@ -22,6 +22,13 @@
       "when": 1744044249664,
       "tag": "0002_cute_nekra",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1744724763269,
+      "tag": "0003_burly_payback",
+      "breakpoints": true
     }
   ]
 }
