@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/select";
 import { themes } from "@/helpers";
 import React from "react";
-import { getBudget } from "../../actions/budget";
+import { getBudget } from "@/features/budgets/actions/budget";
 
 type SelectThemeProps = {
   name: string;
