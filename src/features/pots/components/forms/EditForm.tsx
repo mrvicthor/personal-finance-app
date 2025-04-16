@@ -1,5 +1,5 @@
-import Loading from "@/components/loading";
 import React, { Suspense, useState, useActionState } from "react";
+import Loading from "@/components/loading";
 import { editPot } from "../../actions/pots";
 import { EditPotsActionResponse } from "@/app/lib/definition";
 import { Pot } from "../EditPot";
@@ -34,26 +34,22 @@ const EditPotForm = ({ selected, usedThemes }: EditFormProps) => {
       ) : (
         <>
           <p className="mt-5 text-sm text-[#696868]">
-            As your budget change, feel free to update your spending limit.
+            If your savings target change, feel free to update your pots.
           </p>
 
           <form action={action} className="mt-5 space-y-4">
             <input type="hidden" name="id" defaultValue={selected.id} />
             <input
               type="hidden"
-              name="total"
-              defaultValue={selected.total as number}
+              name="theme"
+              value={selected.theme ? selected.theme : selectedTheme}
             />
+
             <input
               type="hidden"
-              name="target"
-              defaultValue={selected.target as number}
+              value={selected.total as number}
+              name="total"
             />
-            <input type="hidden" name="potName" value={selected.name} />
-
-            <input type="hidden" name="theme" value={selectedTheme} />
-
-            <input type="hidden" value={0} name="total" />
             <div className="flex flex-col gap-1">
               <label
                 htmlFor="potName"
@@ -65,7 +61,9 @@ const EditPotForm = ({ selected, usedThemes }: EditFormProps) => {
                 id="potName"
                 name="potName"
                 className="border-[#98908B] border rounded-lg h-[2.8125rem] px-5"
-                defaultValue={state?.inputs?.potName}
+                defaultValue={
+                  selected.name ? selected.name : state?.inputs?.potName
+                }
                 onChange={(e) => setNameCount(e.target.value)}
                 type="text"
                 placeholder="e.g Rainy Days"
@@ -91,7 +89,9 @@ const EditPotForm = ({ selected, usedThemes }: EditFormProps) => {
                 id="target"
                 name="target"
                 className="border-[#98908B] border rounded-lg h-[2.8125rem] px-5"
-                defaultValue={state?.inputs?.target}
+                defaultValue={
+                  selected.target ? selected.target : state?.inputs?.target
+                }
                 type="text"
                 placeholder="$ e.g 2000"
                 required

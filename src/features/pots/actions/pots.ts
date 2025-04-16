@@ -4,6 +4,9 @@ import {
   AddPotActionResponse,
   AddPotFormData,
   addPotFormSchema,
+  DeletePotActionResponse,
+  DeletePotFormData,
+  deletePotFormSchema,
   editPotFormSchema,
   EditPotsActionResponse,
   EditPotsFormData,
@@ -95,6 +98,7 @@ export async function editPot(
       errors: validateFields.error.flatten().fieldErrors,
     };
   }
+
   const { id, potName, target, total, theme } = validateFields.data;
   await db
     .update(pots)
@@ -105,5 +109,32 @@ export async function editPot(
   return {
     success: true,
     message: "Pot edit successful",
+  };
+}
+
+export async function deletePot(
+  state: DeletePotActionResponse | null,
+  formData: FormData
+) {
+  const rawData: DeletePotFormData = {
+    id: Number(formData.get("id")) as number,
+  };
+
+  const validateFields = deletePotFormSchema.safeParse(rawData);
+  if (!validateFields.success) {
+    return {
+      success: false,
+      message: "Pot not found",
+      inputs: rawData,
+      errors: validateFields.error.flatten().fieldErrors,
+    };
+  }
+
+  const { id } = validateFields.data;
+  await db.delete(pots).where(eq(pots.id, id));
+  revalidatePath("/pots");
+  return {
+    success: true,
+    message: "Pot deleted successfully",
   };
 }

@@ -37,8 +37,6 @@ const EditBudegtForm = ({
 
   const [selectedTheme, setSelectedTheme] = useState<string>(selected.theme);
 
-  console.log({ selected });
-
   return (
     <Suspense fallback={<Loading />}>
       {state?.success ? (
@@ -64,7 +62,9 @@ const EditBudegtForm = ({
               </label>
               <Select
                 name="category"
-                defaultValue={selected.category}
+                defaultValue={
+                  selected.category ? selected.category : state.inputs?.category
+                }
                 onValueChange={(value) => setSelectedCategory(value)}
               >
                 <SelectTrigger className="h-[45px] border-[#98908B]">
@@ -106,7 +106,9 @@ const EditBudegtForm = ({
                 id="maximum"
                 name="maximum"
                 className="border-[#98908B] border rounded-lg h-[2.8125rem] px-5"
-                defaultValue={selected.maximum}
+                defaultValue={
+                  selected.maximum ? selected.maximum : state.inputs?.maximum
+                }
                 type="text"
                 placeholder="$ e.g 2000"
                 required

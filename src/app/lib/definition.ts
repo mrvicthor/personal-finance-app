@@ -145,3 +145,13 @@ export type EditPotsFormData = AddPotFormData & {
 };
 
 export type EditPotsActionResponse = ActionResponse<EditPotsFormData>;
+
+export const deletePotFormSchema = z.object({
+  id: z.number(),
+});
+
+export type DeletePotFormData = {
+  id: number;
+};
+
+export type DeletePotActionResponse = ActionResponse<DeletePotFormData>;

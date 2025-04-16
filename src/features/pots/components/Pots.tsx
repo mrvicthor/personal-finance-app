@@ -7,6 +7,7 @@ import { formatCurrency, containerVariants, itemVariants } from "@/helpers";
 import { motion } from "motion/react";
 import { createPortal } from "react-dom";
 import EditPot from "./EditPot";
+import DeletePot from "./DeletePot";
 
 type Pot = {
   name: string;
@@ -96,21 +97,18 @@ const Pots = ({ data }: PotsProps) => {
               </button>
             </div>
           )}
-          {editPot &&
-            createPortal(
-              <EditPot onClose={() => setEditPot(false)} selected={selected} />,
-              document.body
-            )}
-          {deletePot &&
-            createPortal(
-              <DeletePot
-                onClose={() => setDeletePot(false)}
-                selected={selected}
-              />,
-              document.body
-            )}
         </motion.li>
       ))}
+      {editPot &&
+        createPortal(
+          <EditPot onClose={() => setEditPot(false)} selected={selected} />,
+          document.body
+        )}
+      {deletePot &&
+        createPortal(
+          <DeletePot onClose={() => setDeletePot(false)} selected={selected} />,
+          document.body
+        )}
     </motion.ul>
   );
 };
