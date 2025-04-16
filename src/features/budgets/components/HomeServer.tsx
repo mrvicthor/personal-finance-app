@@ -6,8 +6,8 @@ import { getFinanceData } from "../../../../lib/data";
 import { getBudget } from "../actions/budget";
 
 const HomeServer = async () => {
-  const data = await getFinanceData();
-  const budget = await getBudget();
+  const [data, budget] = await Promise.all([getFinanceData(), getBudget()]);
+
   const dataToUse =
     Array.isArray(budget) && budget.length > 0 ? budget : data.budgets;
   return (

@@ -1,24 +1,22 @@
 // import Title from "@/components/title";
 import FilterTransactionsTable from "@/features/transactions/components/FilterTransactionsTable";
 import { getFinanceData } from "../../../../lib/data";
-import { getUser } from "@/app/lib/dal";
-import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import HomeClient from "@/features/transactions/components/HomeClient";
 import Loading from "@/components/loading";
 import { getTransactions } from "@/features/transactions/db/transactions";
 
 export default async function Page() {
-  const data = await getFinanceData();
-  const transactions = await getTransactions();
+  const [data, transactions] = await Promise.all([
+    getFinanceData(),
+    getTransactions(),
+  ]);
+
   const dataTouse =
     Array.isArray(transactions) && transactions.length > 0
       ? transactions
       : data.transactions;
-  const user = await getUser();
-  if (!user) {
-    redirect("/login");
-  }
+
   return (
     <Suspense fallback={<Loading />}>
       <HomeClient>

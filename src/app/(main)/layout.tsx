@@ -3,12 +3,19 @@ import { CollapseStoreProvider } from "@/providers/collapse-store-provider";
 import Header from "@/components/header";
 import LayoutWrapper from "@/components/layoutWrapper";
 import Sidebar from "@/components/sidebar";
+import { getUser } from "../lib/dal";
+import { redirect } from "next/navigation";
 
-export default function MainLayout({
+export default async function MainLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const user = await getUser();
+
+  if (!user) {
+    redirect("/login");
+  }
   return (
     <CollapseStoreProvider>
       <LayoutWrapper>
