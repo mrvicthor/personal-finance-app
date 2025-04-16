@@ -3,7 +3,7 @@ import Image from "next/image";
 import closeIcon from "../../../../public/assets/images/icon-close-modal.svg";
 import EditBudegtForm from "./forms/EditBudegtForm";
 import Loading from "@/components/loading";
-import { getBudget } from "../actions/budget";
+import { getBudget } from "@/features/budgets/actions/budget";
 
 type EditBudgetProps = {
   onClose: () => void;
