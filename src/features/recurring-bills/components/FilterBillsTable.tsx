@@ -15,7 +15,6 @@ type FilterBillsTableProps = {
 };
 
 const FilterBillsTable = ({ data }: FilterBillsTableProps) => {
-  console.log("filter bills", data);
   const [filterText, setFilterText] = useState("");
   const [isSorted, setIsSorted] = useState<SortProps>("Latest");
   const debouncedValue = useDebounce(filterText);

@@ -10,7 +10,6 @@ type BillsProps = {
   data: Transaction[];
 };
 const Bills = ({ data }: BillsProps) => {
-  console.log("recurring bills", data);
   const totalBills = useMemo(
     () => data.reduce((acc: number, item: Transaction) => acc + item.amount, 0),
     [data]

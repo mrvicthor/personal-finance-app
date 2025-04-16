@@ -16,7 +16,6 @@ const RenderPagination = ({
   handlePageChange,
   currentPage,
 }: PaginationProps) => {
-  console.log(totalPages);
   return (
     <>
       {totalPages > 1 && (
