@@ -19,6 +19,7 @@ const initialState: AddPotActionResponse = {
 const CreatePotForm = () => {
   const [state, action, pending] = useActionState(addPot, initialState);
   const [usedThemes, setUsedThemes] = useState<string[]>([]);
+  const [nameCount, setNameCount] = useState("");
 
   useEffect(() => {
     const updateTheme = async () => {
@@ -54,10 +55,15 @@ const CreatePotForm = () => {
                 name="potName"
                 className="border-[#98908B] border rounded-lg h-[2.8125rem] px-5"
                 defaultValue={state?.inputs?.potName}
+                onChange={(e) => setNameCount(e.target.value)}
                 type="text"
                 placeholder="e.g Rainy Days"
                 required
               />
+              <p className="text-right text-xs text-[#696868]">
+                {nameCount.length ? 30 - nameCount.length : 30}
+                <span className="pl-1">characters left</span>
+              </p>
             </div>
             {state?.errors?.potName && (
               <p className="text-red-500">{state.errors.potName}</p>
