@@ -5,8 +5,9 @@ import ellipsisIcon from "../../../../public/assets/images/icon-ellipsis.svg";
 type TitleProps = {
   title: string;
   theme: string;
+  toggleOptions: () => void;
 };
-const Title = ({ title, theme }: TitleProps) => {
+const Title = ({ title, theme, toggleOptions }: TitleProps) => {
   return (
     <div className="flex items-center gap-4 justify-between">
       <div
@@ -16,7 +17,12 @@ const Title = ({ title, theme }: TitleProps) => {
       <h2 className="capitalize mr-auto text-[#201F24] text-[1.25rem] font-bold">
         {title}
       </h2>
-      <Image src={ellipsisIcon} alt="ellipsis" />
+      <Image
+        src={ellipsisIcon}
+        alt="ellipsis"
+        onClick={toggleOptions}
+        className="cursor-pointer"
+      />
     </div>
   );
 };

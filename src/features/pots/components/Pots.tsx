@@ -1,10 +1,12 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Title from "@/features/pots/components/Title";
 import PotRange from "@/features/pots/components/PotRange";
 import PotStats from "@/features/pots/components/PotStats";
 import { formatCurrency, containerVariants, itemVariants } from "@/helpers";
 import { motion } from "motion/react";
+import { createPortal } from "react-dom";
+import EditPot from "./EditPot";
 
 type Pot = {
   name: string;
@@ -17,6 +19,11 @@ type PotsProps = {
   data: Pot[];
 };
 const Pots = ({ data }: PotsProps) => {
+  const [showOptions, setShowOptions] = useState(false);
+  const [selected, setSelected] = useState<string>("");
+  const [editPot, setEditPot] = useState(false);
+  const [deletePot, setDeletePot] = useState(false);
+
   return (
     <motion.ul
       variants={containerVariants}
@@ -24,13 +31,20 @@ const Pots = ({ data }: PotsProps) => {
       animate="visible"
       className="grid md:grid-cols-2 gap-6 my-8 mb-20 sm:mb-28 md:mb-8"
     >
-      {data.map((pot, index: number) => (
+      {data.map((pot) => (
         <motion.li
           variants={itemVariants}
-          key={index}
-          className="bg-white rounded-lg py-6 px-6"
+          key={pot.name}
+          className="bg-white rounded-lg py-6 px-6 relative"
         >
-          <Title title={pot.name} theme={pot.theme} />
+          <Title
+            title={pot.name}
+            theme={pot.theme}
+            toggleOptions={() => {
+              setShowOptions(!showOptions);
+              setSelected(pot.name);
+            }}
+          />
           <div className="mt-8">
             <div className="flex items-center justify-between">
               <span className="text-sm text-[#696868] capitalize">
@@ -60,6 +74,41 @@ const Pots = ({ data }: PotsProps) => {
               </button>
             </div>
           </div>
+          {showOptions && selected === pot.name && (
+            <div className="absolute top-14 right-8 flex flex-col divide-y-[1px] items-center justify-center px-5 py-3 h-[5.6875rem] w-[8.375rem] bg-white modal-box-shadow rounded-lg">
+              <button
+                className="text-sm text-[#201F24] pb-3 capitalize"
+                onClick={() => {
+                  setShowOptions(false);
+                  setEditPot(true);
+                }}
+              >
+                edit pot
+              </button>
+              <button
+                className="text-sm text-[#C94736] capitalize pt-3"
+                onClick={() => {
+                  setShowOptions(false);
+                  setDeletePot(true);
+                }}
+              >
+                delete pot
+              </button>
+            </div>
+          )}
+          {editPot &&
+            createPortal(
+              <EditPot onClose={() => setEditPot(false)} selected={selected} />,
+              document.body
+            )}
+          {deletePot &&
+            createPortal(
+              <DeletePot
+                onClose={() => setDeletePot(false)}
+                selected={selected}
+              />,
+              document.body
+            )}
         </motion.li>
       ))}
     </motion.ul>

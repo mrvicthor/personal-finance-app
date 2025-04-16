@@ -4,6 +4,9 @@ import {
   AddPotActionResponse,
   AddPotFormData,
   addPotFormSchema,
+  editPotFormSchema,
+  EditPotsActionResponse,
+  EditPotsFormData,
 } from "@/app/lib/definition";
 import { db } from "@/db";
 import { pots } from "@/db/schema";
@@ -69,4 +72,38 @@ export async function getPots() {
       theme: true,
     },
   });
+}
+
+export async function editPot(
+  state: EditPotsActionResponse | null,
+  formData: FormData
+) {
+  const rawData: EditPotsFormData = {
+    id: Number(formData.get("id")) as number,
+    potName: formData.get("potName") as string,
+    target: Number(formData.get("target")) as unknown as number,
+    total: Number(formData.get("total")) as unknown as number,
+    theme: formData.get("theme") as string,
+  };
+
+  const validateFields = editPotFormSchema.safeParse(rawData);
+  if (!validateFields.success) {
+    return {
+      success: false,
+      message: "Please fill in all the required fields",
+      inputs: rawData,
+      errors: validateFields.error.flatten().fieldErrors,
+    };
+  }
+  const { id, potName, target, total, theme } = validateFields.data;
+  await db
+    .update(pots)
+    .set({ name: capitaliseFirstLetters(potName), target, total, theme })
+    .where(eq(pots.id, id));
+
+  revalidatePath("/pots");
+  return {
+    success: true,
+    message: "Pot edit successful",
+  };
 }

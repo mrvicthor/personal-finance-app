@@ -135,3 +135,13 @@ export type AddPotFormData = {
 };
 
 export type AddPotActionResponse = ActionResponse<AddPotFormData>;
+
+export const editPotFormSchema = addPotFormSchema.extend({
+  id: z.number(),
+});
+
+export type EditPotsFormData = AddPotFormData & {
+  id: number;
+};
+
+export type EditPotsActionResponse = ActionResponse<EditPotsFormData>;
