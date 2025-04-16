@@ -9,7 +9,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { categories, themes } from "@/helpers";
-import { editBudget } from "../../actions/budget";
+import { editBudget } from "@/features/budgets/actions/budget";
 import { EditBudgetActionResponse } from "@/app/lib/definition";
 import Loading from "@/components/loading";
 import { Budget } from "../EditBudget";
