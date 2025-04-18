@@ -1,8 +1,9 @@
 "use client";
 import React from "react";
-import { formatCurrency, containerVariants, itemVariants } from "@/helpers";
+import { containerVariants, itemVariants } from "@/helpers";
 import { motion } from "motion/react";
 import { Transaction } from "@/components/transactions";
+import { formatCurrency } from "@/helpers/currencyFormatter";
 
 type SpendingProps = {
   category: string;

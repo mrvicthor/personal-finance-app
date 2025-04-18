@@ -7,8 +7,10 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { formatNumber, getCategoryTotal, getConfig } from "@/helpers";
+import { getCategoryTotal } from "@/helpers";
 import { Transaction } from "./transactions";
+import { getConfig } from "@/helpers/chartConfig";
+import { formatNumber } from "@/helpers/currencyFormatter";
 
 type Budget = {
   category: string;

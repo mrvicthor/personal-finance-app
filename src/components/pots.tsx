@@ -2,7 +2,7 @@ import React from "react";
 import { getFinanceData } from "../../lib/data";
 import Image from "next/image";
 import potIcon from "../../public/assets/images/icon-pot.svg";
-import { formatNumber } from "@/helpers";
+import { formatNumber } from "@/helpers/currencyFormatter";
 import Subheader from "./subheader";
 
 export type Pot = {

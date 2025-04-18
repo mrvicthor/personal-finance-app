@@ -1,8 +1,7 @@
 import { getFinanceData } from "../../lib/data";
 import { getBalance } from "@/features/overview/actions/overview";
-
 import Cards from "./cards";
-import { getUser } from "@/app/lib/dal";
+import { getUser } from "@/lib/dal";
 
 const Balance = async () => {
   const data = await getFinanceData();

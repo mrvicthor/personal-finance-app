@@ -18,7 +18,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { categories } from "@/helpers";
-import { AddTransactionActionResponse } from "@/app/lib/definition";
+import { AddTransactionActionResponse } from "@/lib/definition";
 import { addTransaction } from "../../db/transactions";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";

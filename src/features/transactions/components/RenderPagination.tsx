@@ -3,7 +3,7 @@ import React from "react";
 import Image from "next/image";
 import leftArrow from "../../../../public/assets/images/icon-caret-left.svg";
 import rightArrow from "../../../../public/assets/images/icon-caret-right.svg";
-import { renderPaginationButtons } from "@/helpers";
+import { renderPaginationButtons } from "@/helpers/renderPaginationButtons";
 
 type PaginationProps = {
   totalPages: number;

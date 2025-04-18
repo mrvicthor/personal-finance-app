@@ -1,7 +1,7 @@
 import React, { Suspense, useState, useActionState } from "react";
 import Loading from "@/components/loading";
 import { editPot } from "../../actions/pots";
-import { EditPotsActionResponse } from "@/app/lib/definition";
+import { EditPotsActionResponse } from "@/lib/definition";
 import { Pot } from "../EditPot";
 import { themes } from "@/helpers";
 import {

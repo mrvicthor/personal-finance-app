@@ -2,7 +2,7 @@ import Loading from "@/components/loading";
 import React, { Suspense, useActionState } from "react";
 import { Pot } from "../EditPot";
 import { deletePot } from "../../actions/pots";
-import { DeletePotActionResponse } from "@/app/lib/definition";
+import { DeletePotActionResponse } from "@/lib/definition";
 
 type DeletePotFormProps = {
   selected: Pot;

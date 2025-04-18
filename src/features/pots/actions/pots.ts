@@ -10,7 +10,7 @@ import {
   editPotFormSchema,
   EditPotsActionResponse,
   EditPotsFormData,
-} from "@/app/lib/definition";
+} from "@/lib/definition";
 import { db } from "@/db";
 import { pots } from "@/db/schema";
 import { capitaliseFirstLetters } from "@/helpers/capitaliseFirstLetters";

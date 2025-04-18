@@ -1,31 +1,5 @@
 import { Budget } from "@/components/budgetList";
 import { Transaction } from "@/components/transactions";
-import { ChartConfig } from "@/components/ui/chart";
-
-type BudgetOption =
-  | "general"
-  | "entertainment"
-  | "bills"
-  | "dining out"
-  | "personalCare"
-  | "shopping"
-  | "lifestyle"
-  | "education"
-  | "groceries"
-  | "transportation"
-  | "maximum";
-
-export const formatCurrency = (value: number) => {
-  const formatter = new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-  });
-  return formatter.format(value);
-};
-
-export const formatNumber = (value: number) => {
-  return "$" + Math.round(value).toLocaleString("en-US");
-};
 
 export const links = [
   {
@@ -91,128 +65,6 @@ export const itemVariants = {
   },
 };
 
-export function formatDate(value: string) {
-  const date = new Date(value);
-  const day = date.getDate();
-  const ordinalSuffix = getOrdinalSuffix(day);
-  return `Monthly - ${day}${ordinalSuffix}`;
-}
-
-function getOrdinalSuffix(day: number) {
-  if (day > 3 && day < 21) return "th";
-  switch (day % 10) {
-    case 1:
-      return "st";
-    case 2:
-      return "nd";
-    case 3:
-      return "rd";
-    default:
-      return "th";
-  }
-}
-
-export const sortUniqueArray = (value: Transaction[]) => {
-  const sortedArray = [...value].sort((a: Transaction, b: Transaction) => {
-    return new Date(b.date).getTime() - new Date(a.date).getTime();
-  });
-
-  const uniqueNames = new Set();
-  const result = [];
-  for (const item of sortedArray) {
-    if (!uniqueNames.has(item.name)) {
-      uniqueNames.add(item.name);
-      result.push(item);
-    }
-  }
-  return result;
-};
-
-export const renderPaginationButtons = (
-  totalPages: number,
-  currentPage: number
-) => {
-  const buttons = [];
-  if (totalPages <= 4) {
-    for (let i = 1; i <= totalPages; i++) {
-      buttons.push({
-        label: i.toString(),
-        page: i,
-        isActive: i === currentPage,
-        type: "number",
-      });
-    }
-  } else {
-    buttons.push({
-      label: "1",
-      page: 1,
-      isActive: currentPage === 1,
-      type: "number",
-    });
-
-    if (currentPage <= 2) {
-      buttons.push({
-        label: "2",
-        page: 2,
-        isActive: currentPage === 2,
-        type: "number",
-      });
-      buttons.push({
-        label: "...",
-        type: "ellipsis",
-      });
-    } else if (currentPage === 3 && currentPage < totalPages - 1) {
-      buttons.push({
-        label: "...",
-        type: "ellipsis",
-      });
-      buttons.push({
-        label: currentPage.toString(),
-        page: currentPage,
-        isActive: true,
-        type: "number",
-      });
-    } else if (currentPage > 3 && currentPage < totalPages - 1) {
-      buttons.push({
-        label: "...",
-        type: "ellipsis",
-      });
-      buttons.push({
-        label: currentPage.toString(),
-        page: currentPage,
-        isActive: true,
-        type: "number",
-      });
-
-      buttons.push({
-        label: (currentPage + 1).toString(),
-        page: currentPage + 1,
-        isActive: false,
-        type: "number",
-      });
-    } else {
-      buttons.push({
-        label: "...",
-        type: "ellipsis",
-      });
-
-      buttons.push({
-        label: (totalPages - 1).toString(),
-        page: totalPages - 1,
-        isActive: currentPage === totalPages - 1,
-        type: "number",
-      });
-    }
-    buttons.push({
-      label: totalPages.toString(),
-      page: totalPages,
-      isActive: currentPage === totalPages,
-      type: "number",
-    });
-  }
-  return buttons;
-};
-
 export const categories = [
   { label: "Entertainment", value: "Entertainment" },
   { label: "Bills", value: "Bills" },
@@ -242,33 +94,6 @@ export const themes = [
   { label: "Magenta", theme: "#934F6F", isUsed: false },
   { label: "Blue", theme: "#3F82B2", isUsed: false },
 ];
-
-export const removeDuplicates = (
-  transactions: Transaction[]
-): Transaction[] => {
-  const seen = new Map<string, Transaction>();
-  return transactions.filter((transaction) => {
-    if (!seen.has(transaction.category)) {
-      seen.set(transaction.category, transaction);
-      return true;
-    }
-    return false;
-  });
-};
-
-export const getConfig = (data: Budget[]) => {
-  const configMap: Partial<ChartConfig> = {};
-  for (let i = 0; i < data.length; i++) {
-    const category = data[i].category.toLowerCase() as BudgetOption;
-    if (!configMap[category]) {
-      configMap[category] = {
-        label: data[i].category,
-        color: data[i].theme,
-      };
-    }
-  }
-  return configMap as ChartConfig;
-};
 
 export const getCategoryTotal = (
   transactions: Transaction[],

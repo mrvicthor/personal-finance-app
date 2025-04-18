@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/select";
 import { categories, themes } from "@/helpers";
 import { editBudget } from "@/features/budgets/actions/budget";
-import { EditBudgetActionResponse } from "@/app/lib/definition";
+import { EditBudgetActionResponse } from "@/lib/definition";
 import Loading from "@/components/loading";
 import { Budget } from "../EditBudget";
 

@@ -1,6 +1,6 @@
 "use client";
 import React, { useActionState, useEffect, useState } from "react";
-import { AddBudgetActionResponse } from "@/app/lib/definition";
+import { AddBudgetActionResponse } from "@/lib/definition";
 import addBudget, { getBudget } from "../../actions/budget";
 import { categories, themes } from "@/helpers";
 import {

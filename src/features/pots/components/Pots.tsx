@@ -3,11 +3,12 @@ import React, { useState } from "react";
 import Title from "@/features/pots/components/Title";
 import PotRange from "@/features/pots/components/PotRange";
 import PotStats from "@/features/pots/components/PotStats";
-import { formatCurrency, containerVariants, itemVariants } from "@/helpers";
+import { containerVariants, itemVariants } from "@/helpers";
 import { motion } from "motion/react";
 import { createPortal } from "react-dom";
 import EditPot from "./EditPot";
 import DeletePot from "./DeletePot";
+import { formatCurrency } from "@/helpers/currencyFormatter";
 
 type Pot = {
   name: string;

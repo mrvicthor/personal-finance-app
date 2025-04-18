@@ -4,7 +4,7 @@ import {
   AddTransactionActionResponse,
   AddTransactionFormData,
   addTransactionFormSchema,
-} from "@/app/lib/definition";
+} from "@/lib/definition";
 import { db } from "@/db";
 import { transactions } from "@/db/schema";
 import { capitaliseFirstLetters } from "@/helpers/capitaliseFirstLetters";

@@ -7,7 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { AddPotActionResponse } from "@/app/lib/definition";
+import { AddPotActionResponse } from "@/lib/definition";
 import { addPot, getPots } from "../../actions/pots";
 import { themes } from "@/helpers";
 

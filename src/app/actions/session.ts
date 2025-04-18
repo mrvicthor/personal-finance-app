@@ -3,7 +3,7 @@ import { SignJWT, jwtVerify } from "jose";
 import { sessions } from "@/db/schema";
 import { db } from "@/db";
 import { cookies } from "next/headers";
-import { SessionPayload } from "../lib/definition";
+import { SessionPayload } from "../../lib/definition";
 import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
 

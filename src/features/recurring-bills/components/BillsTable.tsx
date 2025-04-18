@@ -1,14 +1,11 @@
 "use client";
 import { Transaction } from "@/components/transactions";
-import {
-  formatCurrency,
-  formatDate,
-  containerVariants,
-  itemVariants,
-} from "@/helpers";
+import { containerVariants, itemVariants } from "@/helpers";
 import Image from "next/image";
 import React from "react";
 import { motion } from "motion/react";
+import { formatDate } from "@/helpers/formatDate";
+import { formatCurrency } from "@/helpers/currencyFormatter";
 
 type BillsTableProps = {
   bills: Transaction[];

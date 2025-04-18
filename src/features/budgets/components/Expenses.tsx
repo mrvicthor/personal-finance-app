@@ -2,8 +2,9 @@
 import Image from "next/image";
 import { Transaction } from "@/components/transactions";
 import { motion } from "motion/react";
-import { containerVariants, formatCurrency, itemVariants } from "@/helpers";
+import { containerVariants, itemVariants } from "@/helpers";
 import React from "react";
+import { formatCurrency } from "@/helpers/currencyFormatter";
 type ExpensesProps = {
   data: Transaction[];
 };

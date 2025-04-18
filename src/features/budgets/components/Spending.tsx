@@ -1,4 +1,4 @@
-import { formatCurrency } from "@/helpers";
+import { formatCurrency } from "@/helpers/currencyFormatter";
 import React from "react";
 import BudgetRange from "./BudgetRange";
 import { Transaction } from "@/components/transactions";

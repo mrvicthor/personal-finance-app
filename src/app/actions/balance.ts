@@ -4,7 +4,7 @@ import {
   AddBalanceActionResponse,
   AddBalanceFormData,
   addBalanceFormSchema,
-} from "../lib/definition";
+} from "../../lib/definition";
 import { balance, users } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";

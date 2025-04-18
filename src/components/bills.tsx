@@ -2,7 +2,8 @@
 import React, { useMemo } from "react";
 import { Bill } from "./billsPanel";
 import { motion } from "motion/react";
-import { formatCurrency, itemVariants, containerVariants } from "@/helpers";
+import { itemVariants, containerVariants } from "@/helpers";
+import { formatCurrency } from "@/helpers/currencyFormatter";
 
 type Bills = {
   data: Bill[];

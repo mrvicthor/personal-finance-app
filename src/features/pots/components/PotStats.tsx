@@ -1,4 +1,4 @@
-import { formatCurrency } from "@/helpers";
+import { formatCurrency } from "@/helpers/currencyFormatter";
 import React from "react";
 type PotStatsProps = {
   target: number;

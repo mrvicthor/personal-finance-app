@@ -6,9 +6,9 @@ import SearchBar from "./forms/SearchBar";
 import SortBy from "./SortBy";
 import { SortBy as SortProps } from "../../transactions/components/FilterTransactionsTable";
 import BillsTable from "./BillsTable";
-import { sortUniqueArray } from "@/helpers";
 import usePagination from "@/hooks/usePagination";
 import RenderPagination from "@/features/transactions/components/RenderPagination";
+import { sortUniqueArray } from "@/helpers/sortArray";
 
 type FilterBillsTableProps = {
   data: Transaction[];

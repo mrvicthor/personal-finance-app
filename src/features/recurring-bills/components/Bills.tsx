@@ -3,8 +3,9 @@ import React, { useMemo } from "react";
 import { Transaction } from "@/components/transactions";
 import Image from "next/image";
 import billsIcon from "../../../../public/assets/images/icon-nav-recurring-bills.svg";
-import { formatCurrency, containerVariants, itemVariants } from "@/helpers";
+import { containerVariants, itemVariants } from "@/helpers";
 import { motion } from "motion/react";
+import { formatCurrency } from "@/helpers/currencyFormatter";
 
 type BillsProps = {
   data: Transaction[];

@@ -8,7 +8,7 @@ import {
   SignupActionResponse,
   SignupFormData,
   signupFormSchema,
-} from "../lib/definition";
+} from "../../lib/definition";
 
 import { db } from "@/db";
 import { users } from "@/db/schema";

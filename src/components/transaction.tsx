@@ -3,8 +3,9 @@ import React from "react";
 import Image from "next/image";
 
 import { Transaction as Transact } from "./transactions";
-import { containerVariants, formatCurrency, itemVariants } from "@/helpers";
+import { containerVariants, itemVariants } from "@/helpers";
 import { motion } from "motion/react";
+import { formatCurrency } from "@/helpers/currencyFormatter";
 
 interface TransactionProps {
   transactions: Transact[];

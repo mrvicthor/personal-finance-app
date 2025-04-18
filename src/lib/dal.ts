@@ -1,10 +1,10 @@
 import { cookies } from "next/headers";
-import { decrypt } from "../actions/session";
 import { db } from "@/db";
 import { redirect } from "next/navigation";
 import { cache } from "react";
 import { eq } from "drizzle-orm";
 import { users } from "@/db/schema";
+import { decrypt } from "@/app/actions/session";
 
 export async function verifySession() {
   const cookie = (await cookies()).get("session")?.value;

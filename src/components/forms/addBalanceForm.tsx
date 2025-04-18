@@ -1,6 +1,6 @@
 import React, { useActionState } from "react";
 import { addBalance } from "@/app/actions/balance";
-import { AddBalanceActionResponse } from "@/app/lib/definition";
+import { AddBalanceActionResponse } from "@/lib/definition";
 
 const initialState: AddBalanceActionResponse = {
   success: false,

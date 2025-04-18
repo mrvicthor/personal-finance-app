@@ -3,7 +3,7 @@ import React, { useState, useActionState } from "react";
 import Image from "next/image";
 import eyeIcon from "../../../../public/assets/images/icon-show-password.svg";
 import Link from "next/link";
-import { SignupActionResponse } from "@/app/lib/definition";
+import { SignupActionResponse } from "@/lib/definition";
 import { signup } from "@/app/actions/auth";
 
 const initialState: SignupActionResponse = {

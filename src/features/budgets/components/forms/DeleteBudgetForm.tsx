@@ -1,7 +1,7 @@
 import React, { Suspense, useActionState } from "react";
 import { Budget } from "../EditBudget";
 import { deleteBudget } from "@/features/budgets/actions/budget";
-import { DeleteBudgetActionResponse } from "@/app/lib/definition";
+import { DeleteBudgetActionResponse } from "@/lib/definition";
 import Loading from "@/components/loading";
 
 type DeleteBudgetFormProps = {

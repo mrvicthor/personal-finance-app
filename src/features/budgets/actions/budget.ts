@@ -10,7 +10,7 @@ import {
   EditBudgetActionResponse,
   EditBudgetFormData,
   editBudgetFormSchema,
-} from "@/app/lib/definition";
+} from "@/lib/definition";
 import { db } from "@/db";
 import { budgets } from "@/db/schema";
 import { eq } from "drizzle-orm";
