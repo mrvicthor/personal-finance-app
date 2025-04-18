@@ -16,9 +16,10 @@ export type Budget = {
   theme: string;
 };
 const EditBudget = ({ onClose, selected }: EditBudgetProps) => {
-  const [selectedBudget, setSelectedBudget] = useState<Budget>({} as Budget);
+  const [selectedBudget, setSelectedBudget] = useState<Budget | null>(null);
   const [usedThemes, setUsedThemes] = useState<string[]>([]);
   const [usedCategory, setUsedCategory] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const updateData = async () => {
@@ -28,9 +29,12 @@ const EditBudget = ({ onClose, selected }: EditBudgetProps) => {
       setUsedCategory(data.map((budget) => budget.category));
       const itemSelected = data.find((budget) => budget.category === selected);
       if (itemSelected) return setSelectedBudget(itemSelected);
+      setIsLoading(false);
     };
     updateData();
   }, [selected]);
+
+  console.log(selectedBudget);
   return (
     <Suspense fallback={<Loading />}>
       <div
@@ -51,7 +55,9 @@ const EditBudget = ({ onClose, selected }: EditBudgetProps) => {
             className="cursor-pointer"
           />
         </div>
-        {Object.keys(selectedBudget).length > 0 ? (
+        {isLoading ? (
+          <Loading />
+        ) : selectedBudget ? (
           <EditBudegtForm
             selected={selectedBudget}
             usedThemes={usedThemes}

@@ -12,7 +12,8 @@ type DeleteBudgetProps = {
 };
 
 const DeleteBudget = ({ onClose, selected }: DeleteBudgetProps) => {
-  const [budget, setBudget] = useState<Budget>({} as Budget);
+  const [budget, setBudget] = useState<Budget | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const updateData = async () => {
@@ -20,6 +21,7 @@ const DeleteBudget = ({ onClose, selected }: DeleteBudgetProps) => {
       if (!data) return;
       const itemSelected = data.find((budget) => budget.category === selected);
       if (itemSelected) return setBudget(itemSelected);
+      setIsLoading(false);
     };
     updateData();
   }, [selected]);
@@ -32,7 +34,7 @@ const DeleteBudget = ({ onClose, selected }: DeleteBudgetProps) => {
       <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg w-full max-w-[20.9375rem] sm:max-w-[35rem] py-8 px-5 sm:px-8 z-50">
         <div className="flex items-center justify-between">
           <p className="text-[#201F24] font-bold text-[2rem] capitalize">
-            delete `{budget.category ? budget.category : selected}`?
+            delete `{budget?.category ? budget.category : selected}`?
           </p>
           <Image
             src={closeIcon}
@@ -43,7 +45,9 @@ const DeleteBudget = ({ onClose, selected }: DeleteBudgetProps) => {
             className="cursor-pointer"
           />
         </div>
-        {Object.keys(budget).length > 0 ? (
+        {isLoading ? (
+          <Loading />
+        ) : budget ? (
           <DeleteBudgetForm selected={budget} handleModal={onClose} />
         ) : (
           <p className="text-red-500">

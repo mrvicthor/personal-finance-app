@@ -19,8 +19,9 @@ export type Pot = {
 };
 
 const EditPot = ({ onClose, selected }: EditPotProps) => {
-  const [selectedPot, setSelectedPot] = useState<Pot>({} as Pot);
+  const [selectedPot, setSelectedPot] = useState<Pot | null>(null);
   const [usedThemes, setUsedThemes] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const updateTheme = async () => {
@@ -29,6 +30,7 @@ const EditPot = ({ onClose, selected }: EditPotProps) => {
       setUsedThemes(themes);
       const selectedItem = data.find((pot) => pot.name === selected);
       if (selectedItem) return setSelectedPot(selectedItem);
+      setIsLoading(false);
     };
     updateTheme();
   }, [selected]);
@@ -52,7 +54,9 @@ const EditPot = ({ onClose, selected }: EditPotProps) => {
             className="cursor-pointer"
           />
         </div>
-        {Object.keys(selectedPot).length > 0 ? (
+        {isLoading ? (
+          <Loading />
+        ) : selectedPot ? (
           <EditPotForm selected={selectedPot} usedThemes={usedThemes} />
         ) : (
           <p className="text-red-500">
