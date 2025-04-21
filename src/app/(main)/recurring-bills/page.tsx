@@ -1,6 +1,6 @@
 import Bills from "@/features/recurring-bills/components/Bills";
 import { getFinanceData } from "../../../../lib/data";
-import { Transaction } from "@/components/transactions";
+import { Transaction } from "@/types/transaction";
 import FilterBillsTable from "@/features/recurring-bills/components/FilterBillsTable";
 import { Suspense } from "react";
 import Loading from "@/components/loading";
