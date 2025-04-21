@@ -1,13 +1,13 @@
-import React, { Suspense, useEffect, useState } from "react";
+import React, { Suspense } from "react";
 import Image from "next/image";
 import Loading from "@/components/loading";
 import closeIcon from "../../../../public/assets/images/icon-close-modal.svg";
-import { getPots } from "../actions/pots";
 import EditPotForm from "./forms/EditForm";
 
 type EditPotProps = {
   onClose: () => void;
-  selected: string;
+  usedThemes: string[];
+  selectedPot: Pot | null;
 };
 
 export type Pot = {
@@ -18,22 +18,22 @@ export type Pot = {
   theme: string;
 };
 
-const EditPot = ({ onClose, selected }: EditPotProps) => {
-  const [selectedPot, setSelectedPot] = useState<Pot | null>(null);
-  const [usedThemes, setUsedThemes] = useState<string[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+const EditPot = ({ onClose, usedThemes, selectedPot }: EditPotProps) => {
+  // const [selectedPot, setSelectedPot] = useState<Pot | null>(null);
+  // const [usedThemes, setUsedThemes] = useState<string[]>([]);
+  // const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const updateTheme = async () => {
-      const data = await getPots();
-      const themes = data.map((pot) => pot.theme);
-      setUsedThemes(themes);
-      const selectedItem = data.find((pot) => pot.name === selected);
-      if (selectedItem) return setSelectedPot(selectedItem);
-      setIsLoading(false);
-    };
-    updateTheme();
-  }, [selected]);
+  // useEffect(() => {
+  //   const updateTheme = async () => {
+  //     const data = await getPots();
+  //     const themes = data.map((pot) => pot.theme);
+  //     setUsedThemes(themes);
+  //     const selectedItem = data.find((pot) => pot.name === selected);
+  //     if (selectedItem) return setSelectedPot(selectedItem);
+  //     setIsLoading(false);
+  //   };
+  //   updateTheme();
+  // }, [selected]);
   return (
     <Suspense fallback={<Loading />}>
       <div
@@ -54,9 +54,7 @@ const EditPot = ({ onClose, selected }: EditPotProps) => {
             className="cursor-pointer"
           />
         </div>
-        {isLoading ? (
-          <Loading />
-        ) : selectedPot ? (
+        {selectedPot ? (
           <EditPotForm selected={selectedPot} usedThemes={usedThemes} />
         ) : (
           <p className="text-red-500">

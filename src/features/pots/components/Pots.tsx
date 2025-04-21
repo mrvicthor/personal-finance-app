@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Title from "@/features/pots/components/Title";
 import PotRange from "@/features/pots/components/PotRange";
 import PotStats from "@/features/pots/components/PotStats";
@@ -9,22 +9,40 @@ import { createPortal } from "react-dom";
 import EditPot from "./EditPot";
 import DeletePot from "./DeletePot";
 import { formatCurrency } from "@/helpers/currencyFormatter";
+import { getPots } from "../actions/pots";
 
 type Pot = {
   name: string;
   theme: string;
-  total: number;
-  target: number;
+  total: number | null;
+  target: number | null;
 };
 
 type PotsProps = {
   data: Pot[];
+};
+
+type SelectedPot = Pot & {
+  id: number;
 };
 const Pots = ({ data }: PotsProps) => {
   const [showOptions, setShowOptions] = useState(false);
   const [selected, setSelected] = useState<string>("");
   const [editPot, setEditPot] = useState(false);
   const [deletePot, setDeletePot] = useState(false);
+  const [selectedPot, setSelectedPot] = useState<SelectedPot | null>(null);
+  const [usedThemes, setUsedThemes] = useState<string[]>([]);
+
+  useEffect(() => {
+    const updateTheme = async () => {
+      const data = await getPots();
+      const themes = data.map((pot) => pot.theme);
+      setUsedThemes(themes);
+      const selectedItem = data.find((pot) => pot.name === selected);
+      if (selectedItem) return setSelectedPot(selectedItem);
+    };
+    updateTheme();
+  }, [selected]);
 
   return (
     <motion.ul
@@ -53,19 +71,22 @@ const Pots = ({ data }: PotsProps) => {
                 total saved
               </span>
               <span className="text-[2rem] font-bold text-[#201F24]">
-                {formatCurrency(pot.total)}
+                {formatCurrency(Number(pot.total))}
               </span>
             </div>
             <div>
               <div className="h-2 bg-[#F8F4F0] rounded-md overflow-hidden">
                 <PotRange
-                  target={pot.target}
-                  total={pot.total}
+                  target={Number(pot.target)}
+                  total={Number(pot.total)}
                   theme={pot.theme}
                 />
               </div>
 
-              <PotStats target={pot.target} total={pot.total} />
+              <PotStats
+                target={pot.target as number}
+                total={pot.total as number}
+              />
             </div>
             <div className="grid grid-cols-2 gap-4 mt-8">
               <button className=" bg-[#F8F4F0] h-[3.3125rem] capitalize text-[#201F24] text-sm font-bold rounded-md">
@@ -102,12 +123,28 @@ const Pots = ({ data }: PotsProps) => {
       ))}
       {editPot &&
         createPortal(
-          <EditPot onClose={() => setEditPot(false)} selected={selected} />,
+          <EditPot
+            onClose={() => {
+              setSelected("");
+              setSelectedPot(null);
+              setEditPot(false);
+            }}
+            selectedPot={selectedPot}
+            usedThemes={usedThemes}
+          />,
           document.body
         )}
       {deletePot &&
         createPortal(
-          <DeletePot onClose={() => setDeletePot(false)} selected={selected} />,
+          <DeletePot
+            onClose={() => {
+              setSelected("");
+              setSelectedPot(null);
+              setDeletePot(false);
+            }}
+            selected={selected}
+            selectedPot={selectedPot}
+          />,
           document.body
         )}
     </motion.ul>
