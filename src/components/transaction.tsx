@@ -2,7 +2,7 @@
 import React from "react";
 import Image from "next/image";
 
-import { Transaction as Transact } from "./transactions";
+import { Transaction as Transact } from "@/types/transaction";
 import { containerVariants, itemVariants } from "@/helpers";
 import { motion } from "motion/react";
 import { formatCurrency } from "@/helpers/currencyFormatter";

@@ -4,13 +4,8 @@ import Image from "next/image";
 import potIcon from "../../public/assets/images/icon-pot.svg";
 import { formatNumber } from "@/helpers/currencyFormatter";
 import Subheader from "./subheader";
+import { Pot } from "@/types/pot";
 
-export type Pot = {
-  name: string;
-  target: number;
-  total: number;
-  theme: string;
-};
 const Pots = async () => {
   const data = await getFinanceData();
   const pots = data.pots;

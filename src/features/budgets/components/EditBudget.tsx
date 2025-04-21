@@ -3,19 +3,15 @@ import Image from "next/image";
 import closeIcon from "../../../../public/assets/images/icon-close-modal.svg";
 import EditBudegtForm from "./forms/EditBudegtForm";
 import Loading from "@/components/loading";
+import { SelectedBudget } from "@/types/budget";
 
 type EditBudgetProps = {
   onClose: () => void;
   usedThemes: string[];
   usedCategory: string[];
-  selectedBudget: Budget | null;
+  selectedBudget: SelectedBudget | null;
 };
-export type Budget = {
-  id: number;
-  category: string;
-  maximum: number;
-  theme: string;
-};
+
 const EditBudget = ({
   onClose,
   usedCategory,

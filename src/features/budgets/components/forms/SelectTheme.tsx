@@ -8,22 +8,16 @@ import {
 import { themes } from "@/helpers";
 import React from "react";
 import { getBudget } from "@/features/budgets/actions/budget";
+import { SelectedBudget } from "@/types/budget";
 
 type SelectThemeProps = {
   name: string;
 };
 
-type Budget = {
-  id: number;
-  category: string;
-  maximum: number;
-  theme: string;
-};
-
 const SelectTheme = async ({ name }: SelectThemeProps) => {
   const data = await getBudget();
   if (!data) return null;
-  const usedThemes = data.map((budget: Budget) => budget.theme);
+  const usedThemes = data.map((budget: SelectedBudget) => budget.theme);
   return (
     <div className="flex flex-col gap-1">
       <label

@@ -3,11 +3,7 @@ import React from "react";
 import Card from "./card";
 import { motion } from "motion/react";
 import { containerVariants } from "@/helpers";
-type Balance = {
-  current: number;
-  income: number;
-  expenses: number;
-};
+import { Balance } from "@/types/balance";
 
 type CardsProps = {
   data: Balance;

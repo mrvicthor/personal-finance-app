@@ -2,7 +2,7 @@
 import React from "react";
 import { containerVariants, itemVariants } from "@/helpers";
 import { motion } from "motion/react";
-import { Transaction } from "@/components/transactions";
+import { Transaction } from "@/types/transaction";
 import { formatCurrency } from "@/helpers/currencyFormatter";
 
 type SpendingProps = {

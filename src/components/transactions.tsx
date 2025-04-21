@@ -1,15 +1,7 @@
 import { getFinanceData } from "../../lib/data";
 import Transaction from "./transaction";
 import Subheader from "./subheader";
-
-export type Transaction = {
-  avatar: string;
-  name: string;
-  category: string;
-  date: string;
-  amount: number;
-  recurring: boolean;
-};
+import { Transaction as TTransaction } from "@/types/transaction";
 const Transactions = async () => {
   const data = await getFinanceData();
   const options: Intl.DateTimeFormatOptions = {
@@ -20,9 +12,9 @@ const Transactions = async () => {
     minute: "2-digit",
     hour12: false,
   };
-  const transactionsToDisplay: Transaction[] = data.transactions
-    .filter((item: Transaction, index: number) => index < 5)
-    .map((item: Transaction) => ({
+  const transactionsToDisplay: TTransaction[] = data.transactions
+    .filter((item: TTransaction, index: number) => index < 5)
+    .map((item: TTransaction) => ({
       ...item,
       date: new Date(item.date).toLocaleDateString("en-GB", options),
     }));

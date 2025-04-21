@@ -3,37 +3,15 @@ import Image from "next/image";
 import Loading from "@/components/loading";
 import closeIcon from "../../../../public/assets/images/icon-close-modal.svg";
 import EditPotForm from "./forms/EditForm";
+import { SelectedPot } from "@/types/pot";
 
 type EditPotProps = {
   onClose: () => void;
   usedThemes: string[];
-  selectedPot: Pot | null;
-};
-
-export type Pot = {
-  id: number;
-  name: string;
-  target: number | null;
-  total: number | null;
-  theme: string;
+  selectedPot: SelectedPot | null;
 };
 
 const EditPot = ({ onClose, usedThemes, selectedPot }: EditPotProps) => {
-  // const [selectedPot, setSelectedPot] = useState<Pot | null>(null);
-  // const [usedThemes, setUsedThemes] = useState<string[]>([]);
-  // const [isLoading, setIsLoading] = useState(true);
-
-  // useEffect(() => {
-  //   const updateTheme = async () => {
-  //     const data = await getPots();
-  //     const themes = data.map((pot) => pot.theme);
-  //     setUsedThemes(themes);
-  //     const selectedItem = data.find((pot) => pot.name === selected);
-  //     if (selectedItem) return setSelectedPot(selectedItem);
-  //     setIsLoading(false);
-  //   };
-  //   updateTheme();
-  // }, [selected]);
   return (
     <Suspense fallback={<Loading />}>
       <div

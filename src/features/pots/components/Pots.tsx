@@ -10,21 +10,12 @@ import EditPot from "./EditPot";
 import DeletePot from "./DeletePot";
 import { formatCurrency } from "@/helpers/currencyFormatter";
 import { getPots } from "../actions/pots";
-
-type Pot = {
-  name: string;
-  theme: string;
-  total: number | null;
-  target: number | null;
-};
+import { Pot, SelectedPot } from "@/types/pot";
 
 type PotsProps = {
   data: Pot[];
 };
 
-type SelectedPot = Pot & {
-  id: number;
-};
 const Pots = ({ data }: PotsProps) => {
   const [showOptions, setShowOptions] = useState(false);
   const [selected, setSelected] = useState<string>("");

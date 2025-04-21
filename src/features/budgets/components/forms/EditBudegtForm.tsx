@@ -12,10 +12,10 @@ import { categories, themes } from "@/helpers";
 import { editBudget } from "@/features/budgets/actions/budget";
 import { EditBudgetActionResponse } from "@/lib/definition";
 import Loading from "@/components/loading";
-import { Budget } from "../EditBudget";
+import { SelectedBudget } from "@/types/budget";
 
 type EditBudgetFormProps = {
-  selected: Budget;
+  selected: SelectedBudget;
   usedThemes: string[];
   usedCategory: string[];
 };

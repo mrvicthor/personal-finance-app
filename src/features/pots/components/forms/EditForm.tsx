@@ -2,7 +2,7 @@ import React, { Suspense, useState, useActionState } from "react";
 import Loading from "@/components/loading";
 import { editPot } from "../../actions/pots";
 import { EditPotsActionResponse } from "@/lib/definition";
-import { Pot } from "../EditPot";
+
 import { themes } from "@/helpers";
 import {
   Select,
@@ -11,6 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { SelectedPot } from "@/types/pot";
 
 const initialState: EditPotsActionResponse = {
   success: false,
@@ -18,7 +19,7 @@ const initialState: EditPotsActionResponse = {
 };
 
 type EditFormProps = {
-  selected: Pot;
+  selected: SelectedPot;
   usedThemes: string[];
 };
 

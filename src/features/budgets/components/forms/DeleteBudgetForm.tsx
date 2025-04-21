@@ -1,11 +1,12 @@
 import React, { Suspense, useActionState } from "react";
-import { Budget } from "../EditBudget";
+
 import { deleteBudget } from "@/features/budgets/actions/budget";
 import { DeleteBudgetActionResponse } from "@/lib/definition";
 import Loading from "@/components/loading";
+import { SelectedBudget } from "@/types/budget";
 
 type DeleteBudgetFormProps = {
-  selected: Budget;
+  selected: SelectedBudget;
   handleModal: () => void;
 };
 

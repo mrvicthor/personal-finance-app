@@ -1,6 +1,6 @@
 "use client";
 import React, { useMemo } from "react";
-import { Bill } from "./billsPanel";
+import { Bill } from "@/types/bill";
 import { motion } from "motion/react";
 import { itemVariants, containerVariants } from "@/helpers";
 import { formatCurrency } from "@/helpers/currencyFormatter";

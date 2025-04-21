@@ -1,11 +1,12 @@
 import Loading from "@/components/loading";
 import React, { Suspense, useActionState } from "react";
-import { Pot } from "../EditPot";
+
 import { deletePot } from "../../actions/pots";
 import { DeletePotActionResponse } from "@/lib/definition";
+import { SelectedPot } from "@/types/pot";
 
 type DeletePotFormProps = {
-  selected: Pot;
+  selected: SelectedPot;
   handleModal: () => void;
 };
 

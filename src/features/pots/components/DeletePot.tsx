@@ -2,14 +2,14 @@ import React, { Suspense } from "react";
 import Image from "next/image";
 import Loading from "@/components/loading";
 import closeIcon from "../../../../public/assets/images/icon-close-modal.svg";
-import { Pot } from "./EditPot";
 
 import DeletePotForm from "./forms/DeletePotForm";
+import { SelectedPot } from "@/types/pot";
 
 type DeletePotProps = {
   onClose: () => void;
   selected: string;
-  selectedPot: Pot | null;
+  selectedPot: SelectedPot | null;
 };
 
 const DeletePot = ({ onClose, selected, selectedPot }: DeletePotProps) => {

@@ -1,14 +1,14 @@
 import React, { Suspense } from "react";
 import Image from "next/image";
 import closeIcon from "../../../../public/assets/images/icon-close-modal.svg";
-import { Budget } from "./EditBudget";
 
 import Loading from "@/components/loading";
 import DeleteBudgetForm from "./forms/DeleteBudgetForm";
+import { SelectedBudget } from "@/types/budget";
 
 type DeleteBudgetProps = {
   onClose: () => void;
-  selectedBudget: Budget | null;
+  selectedBudget: SelectedBudget | null;
   selected: string;
 };
 

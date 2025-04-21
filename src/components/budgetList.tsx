@@ -1,11 +1,6 @@
 import { formatCurrency } from "@/helpers/currencyFormatter";
 import React from "react";
-
-export type Budget = {
-  category: string;
-  maximum: number;
-  theme: string;
-};
+import { Budget } from "@/types/budget";
 
 type BudgetsProps = {
   list: Budget[];

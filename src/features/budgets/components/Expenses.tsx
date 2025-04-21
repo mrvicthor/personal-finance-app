@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { Transaction } from "@/components/transactions";
+import { Transaction } from "@/types/transaction";
 import { motion } from "motion/react";
 import { containerVariants, itemVariants } from "@/helpers";
 import React from "react";

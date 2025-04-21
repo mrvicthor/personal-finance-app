@@ -1,8 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { Transaction } from "@/components/transactions";
-import { Budget } from "@/components/budgetList";
+import { Transaction } from "@/types/transaction";
+import { Budget } from "@/types/budget";
 import Spending from "./Spending";
 import Subheader from "./Subheader";
 import Expenses from "./Expenses";

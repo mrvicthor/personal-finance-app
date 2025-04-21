@@ -3,15 +3,6 @@ import Subheader from "./subheader";
 import { getFinanceData } from "../../lib/data";
 import Bills from "./bills";
 
-export type Bill = {
-  avatar: string;
-  name: string;
-  category: string;
-  date: Date;
-  amount: number;
-  recurring: boolean;
-};
-
 const BillsPanel = async () => {
   const data = await getFinanceData();
   const transactions = data.transactions;

@@ -8,7 +8,7 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { getCategoryTotal } from "@/helpers";
-import { Transaction } from "./transactions";
+import { Transaction } from "@/types/transaction";
 import { getConfig } from "@/helpers/chartConfig";
 import { formatNumber } from "@/helpers/currencyFormatter";
 
