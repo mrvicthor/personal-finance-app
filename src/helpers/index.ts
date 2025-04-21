@@ -1,5 +1,5 @@
-import { Budget } from "@/components/budgetList";
-import { Transaction } from "@/components/transactions";
+import { Budget } from "@/types/budget";
+import { Transaction } from "@/types/transaction";
 
 export const links = [
   {

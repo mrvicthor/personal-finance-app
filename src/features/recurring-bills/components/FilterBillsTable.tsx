@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { Transaction } from "@/components/transactions";
+import { Transaction } from "@/types/transaction";
 import useDebounce from "@/hooks/useDebounce";
 import SearchBar from "./forms/SearchBar";
 import SortBy from "./SortBy";

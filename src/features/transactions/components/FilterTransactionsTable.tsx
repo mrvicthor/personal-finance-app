@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import SearchBar from "./forms/SearchBar";
 import TransactionTable from "./TransactionTable";
-import { Transaction } from "@/components/transactions";
+import { Transaction } from "@/types/transaction";
 import SortBy from "./SortBy";
 import Category from "./Category";
 import RenderPagination from "./RenderPagination";

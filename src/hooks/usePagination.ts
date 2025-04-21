@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Transaction } from "@/components/transactions";
+import { Transaction } from "@/types/transaction";
 
 const TRANSACTIONS_PER_PAGE = 10;
 export default function usePagination(totalItems: Transaction[]) {

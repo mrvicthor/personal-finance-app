@@ -1,5 +1,5 @@
 "use client";
-import { Transaction } from "@/components/transactions";
+import { Transaction } from "@/types/transaction";
 import { containerVariants, itemVariants } from "@/helpers";
 import Image from "next/image";
 import React from "react";

@@ -1,4 +1,4 @@
-import { Transaction } from "@/components/transactions";
+import { Transaction } from "@/types/transaction";
 
 export const sortUniqueArray = (value: Transaction[]) => {
   const sortedArray = [...value].sort((a: Transaction, b: Transaction) => {

@@ -1,6 +1,6 @@
 "use client";
 import React, { useMemo } from "react";
-import { Transaction } from "@/components/transactions";
+import { Transaction } from "@/types/transaction";
 import Image from "next/image";
 import billsIcon from "../../../../public/assets/images/icon-nav-recurring-bills.svg";
 import { containerVariants, itemVariants } from "@/helpers";

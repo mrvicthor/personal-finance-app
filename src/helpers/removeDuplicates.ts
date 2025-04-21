@@ -1,4 +1,4 @@
-import { Transaction } from "@/components/transactions";
+import { Transaction } from "@/types/transaction";
 
 export const removeDuplicates = (
   transactions: Transaction[]

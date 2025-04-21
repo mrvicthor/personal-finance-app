@@ -1,4 +1,4 @@
-import { Budget } from "@/components/budgetList";
+import { Budget } from "@/types/budget";
 import { ChartConfig } from "@/components/ui/chart";
 
 type BudgetOption =
