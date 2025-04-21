@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { Transaction } from "@/components/transactions";
 import { Budget } from "@/components/budgetList";
@@ -9,16 +9,38 @@ import Expenses from "./Expenses";
 import Title from "./Title";
 import EditBudget from "./EditBudget";
 import DeleteBudget from "./DeleteBudget";
+import { getBudget } from "../actions/budget";
 
 type BudgetProps = {
   data: Transaction[];
   budgetList: Budget[];
+};
+
+type SelectedBudget = Budget & {
+  id: number;
 };
 const Budgets = ({ data, budgetList }: BudgetProps) => {
   const [showOptions, setShowOptions] = useState(false);
   const [selected, setSelected] = useState<string>("");
   const [editBudget, setEditBudget] = useState(false);
   const [deleteBudget, setDeleteBudget] = useState(false);
+  const [usedThemes, setUsedThemes] = useState<string[]>([]);
+  const [usedCategory, setUsedCategory] = useState<string[]>([]);
+  const [selectedBudget, setSelectedBudget] = useState<SelectedBudget | null>(
+    null
+  );
+
+  useEffect(() => {
+    const updateData = async () => {
+      const data = await getBudget();
+      if (!data) return;
+      setUsedThemes(data.map((budget) => budget.theme));
+      setUsedCategory(data.map((budget) => budget.category));
+      const itemSelected = data.find((budget) => budget.category === selected);
+      if (itemSelected) return setSelectedBudget(itemSelected);
+    };
+    updateData();
+  }, [selected]);
 
   return (
     <div className="space-y-6 pb-12 sm:pb-16 md:pb-8">
@@ -82,8 +104,14 @@ const Budgets = ({ data, budgetList }: BudgetProps) => {
       {editBudget &&
         createPortal(
           <EditBudget
-            onClose={() => setEditBudget(false)}
-            selected={selected}
+            onClose={() => {
+              setSelected("");
+              setEditBudget(false);
+              setSelectedBudget(null);
+            }}
+            usedThemes={usedThemes}
+            usedCategory={usedCategory}
+            selectedBudget={selectedBudget}
           />,
           document.body
         )}
@@ -91,8 +119,13 @@ const Budgets = ({ data, budgetList }: BudgetProps) => {
       {deleteBudget &&
         createPortal(
           <DeleteBudget
-            onClose={() => setDeleteBudget(false)}
+            onClose={() => {
+              setSelected("");
+              setDeleteBudget(false);
+              setSelectedBudget(null);
+            }}
             selected={selected}
+            selectedBudget={selectedBudget}
           />,
           document.body
         )}

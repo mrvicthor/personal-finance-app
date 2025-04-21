@@ -1,13 +1,14 @@
-import React, { Suspense, useEffect, useState } from "react";
+import React, { Suspense } from "react";
 import Image from "next/image";
 import closeIcon from "../../../../public/assets/images/icon-close-modal.svg";
 import EditBudegtForm from "./forms/EditBudegtForm";
 import Loading from "@/components/loading";
-import { getBudget } from "@/features/budgets/actions/budget";
 
 type EditBudgetProps = {
   onClose: () => void;
-  selected: string;
+  usedThemes: string[];
+  usedCategory: string[];
+  selectedBudget: Budget | null;
 };
 export type Budget = {
   id: number;
@@ -15,26 +16,12 @@ export type Budget = {
   maximum: number;
   theme: string;
 };
-const EditBudget = ({ onClose, selected }: EditBudgetProps) => {
-  const [selectedBudget, setSelectedBudget] = useState<Budget | null>(null);
-  const [usedThemes, setUsedThemes] = useState<string[]>([]);
-  const [usedCategory, setUsedCategory] = useState<string[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const updateData = async () => {
-      const data = await getBudget();
-      if (!data) return;
-      setUsedThemes(data.map((budget) => budget.theme));
-      setUsedCategory(data.map((budget) => budget.category));
-      const itemSelected = data.find((budget) => budget.category === selected);
-      if (itemSelected) return setSelectedBudget(itemSelected);
-      setIsLoading(false);
-    };
-    updateData();
-  }, [selected]);
-
-  console.log(selectedBudget);
+const EditBudget = ({
+  onClose,
+  usedCategory,
+  usedThemes,
+  selectedBudget,
+}: EditBudgetProps) => {
   return (
     <Suspense fallback={<Loading />}>
       <div
@@ -55,9 +42,7 @@ const EditBudget = ({ onClose, selected }: EditBudgetProps) => {
             className="cursor-pointer"
           />
         </div>
-        {isLoading ? (
-          <Loading />
-        ) : selectedBudget ? (
+        {selectedBudget ? (
           <EditBudegtForm
             selected={selectedBudget}
             usedThemes={usedThemes}
