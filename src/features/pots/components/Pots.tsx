@@ -11,6 +11,7 @@ import DeletePot from "./DeletePot";
 import { formatCurrency } from "@/helpers/currencyFormatter";
 import { getPots } from "../actions/pots";
 import { Pot, SelectedPot } from "@/types/pot";
+import AddMoney from "./AddMoney";
 
 type PotsProps = {
   data: Pot[];
@@ -23,6 +24,7 @@ const Pots = ({ data }: PotsProps) => {
   const [deletePot, setDeletePot] = useState(false);
   const [selectedPot, setSelectedPot] = useState<SelectedPot | null>(null);
   const [usedThemes, setUsedThemes] = useState<string[]>([]);
+  const [shouldAddMoney, setShouldAddMoney] = useState(false);
 
   useEffect(() => {
     const updateTheme = async () => {
@@ -80,7 +82,13 @@ const Pots = ({ data }: PotsProps) => {
               />
             </div>
             <div className="grid grid-cols-2 gap-4 mt-8">
-              <button className=" bg-[#F8F4F0] h-[3.3125rem] capitalize text-[#201F24] text-sm font-bold rounded-md">
+              <button
+                onClick={() => {
+                  setSelected(pot.name);
+                  setShouldAddMoney(true);
+                }}
+                className=" bg-[#F8F4F0] h-[3.3125rem] capitalize text-[#201F24] text-sm font-bold rounded-md"
+              >
                 + add money
               </button>
               <button className=" bg-[#F8F4F0] h-[3.3125rem] capitalize text-[#201F24] text-sm font-bold rounded-md">
@@ -123,6 +131,7 @@ const Pots = ({ data }: PotsProps) => {
             selectedPot={selectedPot}
             usedThemes={usedThemes}
           />,
+
           document.body
         )}
       {deletePot &&
@@ -132,6 +141,19 @@ const Pots = ({ data }: PotsProps) => {
               setSelected("");
               setSelectedPot(null);
               setDeletePot(false);
+            }}
+            selected={selected}
+            selectedPot={selectedPot}
+          />,
+          document.body
+        )}
+      {shouldAddMoney &&
+        createPortal(
+          <AddMoney
+            onClose={() => {
+              setSelected("");
+              setSelectedPot(null);
+              setShouldAddMoney(false);
             }}
             selected={selected}
             selectedPot={selectedPot}

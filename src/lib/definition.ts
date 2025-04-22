@@ -155,3 +155,17 @@ export type DeletePotFormData = {
 };
 
 export type DeletePotActionResponse = ActionResponse<DeletePotFormData>;
+
+export const addMoneyFormSchema = z.object({
+  id: z.number(),
+  total: z.number(),
+  target: z.number(),
+});
+
+export type AddMoneyFormData = {
+  id: number;
+  total: number;
+  target: number;
+};
+
+export type AddMoneyActionResponse = ActionResponse<AddMoneyFormData>;
