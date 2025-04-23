@@ -190,3 +190,51 @@ export async function addMoney(
     message: "Money added successfully",
   };
 }
+
+export async function withdrawMoney(
+  state: AddMoneyActionResponse | null,
+  formData: FormData
+) {
+  const rawData: AddMoneyFormData = {
+    id: Number(formData.get("id")),
+    total: Number(formData.get("total")),
+    target: Number(formData.get("target")),
+  };
+
+  const validateFields = addMoneyFormSchema.safeParse(rawData);
+  if (!validateFields.success) {
+    return {
+      success: false,
+      message: "Please fill in all the required fields",
+      inputs: rawData,
+      errors: validateFields.error.flatten().fieldErrors,
+    };
+  }
+  const { id, target, total: newAmount } = validateFields.data;
+  const sessionId = await getSessionId();
+  const [existingPot] = await db.select().from(pots).where(eq(pots.id, id));
+  const [currentBalance] = await db
+    .select()
+    .from(balance)
+    .where(eq(balance.userId, Number(sessionId)));
+
+  await db
+    .update(pots)
+    .set({
+      target,
+      total: Number(existingPot.total) - newAmount,
+    })
+    .where(eq(pots.id, id));
+  await db
+    .update(balance)
+    .set({
+      current: Number(currentBalance.current) + newAmount,
+    })
+    .where(eq(balance.id, Number(sessionId)));
+
+  revalidatePath("/pots");
+  return {
+    success: true,
+    message: "Money withdrawn successfully",
+  };
+}

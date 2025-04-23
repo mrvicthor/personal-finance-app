@@ -12,6 +12,7 @@ import { formatCurrency } from "@/helpers/currencyFormatter";
 import { getPots } from "../actions/pots";
 import { Pot, SelectedPot } from "@/types/pot";
 import AddMoney from "./AddMoney";
+import WithdrawMoney from "./WithdrawMoney";
 
 type PotsProps = {
   data: Pot[];
@@ -25,6 +26,7 @@ const Pots = ({ data }: PotsProps) => {
   const [selectedPot, setSelectedPot] = useState<SelectedPot | null>(null);
   const [usedThemes, setUsedThemes] = useState<string[]>([]);
   const [shouldAddMoney, setShouldAddMoney] = useState(false);
+  const [shouldWithdraw, setShouldWithdraw] = useState(false);
 
   useEffect(() => {
     const updateTheme = async () => {
@@ -91,7 +93,13 @@ const Pots = ({ data }: PotsProps) => {
               >
                 + add money
               </button>
-              <button className=" bg-[#F8F4F0] h-[3.3125rem] capitalize text-[#201F24] text-sm font-bold rounded-md">
+              <button
+                onClick={() => {
+                  setSelected(pot.name);
+                  setShouldWithdraw(true);
+                }}
+                className=" bg-[#F8F4F0] h-[3.3125rem] capitalize text-[#201F24] text-sm font-bold rounded-md"
+              >
                 withdraw
               </button>
             </div>
@@ -154,6 +162,19 @@ const Pots = ({ data }: PotsProps) => {
               setSelected("");
               setSelectedPot(null);
               setShouldAddMoney(false);
+            }}
+            selected={selected}
+            selectedPot={selectedPot}
+          />,
+          document.body
+        )}
+      {shouldWithdraw &&
+        createPortal(
+          <WithdrawMoney
+            onClose={() => {
+              setSelected("");
+              setSelectedPot(null);
+              setShouldWithdraw(false);
             }}
             selected={selected}
             selectedPot={selectedPot}

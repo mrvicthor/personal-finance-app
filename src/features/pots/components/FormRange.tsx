@@ -8,8 +8,15 @@ type FormRangeProps = {
 
 const FormRange = ({ target, total, theme }: FormRangeProps) => {
   const percentage = (total / target) * 100;
-  const breakPoint = 27;
-  const longestRange = (7 / 8) * percentage;
+  const breakPoint = 5;
+  const longestRange = Math.floor((7 / 8) * percentage);
+  const warningRaningRange = 10;
+  const colorRange =
+    longestRange > warningRaningRange
+      ? theme
+      : longestRange < warningRaningRange && longestRange >= breakPoint
+      ? "#C94736"
+      : "";
 
   return (
     <div className="h-full flex">
@@ -31,7 +38,7 @@ const FormRange = ({ target, total, theme }: FormRangeProps) => {
       />
       <span
         style={{
-          backgroundColor: percentage > breakPoint ? theme : "",
+          backgroundColor: colorRange,
           width: `${longestRange}%`,
           height: "100%",
           borderTopRightRadius: "4px",

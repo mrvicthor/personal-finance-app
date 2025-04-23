@@ -1,20 +1,22 @@
-import React, { useActionState, useState } from "react";
-import { AddMoneyActionResponse } from "@/lib/definition";
-import { addMoney } from "../../actions/pots";
-import { SelectedPot } from "@/types/pot";
 import { formatCurrency } from "@/helpers/currencyFormatter";
-import PotStats from "../PotStats";
+import { SelectedPot } from "@/types/pot";
+import React, { useActionState, useState } from "react";
 import FormRange from "../FormRange";
+import PotStats from "../PotStats";
+import { AddMoneyActionResponse } from "@/lib/definition";
+import { withdrawMoney } from "../../actions/pots";
+
+type WithdrawMoneyFormProps = {
+  selectedPot: SelectedPot;
+};
 
 const initialState: AddMoneyActionResponse = {
   success: false,
   message: "",
 };
-type AddMoneyFormProps = {
-  selectedPot: SelectedPot;
-};
-const AddMoneyForm = ({ selectedPot }: AddMoneyFormProps) => {
-  const [state, action, pending] = useActionState(addMoney, initialState);
+
+const WithdrawMoneyForm = ({ selectedPot }: WithdrawMoneyFormProps) => {
+  const [state, action, pending] = useActionState(withdrawMoney, initialState);
   const [newAmount, setNewAmount] = useState(selectedPot.total);
 
   return (
@@ -24,9 +26,8 @@ const AddMoneyForm = ({ selectedPot }: AddMoneyFormProps) => {
       ) : (
         <>
           <p className="mt-5 text-sm text-[#696868]">
-            Add money to your pot to keep it separate from your main balance. As
-            soon as you add this money, it will be deducted from your current
-            balance.
+            Withdraw from your pot to put money back in your main balance. This
+            will reduce the amount you have in this pot.
           </p>
           <div className="flex items-center justify-between">
             <span className="text-sm text-[#696868] capitalize">
@@ -66,7 +67,7 @@ const AddMoneyForm = ({ selectedPot }: AddMoneyFormProps) => {
                 htmlFor="total"
                 className=" text-[#696868] text-xs font-bold"
               >
-                Amount to Add
+                Amount to Withdraw
               </label>
               <input
                 id="total"
@@ -75,7 +76,7 @@ const AddMoneyForm = ({ selectedPot }: AddMoneyFormProps) => {
                 defaultValue={state?.inputs?.total}
                 onChange={(e) =>
                   setNewAmount(
-                    Number(e.target.value) + Number(selectedPot.total)
+                    Number(selectedPot.total) - Number(e.target.value)
                   )
                 }
                 type="text"
@@ -98,7 +99,7 @@ const AddMoneyForm = ({ selectedPot }: AddMoneyFormProps) => {
                   adding...
                 </span>
               ) : (
-                "confirm addition"
+                "confirm withdrawal"
               )}
             </button>
           </form>
@@ -108,4 +109,4 @@ const AddMoneyForm = ({ selectedPot }: AddMoneyFormProps) => {
   );
 };
 
-export default AddMoneyForm;
+export default WithdrawMoneyForm;
