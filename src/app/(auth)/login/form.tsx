@@ -61,6 +61,14 @@ const LoginForm = () => {
               className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer"
             />
           </div>
+          <div className="flex justify-end">
+            <Link
+              href="/forgot-password"
+              className="text-[#696868] text-xs font-bold"
+            >
+              Forgot password?
+            </Link>
+          </div>
         </div>
         {state.errors?.password && (
           <p className="text-red-500">{state.errors.password}</p>

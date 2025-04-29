@@ -2,6 +2,9 @@
 
 import { eq } from "drizzle-orm";
 import {
+  ForgotPasswordActionResponse,
+  ForgotPasswordFormData,
+  forgotPasswordFormSchema,
   LoginActionResponse,
   LoginFormData,
   loginFormSchema,
@@ -16,6 +19,12 @@ import bcrypt from "bcrypt";
 import { redirect } from "next/navigation";
 import { createSession, deleteSession } from "./session";
 import { capitaliseFirstLetters } from "@/helpers/capitaliseFirstLetters";
+import { handlePasswordResetEmail } from "@/resend/sendMail";
+
+const APP_ORIGIN =
+  process.env.NODE_ENV === "development"
+    ? process.env.DEVELOPMENT_ORIGIN
+    : process.env.PRODUCTION_ORIGIN;
 
 export async function signup(
   state: SignupActionResponse | null,
@@ -123,4 +132,42 @@ export async function login(
 
 export async function logout() {
   await deleteSession();
+}
+
+export async function forgotPassword(
+  state: ForgotPasswordActionResponse | null,
+  formData: FormData
+) {
+  const rawData: ForgotPasswordFormData = {
+    email: formData.get("email") as string,
+  };
+
+  const validateFields = forgotPasswordFormSchema.safeParse(rawData);
+
+  if (!validateFields.success) {
+    return {
+      success: false,
+      message: "Please fix all errors in the form",
+      inputs: rawData,
+      errors: validateFields.error.flatten().fieldErrors,
+    };
+  }
+
+  const { email } = validateFields.data;
+  const existingUser = await db.query.users.findFirst({
+    where: eq(users.email, email),
+  });
+  if (!existingUser) {
+    return {
+      success: false,
+      message: "Invalid Credentials",
+    };
+  }
+  const url = `${APP_ORIGIN}/reset-password`;
+
+  await handlePasswordResetEmail(existingUser.email, url, existingUser.name);
+  return {
+    success: true,
+    message: "Password reset link sent to your email",
+  };
 }

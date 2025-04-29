@@ -169,3 +169,14 @@ export type AddMoneyFormData = {
 };
 
 export type AddMoneyActionResponse = ActionResponse<AddMoneyFormData>;
+
+export const forgotPasswordFormSchema = z.object({
+  email: z.string().email({ message: "Please enter a valid email" }),
+});
+
+export type ForgotPasswordFormData = {
+  email: string;
+};
+
+export type ForgotPasswordActionResponse =
+  ActionResponse<ForgotPasswordFormData>;
