@@ -6,6 +6,8 @@ import {
   uniqueIndex,
   boolean,
   doublePrecision,
+  text,
+  jsonb,
 } from "drizzle-orm/pg-core";
 import { InferInsertModel } from "drizzle-orm";
 export const users = pgTable(
@@ -78,9 +80,22 @@ export const pots = pgTable("pots", {
   theme: varchar("theme").notNull(),
 });
 
+export const pushSubscription = pgTable("push_subscriptions", {
+  id: serial("id").primaryKey(),
+  userId: serial("user_id")
+    .references(() => users.id)
+    .notNull(),
+  endpoint: text("endpoint").notNull(),
+  keys: jsonb("keys").notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+  unsubscribedAt: timestamp("unsubscribed_at"),
+  isActive: boolean("is_active").default(true),
+});
+
 export type Session = InferInsertModel<typeof sessions>;
 export type User = InferInsertModel<typeof users>;
 export type Balance = InferInsertModel<typeof balance>;
 export type Transaction = InferInsertModel<typeof transactions>;
 export type Budget = InferInsertModel<typeof budgets>;
 export type Pot = InferInsertModel<typeof pots>;
+export type PushSubscriptions = InferInsertModel<typeof pushSubscription>;

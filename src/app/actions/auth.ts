@@ -159,8 +159,8 @@ export async function forgotPassword(
   });
   if (!existingUser) {
     return {
-      success: false,
-      message: "Invalid Credentials",
+      success: true,
+      message: "Password reset link sent to your email",
     };
   }
   const url = `${APP_ORIGIN}/reset-password`;

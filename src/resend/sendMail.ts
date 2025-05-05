@@ -10,8 +10,8 @@ export const handlePasswordResetEmail = async (
 ) => {
   try {
     const { data, error } = await resend.emails.send({
-      from: "noreply <onboarding@personalfinance.com>",
-      to: [email],
+      from: "Acme <onboarding@resend.dev>",
+      to: ["victoreleanya89@gmail.com"],
       subject: "Reset Password",
       react: ResetPasswordEmail({
         userFirstname: firstName,

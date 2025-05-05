@@ -18,3 +18,15 @@ function getOrdinalSuffix(day: number) {
       return "th";
   }
 }
+
+export const options: Intl.DateTimeFormatOptions = {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+  timeZone: "UTC",
+};
+
+export const formatNotificationDate = (value: Date): string => {
+  const date = value.toLocaleString("en-GB", options);
+  return date;
+};

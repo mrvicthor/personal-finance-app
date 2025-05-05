@@ -12,6 +12,47 @@ type BillsTableProps = {
 };
 
 const BillsTable = ({ bills }: BillsTableProps) => {
+  // const today = new Date();
+  // const reminder = new Date(today);
+
+  // const myDate = formatNotificationDate(today);
+
+  // const threeDaysBefore = new Date(reminder);
+  // threeDaysBefore.setDate(today.getDate() - 3);
+
+  // const twoDaysBefore = new Date(reminder);
+  // twoDaysBefore.setDate(today.getDate() - 2);
+
+  // const daysBefore = new Date(reminder);
+  // daysBefore.setDate(today.getDate() - 1);
+  // let message = "";
+
+  // for (let i = 0; i < bills.length; i += 1) {
+  //   const date = new Date(bills[i].date);
+  //   const dueDate = new Date(date.setMonth(date.getMonth() + 1));
+  //   const inThreeDays = formatNotificationDate(
+  //     new Date(dueDate.setDate(date.getDate() - 3))
+  //   );
+  //   const inTwoDays = formatNotificationDate(
+  //     new Date(dueDate.setDate(date.getDate() - 2))
+  //   );
+  //   const inOneDay = formatNotificationDate(
+  //     new Date(dueDate.setDate(date.getDate() - 1))
+  //   );
+
+  //   console.log(
+  //     formatNotificationDate(dueDate),
+  //     formatNotificationDate(threeDaysBefore),
+  //     "vic",
+  //     inThreeDays
+  //   );
+  //   if (formatNotificationDate(threeDaysBefore) === inThreeDays) {
+  //     if (Notification.permission === "granted") {
+  //       new Notification(`3 Days to your next bill renewal`);
+  //     }
+  //   }
+  // }
+
   return (
     <motion.table
       variants={containerVariants}
