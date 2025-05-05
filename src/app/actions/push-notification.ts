@@ -2,7 +2,6 @@
 
 import { db } from "@/db";
 import { pushSubscription } from "@/db/schema";
-import webpush from "web-push";
 import { getSessionId } from "./session";
 import { eq } from "drizzle-orm";
 
@@ -51,24 +50,3 @@ export function convertSubscription(subscription: PushSubscription) {
     },
   };
 }
-
-// export async function sendNotification(message: string) {
-//   if (!subscription) {
-//     throw new Error("No subscription available");
-//   }
-
-//   try {
-//     await webpush.sendNotification(
-//       convertSubscription(subscription),
-//       JSON.stringify({
-//         title: "Test Notification",
-//         body: message,
-//         icon: "/icon.png",
-//       })
-//     );
-//     return { success: true };
-//   } catch (error) {
-//     console.error("Error sending push notification:", error);
-//     return { success: false, error: "Failed to send notification" };
-//   }
-// }
