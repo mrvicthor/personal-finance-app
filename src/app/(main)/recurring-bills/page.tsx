@@ -13,9 +13,7 @@ export default async function Page() {
   );
 
   const sortedBills = sortUniqueArray(recurringBills);
-  for (const bill of recurringBills) {
-    console.log(bill);
-  }
+
   return (
     <Suspense fallback={<Loading />}>
       <section className="px-4 sm:px-10">
