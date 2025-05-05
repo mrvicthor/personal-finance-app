@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { db } from "@/db";
 import { pushSubscription, transactions } from "@/db/schema";
 import webpush from "web-push";
