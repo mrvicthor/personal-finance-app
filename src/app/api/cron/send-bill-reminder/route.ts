@@ -2,8 +2,13 @@ import { db } from "@/db";
 import { pushSubscription, transactions } from "@/db/schema";
 import webpush from "web-push";
 import { NextResponse } from "next/server";
-import { eq, and, lte, gte } from "drizzle-orm";
-import { addDays, startOfDay, endOfDay } from "date-fns";
+import { eq } from "drizzle-orm";
+import {
+  isBefore,
+  setDate,
+  addMonths,
+  differenceInCalendarDays,
+} from "date-fns";
 
 export const runtime = "edge";
 
@@ -14,25 +19,23 @@ webpush.setVapidDetails(
 );
 
 export async function GET() {
-  const today = new Date();
-  const startRange = startOfDay(today);
-  const endRange = endOfDay(addDays(today, 3));
-
   const upcomingBills = await db
     .select()
     .from(transactions)
-    .where(
-      and(
-        eq(transactions.recurring, true),
-        gte(transactions.date, startRange),
-        lte(transactions.date, endRange)
-      )
-    );
+    .where(eq(transactions.recurring, true));
 
   for (const bill of upcomingBills) {
-    const daysLeft = Math.ceil(
-      (new Date(bill.date).getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
-    );
+    const originalDate = new Date(bill.date);
+    const today = new Date();
+
+    const dueDay = originalDate.getDate();
+
+    let nextDueDate = setDate(today, dueDay);
+
+    if (isBefore(nextDueDate, today)) {
+      nextDueDate = addMonths(nextDueDate, 1);
+    }
+    const daysLeft = differenceInCalendarDays(nextDueDate, today);
     const messageMap: Record<number, string> = {
       3: "Your recurring bill is due in 3 days.",
       2: "Reminder: Your bill is due in 2 days.",
