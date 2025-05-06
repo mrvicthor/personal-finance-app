@@ -10,7 +10,7 @@ import {
   differenceInCalendarDays,
 } from "date-fns";
 
-export const runtime = "edge";
+export const runtime = "nodejs";
 
 webpush.setVapidDetails(
   "mailto:victoreleanya07@gmail.com",
