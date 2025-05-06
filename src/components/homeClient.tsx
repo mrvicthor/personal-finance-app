@@ -6,6 +6,8 @@ import Title from "./title";
 import Button from "./button";
 import AddBalance from "./addBalance";
 import { logout } from "@/app/actions/auth";
+import PushNotificationManager from "./pushNotificationManager";
+import InstallPrompt from "./installPrompt";
 
 const HomeClient = ({ children }: { children: React.ReactNode }) => {
   const [showModal, setShowModal] = useState(false);
@@ -29,6 +31,8 @@ const HomeClient = ({ children }: { children: React.ReactNode }) => {
           document.body
         )}
       {children}
+      <PushNotificationManager />
+      <InstallPrompt />
     </section>
   );
 };
