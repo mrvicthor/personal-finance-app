@@ -61,7 +61,7 @@
     "typescript": "^5"
   },
   "engines": {
-    "node": "20.5.1"
+    "node": ">=20.5.1 <21"
   },
   "overrides": {
     "react-is": "^19.0.0-rc-69d4b800-20241021"
