@@ -3,8 +3,9 @@ import { getFinanceData } from "../../../../lib/data";
 import { Transaction } from "@/types/transaction";
 import FilterBillsTable from "@/features/recurring-bills/components/FilterBillsTable";
 import { Suspense } from "react";
-import Loading from "@/components/loading";
+// import Loading from "@/components/loading";
 import { sortUniqueArray } from "@/helpers/sortArray";
+import RecurringBillSkeleton from "@/components/skeletons/recurring-bill-skeleton";
 
 export default async function Page() {
   const data = await getFinanceData();
@@ -15,7 +16,7 @@ export default async function Page() {
   const sortedBills = sortUniqueArray(recurringBills);
 
   return (
-    <Suspense fallback={<Loading />}>
+    <Suspense fallback={<RecurringBillSkeleton />}>
       <section className="px-4 sm:px-10">
         <div className="flex items-center">
           <h1 className="text-[2rem] font-bold capitalize">recurring bills</h1>
