@@ -6,10 +6,19 @@ import { Suspense } from "react";
 // import Loading from "@/components/loading";
 import { sortUniqueArray } from "@/helpers/sortArray";
 import RecurringBillSkeleton from "@/components/skeletons/recurring-bill-skeleton";
+import { getTransactions } from "@/features/transactions/db/transactions";
 
 export default async function Page() {
-  const data = await getFinanceData();
-  const recurringBills = data.transactions.filter(
+  const [data, transactions] = await Promise.all([
+    getFinanceData(),
+    getTransactions(),
+  ]);
+
+  const dataTouse =
+    Array.isArray(transactions) && transactions.length > 0
+      ? transactions
+      : data.transactions;
+  const recurringBills = dataTouse.filter(
     (transaction: Transaction) => transaction.recurring === true
   );
 
