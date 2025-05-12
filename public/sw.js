@@ -12,7 +12,7 @@ self.addEventListener("push", function (event) {
         primaryKey: "2",
       },
     };
-    event.waitUntil(self.registration.showNotification(date.title, options));
+    event.waitUntil(self.registration.showNotification(data.title, options));
   }
 });
 

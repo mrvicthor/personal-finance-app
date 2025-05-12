@@ -4,27 +4,28 @@ import { db } from "@/db";
 import { pushSubscription } from "@/db/schema";
 import { getSessionId } from "./session";
 import { eq } from "drizzle-orm";
-import { convertSubscription } from "@/helpers/convertSubscription";
+import webpush from "web-push";
+import { SubscriptionPayload } from "@/types/subscription-payload";
 
-let subscription: PushSubscription | null = null;
+webpush.setVapidDetails(
+  "mailto:victoreleanya07@gmail.com",
+  process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!,
+  process.env.VAPID_PRIVATE_KEY!
+);
 
-export async function subscribeUser(sub: PushSubscription) {
-  subscription = sub;
-  const formatted = convertSubscription(subscription);
+export async function subscribeUser(sub: SubscriptionPayload) {
   const userId = await getSessionId();
   if (!userId) return;
-
   await db.insert(pushSubscription).values({
     userId: Number(userId),
-    keys: formatted.keys,
-    endpoint: formatted.endpoint,
+    keys: sub.keys,
+    endpoint: sub.endpoint,
   });
 
   return { success: true };
 }
 
 export async function unsubscribeUser() {
-  subscription = null;
   const userId = await getSessionId();
   await db
     .delete(pushSubscription)

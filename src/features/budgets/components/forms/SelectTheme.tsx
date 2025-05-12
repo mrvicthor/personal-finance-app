@@ -34,7 +34,7 @@ const SelectTheme = async ({ name }: SelectThemeProps) => {
         <SelectContent>
           {themes.map((theme) => {
             const isUsed = usedThemes.includes(theme.theme);
-            console.log(isUsed);
+
             return (
               <SelectItem
                 key={theme.theme}

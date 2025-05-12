@@ -6,11 +6,11 @@ import Title from "./title";
 import Button from "./button";
 import AddBalance from "./addBalance";
 import { logout } from "@/app/actions/auth";
-import PushNotificationManager from "./pushNotificationManager";
-import InstallPrompt from "./installPrompt";
+import { usePushNotificationManager } from "@/hooks/useNotification";
 
 const HomeClient = ({ children }: { children: React.ReactNode }) => {
   const [showModal, setShowModal] = useState(false);
+  usePushNotificationManager();
   return (
     <section className="px-4 sm:px-10">
       <div className="flex items-center justify-between gap-4">
@@ -31,8 +31,6 @@ const HomeClient = ({ children }: { children: React.ReactNode }) => {
           document.body
         )}
       {children}
-      <PushNotificationManager />
-      <InstallPrompt />
     </section>
   );
 };
