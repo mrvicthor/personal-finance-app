@@ -5,6 +5,7 @@ import LayoutWrapper from "@/components/layoutWrapper";
 import Sidebar from "@/components/sidebar";
 import { redirect } from "next/navigation";
 import { getUser } from "@/lib/dal";
+import { AiFloatingButton } from "@/components/ai-cta-buttons";
 
 export default async function MainLayout({
   children,
@@ -23,6 +24,7 @@ export default async function MainLayout({
         <main className="main pt-6 sm:pt-8 md:h-screen overflow-hidden overflow-y-scroll">
           {children}
           <Header />
+          <AiFloatingButton />
         </main>
       </LayoutWrapper>
     </CollapseStoreProvider>
