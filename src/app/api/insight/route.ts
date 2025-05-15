@@ -72,7 +72,7 @@ ${formattedText}
         }
       );
       const result = await response.json();
-      const text = result.choices?.[0]?.messages.content ?? "No response";
+      const text = result.choices?.[0]?.message.content ?? "No response";
       console.log({ text });
       return Response.json({ response: text });
     }
