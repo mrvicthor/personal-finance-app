@@ -4,7 +4,6 @@ export const dynamic = "force-dynamic";
 export async function POST(req: Request) {
   const transactions = await getTransactions();
   const { prompt } = await req.json();
-  console.log("Recieved from client:", prompt);
   const formattedText = transactions
     ?.map((item) => {
       const date = new Date(item.date).toLocaleDateString();
@@ -24,10 +23,14 @@ export async function POST(req: Request) {
 ${formattedText}
 `;
 
-  console.log(prompt);
-  const URL = "http://localhost:11434/api/generate";
+  console.log();
 
-  const response = await fetch(URL, {
+  const URL =
+    process.env.NODE_ENV === "development"
+      ? "http://localhost:11434/"
+      : process.env.PRODUCTION_ORIGIN;
+
+  const response = await fetch(`${URL}api/generate`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -47,7 +50,6 @@ ${formattedText}
   }
 
   const result = await response.json();
-  console.log("Ollama response:", result);
 
   if (result.error) {
     return new Response(JSON.stringify({ error: result.error }), {

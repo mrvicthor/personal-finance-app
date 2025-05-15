@@ -73,8 +73,6 @@ export function AIAssistantClient() {
     } catch (error) {
       console.error("Error submitting prompt:", error);
     }
-
-    console.log(messages);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
