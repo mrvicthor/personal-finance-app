@@ -10,6 +10,7 @@ import { transactions } from "@/db/schema";
 import { capitaliseFirstLetters } from "@/helpers/capitaliseFirstLetters";
 import { eq } from "drizzle-orm";
 import { cookies } from "next/headers";
+import { revalidatePath } from "next/cache";
 
 const getSessionId = async () => {
   const cookie = (await cookies()).get("session")?.value;
@@ -54,6 +55,7 @@ export async function addTransaction(
     amount,
     recurring,
   });
+  revalidatePath("/transactions");
   return {
     success: true,
     message: "Transaction added successfully",

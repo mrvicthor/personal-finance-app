@@ -70,8 +70,6 @@ export function AIAssistantClient() {
         role: "assistant",
         timestamp: new Date(),
       };
-
-      console.log({ assistantMessage });
       setMessages((prev) => [...prev, assistantMessage]);
       setIsLoading(false);
     } catch (error) {

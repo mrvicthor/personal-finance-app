@@ -11,19 +11,9 @@ export async function POST(req: Request) {
     })
     .join("\n");
 
-  //   const insightPrompt = `
-  // You are an AI financial advisor. Analyze the following spending data and provide:
-  // - One useful insight about their spending
-  // - One tip on how to save more money
-
-  // ${formattedText}
-  // `;
-
   const insightPrompt = `${prompt}
 ${formattedText}
 `;
-
-  console.log();
 
   const URL = process.env.OLLAMA_API_URL;
 
@@ -78,7 +68,6 @@ ${formattedText}
         return Response.json({ response: "Groq returned no choices" });
       }
       const text = result.choices?.[0]?.message.content ?? "No response";
-      console.log({ text });
       return Response.json({ response: text });
     }
   } catch (error) {
