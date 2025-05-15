@@ -61,11 +61,12 @@ export function AIAssistantClient() {
         throw new Error("Failed to submit prompt");
       }
       const data = await response.json();
-      console.log({ data });
+      const insight =
+        process.env.NODE_ENV === "development" ? data.insight : data.response;
 
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
-        content: data.insight,
+        content: insight,
         role: "assistant",
         timestamp: new Date(),
       };
