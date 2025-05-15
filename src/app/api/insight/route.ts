@@ -27,32 +27,60 @@ ${formattedText}
 
   const URL = process.env.OLLAMA_API_URL;
 
-  const response = await fetch(`${URL}/api/generate`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      model: "phi",
-      prompt: insightPrompt,
-      stream: false,
-    }),
-  });
-  if (!response.ok) {
-    const errorText = await response.text();
-    console.error("Ollama:", errorText);
-    return new Response(JSON.stringify({ error: errorText }), {
-      status: response.status,
-    });
+  try {
+    if (process.env.NODE_ENV === "development") {
+      const response = await fetch(`${URL}/api/generate`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model: "mistral",
+          prompt: insightPrompt,
+          stream: false,
+        }),
+      });
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Ollama:", errorText);
+        return new Response(JSON.stringify({ error: errorText }), {
+          status: response.status,
+        });
+      }
+      const result = await response.json();
+
+      return Response.json({ insight: result.response });
+    } else {
+      const response = await fetch(
+        "https://api.groq.com/openai/v1/chat/completions",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${process.env.GROQ_API_KEY}`,
+          },
+          body: JSON.stringify({
+            model: "mixtral-8x7b-32768",
+            messages: [
+              {
+                role: "system",
+                content: "You are a helpful finance assistant.",
+              },
+              { role: "user", content: insightPrompt },
+            ],
+          }),
+        }
+      );
+      const result = await response.json();
+      const text = result.choices?.[0]?.messages.content ?? "No response";
+      console.log({ text });
+      return Response.json({ response: text });
+    }
+  } catch (error) {
+    console.error("Insight API error:", error);
+    return Response.json(
+      { error: "Failed to generate insight" },
+      { status: 500 }
+    );
   }
-
-  const result = await response.json();
-
-  if (result.error) {
-    return new Response(JSON.stringify({ error: result.error }), {
-      status: 400,
-    });
-  }
-
-  return Response.json({ insight: result.response });
 }
