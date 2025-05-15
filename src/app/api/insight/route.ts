@@ -25,18 +25,15 @@ ${formattedText}
 
   console.log();
 
-  const URL =
-    process.env.NODE_ENV === "development"
-      ? "http://localhost:11434/"
-      : process.env.PRODUCTION_ORIGIN;
+  const URL = process.env.OLLAMA_API_URL;
 
-  const response = await fetch(`${URL}api/generate`, {
+  const response = await fetch(`${URL}/api/generate`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      model: "mistral",
+      model: "phi",
       prompt: insightPrompt,
       stream: false,
     }),
