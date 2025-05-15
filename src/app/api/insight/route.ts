@@ -60,7 +60,7 @@ ${formattedText}
             Authorization: `Bearer ${process.env.GROQ_API_KEY}`,
           },
           body: JSON.stringify({
-            model: "mixtral-8x7b-32768",
+            model: "llama-3.1-8b-instant",
             messages: [
               {
                 role: "system",
