@@ -68,10 +68,15 @@ ${formattedText}
               },
               { role: "user", content: insightPrompt },
             ],
+            temperature: 0.3,
+            max_tokens: 512,
           }),
         }
       );
       const result = await response.json();
+      if (!result.choices || result.choices.length === 0) {
+        return Response.json({ response: "Groq returned no choices" });
+      }
       const text = result.choices?.[0]?.message.content ?? "No response";
       console.log({ text });
       return Response.json({ response: text });
