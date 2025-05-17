@@ -3,8 +3,8 @@ import { Button } from "@/components/ui/button";
 import { useAiPromptStore } from "@/providers/ai-prompt-store-provider";
 
 export function SuggestedQuestionsClient() {
-  const { setInput, prompt } = useAiPromptStore((state) => state);
-  console.log(prompt);
+  const { setInput } = useAiPromptStore((state) => state);
+
   const questions = [
     "How am I doing financially?",
     "What are my biggest expenses?",
@@ -20,11 +20,7 @@ export function SuggestedQuestionsClient() {
           key={index}
           variant="outline"
           className="text-sm"
-          onClick={() => {
-            setInput(question);
-            // In a real implementation, you would dispatch this to the chat component
-            // For example, using a global state manager or context
-          }}
+          onClick={() => setInput(question)}
         >
           {question}
         </Button>

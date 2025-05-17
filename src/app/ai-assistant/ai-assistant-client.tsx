@@ -11,7 +11,6 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useToast } from "@/hooks/use-toast";
 import { useAiPromptStore } from "@/providers/ai-prompt-store-provider";
 
-// Message type definition
 type Message = {
   id: string;
   content: string;
@@ -38,7 +37,6 @@ export function AIAssistantClient() {
     e.preventDefault();
     if (!prompt.trim()) return;
 
-    // Add user message
     const userMessage: Message = {
       id: Date.now().toString(),
       content: prompt,
