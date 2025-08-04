@@ -9,6 +9,12 @@ const Page = () => {
           login
         </h1>
         <LoginForm />
+        <div>
+          <p className="text-red-400">To test: use </p>
+          <>
+            <code>victoreleanya07@gmail.com</code> / <code>Testing@1234</code>
+          </>
+        </div>
       </div>
     </div>
   );
