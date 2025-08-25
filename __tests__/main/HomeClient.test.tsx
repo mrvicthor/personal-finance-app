@@ -1,5 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import HomeClient from "@/components/homeClient";
+import { logout } from "@/app/actions/auth";
 
 jest.mock("../../src/app/actions/auth", () => ({
   logout: jest.fn(),
@@ -79,5 +80,15 @@ describe("Initial render", () => {
     expect(
       screen.queryByText(/add your income, expenses and balance/i)
     ).not.toBeInTheDocument();
+  });
+
+  test("should call logout function when logout icon is clicked", () => {
+    render(
+      <HomeClient>
+        <div>Test Content</div>
+      </HomeClient>
+    );
+    fireEvent.click(screen.getByTestId("logout-icon"));
+    expect(logout).toHaveBeenCalled();
   });
 });
