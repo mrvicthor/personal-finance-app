@@ -12,7 +12,7 @@ const HomeClient = ({ children }: { children: React.ReactNode }) => {
   const [showModal, setShowModal] = useState(false);
   usePushNotificationManager();
   return (
-    <section className="px-4 sm:px-10">
+    <section aria-label="Overview" className="px-4 sm:px-10">
       <div className="flex items-center justify-between gap-4">
         <Title title="overview" />{" "}
         <Button
@@ -22,12 +22,16 @@ const HomeClient = ({ children }: { children: React.ReactNode }) => {
         <FaArrowRightFromBracket
           className="md:hidden"
           size={24}
+          data-testid="logout-icon"
           onClick={() => logout()}
         />
       </div>
       {showModal &&
         createPortal(
-          <AddBalance onClose={() => setShowModal(false)} />,
+          <AddBalance
+            onClose={() => setShowModal(false)}
+            closeButtonTestId="close-modal-btn"
+          />,
           document.body
         )}
       {children}
