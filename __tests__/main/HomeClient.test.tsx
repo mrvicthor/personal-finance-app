@@ -1,6 +1,7 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import HomeClient from "@/components/homeClient";
 import { logout } from "@/app/actions/auth";
+import { addBalance } from "@/app/actions/balance";
 
 jest.mock("../../src/app/actions/auth", () => ({
   logout: jest.fn(),
@@ -91,4 +92,72 @@ describe("Initial render", () => {
     fireEvent.click(screen.getByTestId("logout-icon"));
     expect(logout).toHaveBeenCalled();
   });
+
+  test("should submit form if successful", async () => {
+    (addBalance as jest.Mock).mockImplementation(async () => ({
+      success: true,
+      message: "Balance added successfully",
+    }));
+
+    render(
+      <HomeClient>
+        <div>Test Content</div>
+      </HomeClient>
+    );
+
+    const { balanceInput, incomeInput, expensesInput } = getInputFields();
+
+    const button = screen.getByTestId("submit-button");
+    fireEvent.change(balanceInput, { target: { value: "2000" } });
+    fireEvent.change(incomeInput, { target: { value: "3000" } });
+    fireEvent.change(expensesInput, { target: { value: "1000" } });
+
+    fireEvent.click(button);
+    const successMessage = await screen.findByText(
+      "Balance added successfully"
+    );
+
+    expect(successMessage).toBeInTheDocument();
+  });
+
+  test("should show error message if form submission fails", async () => {
+    (addBalance as jest.Mock).mockImplementation(async () => ({
+      success: false,
+      message: "Please fill in all the required fields",
+      errors: {
+        current: "Current balance is required",
+        income: "Income is required",
+        expenses: "Expenses are required",
+      },
+    }));
+
+    render(
+      <HomeClient>
+        <div>Test Content</div>
+      </HomeClient>
+    );
+    const { balanceInput, incomeInput, expensesInput } = getInputFields();
+
+    expect(balanceInput).toHaveAttribute("required");
+    expect(incomeInput).toHaveAttribute("required");
+    expect(expensesInput).toHaveAttribute("required");
+  });
 });
+
+function getInputFields() {
+  const openModalForm = screen.getByRole("button", {
+    name: /add new balance/i,
+  });
+  fireEvent.click(openModalForm);
+
+  const balanceInput = screen.getByLabelText("current balance", {
+    selector: "input",
+  });
+  const incomeInput = screen.getByLabelText("income", {
+    selector: "input",
+  });
+  const expensesInput = screen.getByLabelText("expenses", {
+    selector: "input",
+  });
+  return { balanceInput, incomeInput, expensesInput };
+}

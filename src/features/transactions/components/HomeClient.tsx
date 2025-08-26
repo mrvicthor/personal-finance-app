@@ -10,7 +10,7 @@ const HomeClient = ({ children }: { children: React.ReactNode }) => {
   const [showModal, setShowModal] = useState(false);
 
   return (
-    <section className="px-4 sm:px-10">
+    <section aria-label="Transactions" className="px-4 sm:px-10">
       <div className="flex items-center justify-between gap-2 sm:gap-4">
         <h1 className="text-[2rem] font-bold capitalize">transactions</h1>
         <Button

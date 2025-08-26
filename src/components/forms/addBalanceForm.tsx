@@ -8,13 +8,19 @@ const initialState: AddBalanceActionResponse = {
 };
 const AddBalanceForm = () => {
   const [state, action, pending] = useActionState(addBalance, initialState);
+
   return (
     <>
       {state.success === true ? (
-        <p className="text-green-500">{state.message}</p>
+        <p data-testid="success-message" className="text-green-500">
+          {state.message}
+        </p>
       ) : (
         <>
-          <p className="mt-5 text-sm text-[#696868]">
+          <p
+            data-testid="form-instructions"
+            className="mt-5 text-sm text-[#696868]"
+          >
             Add your income, expenses and balance
           </p>
           <form action={action} className="mt-5">
@@ -36,6 +42,7 @@ const AddBalanceForm = () => {
                   required
                 />
               </div>
+
               {state?.errors?.current && (
                 <p aria-live="polite" className="text-red-500">
                   {state.errors.current}
@@ -89,6 +96,7 @@ const AddBalanceForm = () => {
             <button
               disabled={pending}
               type="submit"
+              data-testid="submit-button"
               className="mt-8 text-white bg-[#201F24] h-[3.3125rem] w-full rounded-lg capitalize font-bold"
             >
               {pending ? (
