@@ -1,6 +1,7 @@
 import React, { useActionState } from "react";
 import { addBalance } from "@/app/actions/balance";
 import { AddBalanceActionResponse } from "@/lib/definition";
+import InputField from "./inputField";
 
 const initialState: AddBalanceActionResponse = {
   success: false,
@@ -25,73 +26,32 @@ const AddBalanceForm = () => {
           </p>
           <form action={action} className="mt-5">
             <div className="space-y-4">
-              <div className="flex flex-col gap-1">
-                <label
-                  htmlFor="current"
-                  className="capitalize text-[#696868] text-xs font-bold"
-                >
-                  current balance
-                </label>
-                <input
-                  id="current"
-                  name="current"
-                  defaultValue={state?.inputs?.current}
-                  className="border-[#98908B] border rounded-lg h-[2.8125rem] px-5"
-                  type="text"
-                  placeholder="$ e.g 2000"
-                  required
-                />
-              </div>
+              <InputField
+                id="current"
+                label="current balance"
+                name="current"
+                value={state?.inputs?.current}
+                placeholder="$ e.g 2000"
+                error={state?.errors?.current}
+              />
 
-              {state?.errors?.current && (
-                <p aria-live="polite" className="text-red-500">
-                  {state.errors.current}
-                </p>
-              )}
-              <div className="flex flex-col gap-1">
-                <label
-                  htmlFor="income"
-                  className="capitalize text-[#696868] text-xs font-bold"
-                >
-                  income
-                </label>
-                <input
-                  id="income"
-                  name="income"
-                  className="border-[#98908B] border rounded-lg h-[2.8125rem] px-5"
-                  defaultValue={state?.inputs?.income}
-                  type="text"
-                  placeholder="$ e.g 2000"
-                  required
-                />
-              </div>
-              {state?.errors?.income && (
-                <p aria-live="polite" className="text-red-500">
-                  {state.errors.income}
-                </p>
-              )}
-              <div className="flex flex-col gap-1">
-                <label
-                  htmlFor="expenses"
-                  className="capitalize text-[#696868] text-xs font-bold"
-                >
-                  expenses
-                </label>
-                <input
-                  id="expenses"
-                  name="expenses"
-                  className="border-[#98908B] border rounded-lg h-[2.8125rem] px-5"
-                  defaultValue={state?.inputs?.expenses}
-                  type="text"
-                  placeholder="$ e.g 2000"
-                  required
-                />
-              </div>
-              {state?.errors?.expenses && (
-                <p aria-live="polite" className="text-red-500">
-                  {state.errors.expenses}
-                </p>
-              )}
+              <InputField
+                id="income"
+                label="income"
+                name="income"
+                value={state?.inputs?.income}
+                placeholder="$ e.g 2000"
+                error={state?.errors?.income}
+              />
+
+              <InputField
+                id="expenses"
+                label="expenses"
+                name="expenses"
+                value={state?.inputs?.expenses}
+                placeholder="$ e.g 2000"
+                error={state?.errors?.expenses}
+              />
             </div>
             <button
               disabled={pending}
