@@ -16,17 +16,9 @@ const SearchBar = ({ filterText, onFilterTextChange }: SearchBarProps) => {
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
           onFilterTextChange(e.target.value)
         }
+        data-testid="search-transactions"
         placeholder="Search transaction"
-        className="hidden md:block w-full h-[2.8125rem] px-4 border border-[#98908b] rounded-lg"
-      />
-      <input
-        type="text"
-        value={filterText}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-          onFilterTextChange(e.target.value)
-        }
-        placeholder="Search trans"
-        className=" md:hidden w-full h-[2.8125rem] px-4 border border-[#98908b] rounded-lg"
+        className="w-full h-[2.8125rem] px-4 border border-[#98908b] rounded-lg md:placeholder-[Search transaction] placeholder-[Search trans]"
       />
       <Image
         src={searchIcon}
