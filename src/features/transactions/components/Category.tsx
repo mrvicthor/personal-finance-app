@@ -67,7 +67,10 @@ const Category = ({ onHandleCategory, category }: Props) => {
             onHandleCategory(value as CategoryProps)
           }
         >
-          <SelectTrigger className="w-[117px] h-[2.8125rem]">
+          <SelectTrigger
+            className="w-[117px] h-[2.8125rem]"
+            data-testid="select-category"
+          >
             <SelectValue
               placeholder="All Transactions"
               className="text-[#696868]"

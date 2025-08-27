@@ -72,6 +72,18 @@ describe("FilterTransactionsTable page", () => {
       "Oops! There are no transactions to display"
     );
   });
+
+  test("should filter transactions based on category selected", () => {
+    render(<FilterTransactionsTable transactions={transactions} />);
+    const selectCategory = screen.getByTestId("select-category");
+    fireEvent.click(selectCategory);
+
+    const categoryOption = screen.getAllByText("Dining Out");
+    fireEvent.click(categoryOption[0]);
+
+    const transaction = screen.getByText("Savory Bites Bistro");
+    expect(transaction).toBeInTheDocument();
+  });
 });
 
 function filterTransactionsByName(transactionName: string) {
