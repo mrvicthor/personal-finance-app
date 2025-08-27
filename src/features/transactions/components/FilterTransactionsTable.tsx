@@ -78,10 +78,12 @@ const FilterTransactionsTable = ({ transactions }: Transactions) => {
           <Category onHandleCategory={setCategory} category={category} />
         </div>
       </div>
-      {paginatedTransactions.length === 0 ? (
-        <p className="mt-6">Oops! There are no transactions to display</p>
-      ) : (
+      {paginatedTransactions.length ? (
         <TransactionTable transactions={paginatedTransactions} />
+      ) : (
+        <p className="mt-6" data-testid="no-transactions">
+          Oops! There are no transactions to display
+        </p>
       )}
       {paginatedTransactions.length > 0 && (
         <RenderPagination

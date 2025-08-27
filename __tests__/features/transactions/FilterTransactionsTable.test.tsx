@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react";
+import { fireEvent, render, screen, act } from "@testing-library/react";
 import FilterTransactionsTable from "@/features/transactions/components/FilterTransactionsTable";
 import { Transaction } from "@/types/transaction";
 
@@ -13,27 +13,68 @@ jest.mock("lucide-react", () => {
   );
 });
 
+const transactions: Transaction[] = [
+  {
+    avatar: "./assets/images/avatars/emma-richardson.jpg",
+    name: "Emma Richardson",
+    category: "General",
+    date: "2024-08-19T14:23:11Z",
+    amount: 75.5,
+    recurring: false,
+  },
+  {
+    avatar: "./assets/images/avatars/savory-bites-bistro.jpg",
+    name: "Savory Bites Bistro",
+    category: "Dining Out",
+    date: "2024-08-19T20:23:11Z",
+    amount: -55.5,
+    recurring: false,
+  },
+];
 describe("FilterTransactionsTable page", () => {
-  test("should view all transactions on transactions page", () => {
-    const transactions: Transaction[] = [
-      {
-        avatar: "./assets/images/avatars/emma-richardson.jpg",
-        name: "Emma Richardson",
-        category: "General",
-        date: "2024-08-19T14:23:11Z",
-        amount: 75.5,
-        recurring: false,
-      },
-      {
-        avatar: "./assets/images/avatars/savory-bites-bistro.jpg",
-        name: "Savory Bites Bistro",
-        category: "Dining Out",
-        date: "2024-08-19T20:23:11Z",
-        amount: -55.5,
-        recurring: false,
-      },
-    ];
+  beforeEach(() => {
+    jest.useFakeTimers();
+  });
 
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
+  test("should view all transactions on transactions page", () => {
     render(<FilterTransactionsTable transactions={transactions} />);
   });
+
+  test("should render search bar", () => {
+    render(<FilterTransactionsTable transactions={transactions} />);
+    const searchBar = screen.getByTestId("search-transactions");
+    expect(searchBar).toBeInTheDocument();
+  });
+
+  test("should filter transactions based on search input", () => {
+    render(<FilterTransactionsTable transactions={transactions} />);
+    filterTransactionsByName("Emma");
+    const transaction = screen.getByText("Emma Richardson");
+    expect(transaction).toBeInTheDocument();
+  });
+
+  test("should show no transaction found if search input does not match any transaction", async () => {
+    render(<FilterTransactionsTable transactions={transactions} />);
+    const inputField = screen.getByTestId("search-transactions");
+    act(() => {
+      fireEvent.change(inputField, { target: { value: "Non Existent" } });
+
+      jest.advanceTimersByTime(3000);
+    });
+
+    const noTransaction = await screen.findByTestId("no-transactions");
+    expect(noTransaction).toBeInTheDocument();
+    expect(noTransaction).toHaveTextContent(
+      "Oops! There are no transactions to display"
+    );
+  });
 });
+
+function filterTransactionsByName(transactionName: string) {
+  const inputField = screen.getByTestId("search-transactions");
+  fireEvent.change(inputField, { target: { value: transactionName } });
+}
