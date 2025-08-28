@@ -43,7 +43,18 @@ describe("FilterTransactionsTable page", () => {
   test("previous button should be disabled if on first transaction page", () => {
     render(<FilterTransactionsTable transactions={transactions} />);
     const previousBtn = screen.getByTestId("previous-btn");
-    // fireEvent.click(previousBtn);
+    expect(previousBtn).toBeDisabled();
+  });
+
+  test("should go back to previous page when the previous button is clicked", () => {
+    render(<FilterTransactionsTable transactions={transactions} />);
+
+    const nextBtn = screen.getByTestId("next-btn");
+    const previousBtn = screen.getByTestId("previous-btn");
+
+    fireEvent.click(nextBtn);
+    fireEvent.click(previousBtn);
+
     expect(previousBtn).toBeDisabled();
   });
 });
