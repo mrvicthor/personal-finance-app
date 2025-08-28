@@ -4,7 +4,7 @@ import { Transaction } from "@/types/transaction";
 import useDebounce from "@/hooks/useDebounce";
 import SearchBar from "./forms/SearchBar";
 import SortBy from "./SortBy";
-import { SortBy as SortProps } from "../../transactions/components/FilterTransactionsTable";
+import { SortOption } from "../../transactions/components/FilterTransactionsTable";
 import BillsTable from "./BillsTable";
 import usePagination from "@/hooks/usePagination";
 import RenderPagination from "@/features/transactions/components/RenderPagination";
@@ -16,7 +16,7 @@ type FilterBillsTableProps = {
 
 const FilterBillsTable = ({ data }: FilterBillsTableProps) => {
   const [filterText, setFilterText] = useState("");
-  const [isSorted, setIsSorted] = useState<SortProps>("Latest");
+  const [isSorted, setIsSorted] = useState<SortOption>("Latest");
   const debouncedValue = useDebounce(filterText);
 
   const searchResult = data.filter(
