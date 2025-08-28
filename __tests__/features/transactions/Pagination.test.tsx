@@ -57,4 +57,14 @@ describe("FilterTransactionsTable page", () => {
 
     expect(previousBtn).toBeDisabled();
   });
+
+  test("should disable next button on the last page", () => {
+    render(<FilterTransactionsTable transactions={transactions} />);
+    const nextBtn = screen.getByTestId("next-btn");
+
+    while (!nextBtn.hasAttribute("disabled")) {
+      fireEvent.click(nextBtn);
+    }
+    expect(nextBtn).toBeDisabled();
+  });
 });
