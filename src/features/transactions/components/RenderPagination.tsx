@@ -19,11 +19,19 @@ const RenderPagination = ({
   return (
     <>
       {totalPages > 1 && (
-        <div className="flex justify-between items-center mt-6">
+        <div
+          data-testid="pagination-container"
+          className="flex justify-between items-center mt-6"
+        >
           <button
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 1}
-            className="flex w-[3rem] sm:w-[5.875rem] h-[2.5rem] items-center gap-6 px-4 border border-[#98908B] hover:bg-[#98908B] hover:text-white rounded-lg cursor-pointer"
+            data-testid="previous-btn"
+            className={`flex w-[3rem] sm:w-[5.875rem] h-[2.5rem] items-center gap-6 px-4 border border-[#98908B] hover:bg-[#98908B] hover:text-white rounded-lg ${
+              currentPage === 1
+                ? "cursor-not-allowed opacity-50 bg-gray-200 text-gray-500"
+                : "cursor-pointer hover:bg-[#98908B] hover:text-white"
+            }`}
           >
             <Image src={leftArrow} alt="previous arrow icon" className="" />
             <span className="hidden sm:block capitalize">prev</span>
@@ -41,6 +49,7 @@ const RenderPagination = ({
                 ) : (
                   <button
                     key={`button-${button.page}`}
+                    data-testid="page-number"
                     className={`${
                       button.isActive
                         ? "bg-[#201F24] text-white"
@@ -71,7 +80,12 @@ const RenderPagination = ({
           <button
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
-            className="flex w-[3rem] sm:w-[5.875rem] h-[2.5rem] items-center gap-6 px-4 border border-[#98908B] hover:bg-[#98908B] hover:text-white rounded-lg cursor-pointer"
+            data-testid="next-btn"
+            className={`flex w-[3rem] sm:w-[5.875rem] h-[2.5rem] items-center gap-6 px-4 border border-[#98908B] hover:bg-[#98908B] hover:text-white rounded-lg ${
+              currentPage === totalPages
+                ? "cursor-not-allowed opacity-50 bg-gray-200 text-gray-500"
+                : "cursor-pointer hover:bg-[#98908B] hover:text-white"
+            }`}
           >
             <Image src={rightArrow} alt="next arrow icon" />
             <span className="hidden sm:block capitalize">next</span>
