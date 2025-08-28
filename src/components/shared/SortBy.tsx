@@ -1,5 +1,5 @@
 import DesktopSortDropdown from "./DesktopSortDropdown";
-import { SortOption } from "./FilterTransactionsTable";
+import { SortOption } from "../../features/transactions/components/FilterTransactionsTable";
 
 import MobileSortDropdown from "./MobileSortDropdown";
 

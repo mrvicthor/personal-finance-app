@@ -1,8 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
-import sortIcon from "../../../../public/assets/images/icon-sort-mobile.svg";
-import { SortOption } from "./FilterTransactionsTable";
+import sortIcon from "../../../public/assets/images/icon-sort-mobile.svg";
+import { SortOption } from "../../features/transactions/components/FilterTransactionsTable";
 
 type MobileSortDropdownProps = {
   sortBy: string;

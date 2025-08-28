@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Transaction } from "@/types/transaction";
 import useDebounce from "@/hooks/useDebounce";
 import SearchBar from "./forms/SearchBar";
-import SortBy from "./SortBy";
+import SortBy from "../../../components/shared/SortBy";
 import { SortOption } from "../../transactions/components/FilterTransactionsTable";
 import BillsTable from "./BillsTable";
 import usePagination from "@/hooks/usePagination";

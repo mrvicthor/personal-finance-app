@@ -5,7 +5,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { SortOption } from "./FilterTransactionsTable";
+import { SortOption } from "../../features/transactions/components/FilterTransactionsTable";
 
 type DesktopSortDropdownProps = {
   sortBy: string;
