@@ -26,7 +26,7 @@ export type Category =
   | "Shopping"
   | "All Transactions";
 
-export type SortBy =
+export type SortOption =
   | "Latest"
   | "Oldest"
   | "A to Z"
@@ -37,7 +37,7 @@ export type SortBy =
 const FilterTransactionsTable = ({ transactions }: Transactions) => {
   const [filterText, setFilterText] = useState<string>("");
   const debouncedValue = useDebounce(filterText);
-  const [isSorted, setIsSorted] = useState<SortBy>("Latest");
+  const [isSorted, setIsSorted] = useState<SortOption>("Latest");
   const [category, setCategory] = useState<Category>("All Transactions");
 
   const searchResult = transactions.filter(
