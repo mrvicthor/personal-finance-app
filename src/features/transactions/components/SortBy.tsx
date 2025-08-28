@@ -1,12 +1,6 @@
-"use client";
+import DesktopSortDropdown from "./DesktopSortDropdown";
 import { SortOption } from "./FilterTransactionsTable";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+
 import MobileSortDropdown from "./MobileSortDropdown";
 
 type SortByProps = {
@@ -30,24 +24,11 @@ const SortBy = ({ onHandleSort, sortBy }: SortByProps) => {
         sortOptions={sortOptions}
       />
 
-      <p className="sortby-text hidden sm:block">Sort by</p>
-      <div className="hidden sm:block">
-        <Select
-          value={sortBy}
-          onValueChange={(value: string) => onHandleSort(value as SortOption)}
-        >
-          <SelectTrigger className="w-[113px] h-[2.8125rem]">
-            <SelectValue placeholder="Latest" />
-          </SelectTrigger>
-          <SelectContent>
-            {sortOptions.map((option) => (
-              <SelectItem key={option} value={option} className="capitalize">
-                {option}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
+      <DesktopSortDropdown
+        handleSort={onHandleSort}
+        sortBy={sortBy}
+        sortOptions={sortOptions}
+      />
     </div>
   );
 };
