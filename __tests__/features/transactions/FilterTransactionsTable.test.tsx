@@ -104,16 +104,30 @@ describe("FilterTransactionsTable page", () => {
     expect(rows[1]).toHaveTextContent(transactions[1].name);
   });
 
-  test("should sort transactions from A to Z", () => {
+  test("should sort transactions from A to Z - name", () => {
     render(<FilterTransactionsTable transactions={transactions} />);
     sortTransaction("A to Z");
     const rows = screen.getAllByRole("row");
     expect(rows[1]).toHaveTextContent(transactions[0].name);
   });
 
-  test("should sort transactions from Z to A", () => {
+  test("should sort transactions from Z to A - name", () => {
     render(<FilterTransactionsTable transactions={transactions} />);
     sortTransaction("Z to A");
+    const rows = screen.getAllByRole("row");
+    expect(rows[1]).toHaveTextContent(transactions[1].name);
+  });
+
+  test("should sort transaction by highest amount", () => {
+    render(<FilterTransactionsTable transactions={transactions} />);
+    sortTransaction("Highest");
+    const rows = screen.getAllByRole("row");
+    expect(rows[1]).toHaveTextContent(transactions[0].name);
+  });
+
+  test("should sort transaction by lowest amount", () => {
+    render(<FilterTransactionsTable transactions={transactions} />);
+    sortTransaction("Lowest");
     const rows = screen.getAllByRole("row");
     expect(rows[1]).toHaveTextContent(transactions[1].name);
   });
