@@ -84,6 +84,10 @@ describe("FilterTransactionsTable page", () => {
     const transaction = screen.getByText("Savory Bites Bistro");
     expect(transaction).toBeInTheDocument();
   });
+
+  test("should sort transactions by latest", () => {
+    render(<FilterTransactionsTable transactions={transactions} />);
+  });
 });
 
 function filterTransactionsByName(transactionName: string) {

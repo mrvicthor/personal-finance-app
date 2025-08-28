@@ -15,39 +15,47 @@ type SortByProps = {
   onHandleSort: React.Dispatch<React.SetStateAction<SortProps>>;
   sortBy: string;
 };
+const sortOptions: SortProps[] = [
+  "Latest",
+  "Oldest",
+  "A to Z",
+  "Z to A",
+  "Highest",
+  "Lowest",
+];
 const SortBy = ({ onHandleSort, sortBy }: SortByProps) => {
   const [showOptions, setShowOptions] = useState(false);
-  const options = [
-    { label: "Latest" },
-    { label: "Oldest" },
-    { label: "A to Z" },
-    { label: "Z to A" },
-    { label: "Highest" },
-    { label: "Lowest" },
-  ];
+
+  const handleSelect = (value: SortProps) => {
+    onHandleSort(value);
+    setShowOptions(false);
+  };
+
   return (
     <div className="flex items-center gap-2 sortby">
       <div className="relative sm:hidden md:hidden">
-        <Image
-          src={sortIcon}
-          alt="sort icon"
-          className=""
-          onClick={() => setShowOptions(!showOptions)}
-        />
+        <button
+          type="button"
+          aria-haspopup="listbox"
+          aria-expanded={showOptions}
+          onClick={() => setShowOptions((prev) => !prev)}
+        >
+          <Image src={sortIcon} alt="sort icon" />
+        </button>
         {showOptions && (
-          <ul className="absolute top-8 bg-white z-40 w-[10.125rem] my-shadow divide-y-2 px-5 sort-list">
-            {options.map((option) => (
+          <ul
+            role="listbox"
+            className="absolute top-8 bg-white z-40 w-[10.125rem] my-shadow divide-y-2 px-5 sort-list"
+          >
+            {sortOptions.map((option) => (
               <li
-                key={option.label}
-                onClick={() => {
-                  onHandleSort(option.label as SortProps);
-                  setShowOptions(!showOptions);
-                }}
-                className={`${
-                  sortBy === option.label && "font-bold"
-                } sort-list-item`}
+                key={option}
+                role="option"
+                aria-selected={sortBy === option}
+                onClick={() => handleSelect(option)}
+                className={`${sortBy === option ? "font-bold" : ""} cursor-pointer sort-list-item`}
               >
-                {option.label}
+                {option}
               </li>
             ))}
           </ul>
@@ -56,19 +64,16 @@ const SortBy = ({ onHandleSort, sortBy }: SortByProps) => {
       <p className="sortby-text hidden sm:block">Sort by</p>
       <div className="hidden sm:block">
         <Select
+          value={sortBy}
           onValueChange={(value: string) => onHandleSort(value as SortProps)}
         >
           <SelectTrigger className="w-[113px] h-[2.8125rem]">
             <SelectValue placeholder="Latest" />
           </SelectTrigger>
           <SelectContent>
-            {options.map((option) => (
-              <SelectItem
-                key={option.label}
-                value={option.label}
-                className="capitalize"
-              >
-                {option.label}
+            {sortOptions.map((option) => (
+              <SelectItem key={option} value={option} className="capitalize">
+                {option}
               </SelectItem>
             ))}
           </SelectContent>
