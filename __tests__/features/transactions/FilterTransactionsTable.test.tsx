@@ -1,5 +1,7 @@
 import { fireEvent, render, screen, act } from "@testing-library/react";
-import FilterTransactionsTable from "@/features/transactions/components/FilterTransactionsTable";
+import FilterTransactionsTable, {
+  SortOption,
+} from "@/features/transactions/components/FilterTransactionsTable";
 import { Transaction } from "@/types/transaction";
 
 jest.mock("lucide-react", () => {
@@ -85,31 +87,45 @@ describe("FilterTransactionsTable page", () => {
     expect(transaction).toBeInTheDocument();
   });
 
-  test("should sort transactions by latest", () => {
+  test("should sort transactions by latest - Date", () => {
     render(<FilterTransactionsTable transactions={transactions} />);
 
-    const sortButton = screen.getByTestId("sort-option-btn");
-    fireEvent.click(sortButton);
-
-    const sortOption = screen.getByRole("option", { name: "Latest" });
-    fireEvent.click(sortOption);
+    sortTransaction("Latest");
 
     const rows = screen.getAllByRole("row");
     expect(rows[1]).toHaveTextContent(transactions[0].name);
   });
 
-  test("should sort transactions by oldest", () => {
+  test("should sort transactions by oldest - Date", () => {
     render(<FilterTransactionsTable transactions={transactions} />);
 
-    const sortButton = screen.getByTestId("sort-option-btn");
-    fireEvent.click(sortButton);
+    sortTransaction("Oldest");
+    const rows = screen.getAllByRole("row");
+    expect(rows[1]).toHaveTextContent(transactions[1].name);
+  });
 
-    const sortOption = screen.getByRole("option", { name: "Oldest" });
-    fireEvent.click(sortOption);
+  test("should sort transactions from A to Z", () => {
+    render(<FilterTransactionsTable transactions={transactions} />);
+    sortTransaction("A to Z");
+    const rows = screen.getAllByRole("row");
+    expect(rows[1]).toHaveTextContent(transactions[0].name);
+  });
+
+  test("should sort transactions from Z to A", () => {
+    render(<FilterTransactionsTable transactions={transactions} />);
+    sortTransaction("Z to A");
     const rows = screen.getAllByRole("row");
     expect(rows[1]).toHaveTextContent(transactions[1].name);
   });
 });
+
+function sortTransaction(sortValue: SortOption) {
+  const sortButton = screen.getByTestId("sort-option-btn");
+  fireEvent.click(sortButton);
+
+  const sortOption = screen.getByRole("option", { name: sortValue });
+  fireEvent.click(sortOption);
+}
 
 function filterTransactionsByName(transactionName: string) {
   const inputField = screen.getByTestId("search-transactions");
