@@ -34,7 +34,12 @@ const TransactionTable = ({ transactions }: TransactionProps) => {
       </thead>
       <tbody>
         {transactions.map((transaction, index) => (
-          <motion.tr variants={itemVariants} key={index} className="py-4">
+          <motion.tr
+            variants={itemVariants}
+            key={index}
+            className="py-4"
+            role="row"
+          >
             <td className=" flex items-center gap-3 py-4">
               {transaction.avatar ? (
                 <Image

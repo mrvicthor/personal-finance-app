@@ -87,6 +87,27 @@ describe("FilterTransactionsTable page", () => {
 
   test("should sort transactions by latest", () => {
     render(<FilterTransactionsTable transactions={transactions} />);
+
+    const sortButton = screen.getByTestId("sort-option-btn");
+    fireEvent.click(sortButton);
+
+    const sortOption = screen.getByRole("option", { name: "Latest" });
+    fireEvent.click(sortOption);
+
+    const rows = screen.getAllByRole("row");
+    expect(rows[1]).toHaveTextContent(transactions[0].name);
+  });
+
+  test("should sort transactions by oldest", () => {
+    render(<FilterTransactionsTable transactions={transactions} />);
+
+    const sortButton = screen.getByTestId("sort-option-btn");
+    fireEvent.click(sortButton);
+
+    const sortOption = screen.getByRole("option", { name: "Oldest" });
+    fireEvent.click(sortOption);
+    const rows = screen.getAllByRole("row");
+    expect(rows[1]).toHaveTextContent(transactions[1].name);
   });
 });
 

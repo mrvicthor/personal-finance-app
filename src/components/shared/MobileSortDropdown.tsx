@@ -24,6 +24,7 @@ const MobileSortDropdown = ({
     <div className="relative sm:hidden md:hidden">
       <button
         type="button"
+        data-testid="sort-option-btn"
         aria-haspopup="listbox"
         aria-expanded={showOptions}
         onClick={() => setShowOptions((prev) => !prev)}
