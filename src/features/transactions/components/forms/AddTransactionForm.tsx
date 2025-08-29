@@ -3,11 +3,11 @@ import React, { useActionState } from "react";
 
 import { AddTransactionActionResponse } from "@/lib/definition";
 import { addTransaction } from "../../db/transactions";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/label";
 import InputField from "@/components/forms/inputField";
 import CategoryField from "@/components/forms/categoryField";
 import DateField from "@/components/forms/dateField";
+
+import RadioInputField from "@/components/forms/radioInputField";
 
 const initialState: AddTransactionActionResponse = {
   success: false,
@@ -47,28 +47,7 @@ const AddTransactionForm = () => {
             placeholder="$ e.g 2000"
           />
 
-          <div className="flex flex-col space-x-2">
-            <label
-              htmlFor="recurring"
-              className="capitalize text-[#696868] text-xs font-bold"
-            >
-              is it Recurring?
-            </label>
-            <RadioGroup
-              name="recurring"
-              defaultValue="false"
-              className="flex mt-2"
-            >
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="true" id="true" />
-                <Label htmlFor="true">True</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="false" id="false" />
-                <Label htmlFor="false">False</Label>
-              </div>
-            </RadioGroup>
-          </div>
+          <RadioInputField name="recurring" label="is it Recurring?" />
           <button
             disabled={pending}
             type="submit"
