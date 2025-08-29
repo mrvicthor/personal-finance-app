@@ -1,34 +1,19 @@
 "use client";
-import React, { useState, useActionState } from "react";
-import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { categories } from "@/helpers";
+import React, { useActionState } from "react";
+
 import { AddTransactionActionResponse } from "@/lib/definition";
 import { addTransaction } from "../../db/transactions";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
+import InputField from "@/components/forms/inputField";
+import CategoryField from "@/components/forms/categoryField";
+import DateField from "@/components/forms/dateField";
 
 const initialState: AddTransactionActionResponse = {
   success: false,
   message: "",
 };
 const AddTransactionForm = () => {
-  const [date, setDate] = useState<Date | undefined>(new Date());
   const [state, action, pending] = useActionState(addTransaction, initialState);
 
   return (
@@ -37,103 +22,31 @@ const AddTransactionForm = () => {
         <p className="text-green-500">{state?.message}</p>
       ) : (
         <form action={action} className="mt-5 space-y-4">
-          <div className="flex flex-col gap-1">
-            <label
-              htmlFor="sender"
-              className="capitalize text-[#696868] text-xs font-bold"
-            >
-              recipient / sender
-            </label>
-            <input
-              id="sender"
-              name="sender"
-              className="border-[#98908B] border rounded-lg h-[2.8125rem] px-5"
-              type="text"
-              placeholder="e.g John Doe"
-              required
-            />
-          </div>
-          {state?.errors?.sender && (
-            <p className="text-red-500">{state.errors.sender}</p>
-          )}
-          <div className="flex flex-col gap-1">
-            <label
-              htmlFor="category"
-              className="capitalize text-[#696868] text-xs font-bold"
-            >
-              category
-            </label>
-            <Select name="category">
-              <SelectTrigger className="h-[45px] border-[#98908B]">
-                <SelectValue placeholder="Entertainment" />
-              </SelectTrigger>
-              <SelectContent>
-                {categories.map((category) => {
-                  return (
-                    <SelectItem key={category.value} value={category.value}>
-                      {category.label}
-                    </SelectItem>
-                  );
-                })}
-              </SelectContent>
-            </Select>
-          </div>
-          {state?.errors?.category && (
-            <p className="text-red-500">{state.errors.category}</p>
-          )}
-          <div className="flex flex-col gap-1">
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant={"outline"}
-                  className={cn(
-                    "w-full justify-start text-left h-[45px] border-[#98908B] font-normal",
-                    !date && "text-muted-foreground"
-                  )}
-                >
-                  <CalendarIcon />
-                  {date ? format(date, "PPP") : <span>transaction date</span>}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent>
-                <Calendar
-                  mode="single"
-                  selected={date}
-                  onSelect={setDate}
-                  initialFocus
-                />
-              </PopoverContent>
-            </Popover>
-            <input
-              type="hidden"
-              name="transactionDate"
-              value={date?.toISOString()}
-            />
-          </div>
-          {state?.errors?.transactionDate && (
-            <p className="text-red-500">
-              {state.errors.transactionDate} here {date?.toISOString()}
-            </p>
-          )}
-          <div className="flex flex-col gap-1">
-            <label
-              htmlFor="amount"
-              className="capitalize text-[#696868] text-xs font-bold"
-            >
-              amount
-            </label>
-            <input
-              id="amount"
-              name="amount"
-              className="border-[#98908B] border rounded-lg h-[2.8125rem] px-5"
-              type="text"
-              placeholder="$ e.g 2000"
-              required
-            />
-          </div>
-          {state?.errors?.amount && (
-            <p className="text-red-500">{state.errors.amount}</p>
-          )}
+          <InputField
+            id="sender"
+            label="recipient / sender"
+            name="sender"
+            error={state?.errors?.sender}
+            placeholder="e.g John Doe"
+          />
+          <CategoryField
+            id="category"
+            label="category"
+            name="category"
+            error={state?.errors?.category}
+          />
+          <DateField
+            name="transactionDate"
+            error={state?.errors?.transactionDate}
+          />
+          <InputField
+            id="amount"
+            label="amount"
+            name="amount"
+            error={state?.errors?.amount}
+            placeholder="$ e.g 2000"
+          />
+
           <div className="flex flex-col space-x-2">
             <label
               htmlFor="recurring"
