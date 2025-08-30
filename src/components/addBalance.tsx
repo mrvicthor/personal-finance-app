@@ -1,7 +1,6 @@
 import React from "react";
-import Image from "next/image";
-import closeIcon from "../../public/assets/images/icon-close-modal.svg";
 import AddBalanceForm from "./forms/addBalanceForm";
+import FormHeader from "./forms/header";
 
 type AddBalanceProps = {
   onClose: () => void;
@@ -18,28 +17,21 @@ export default function AddBalance({
         className="fixed inset-0 bg-black bg-opacity-50 z-40"
         onClick={onClose}
         data-testid="modal-backdrop"
+        aria-label="Close modal backdrop"
+        role="button"
+        tabIndex={0}
       />
       <div
         role="dialog"
+        aria-modal="true"
+        aria-labelledby="add-balance-heading"
         className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg w-full max-w-[20.9375rem] sm:max-w-[35rem] py-8 px-5 sm:px-8 z-50"
       >
-        <div className="flex items-center justify-between">
-          <p
-            data-testid="heading"
-            className="text-[#201F24] font-bold text-[2rem] capitalize"
-          >
-            add new balance
-          </p>
-          <Image
-            src={closeIcon}
-            onClick={onClose}
-            alt="close-icon"
-            width={32}
-            height={32}
-            className="cursor-pointer"
-            data-testid={closeButtonTestId}
-          />
-        </div>
+        <FormHeader
+          heading="add new balance"
+          onClose={onClose}
+          closeButtonTestId={closeButtonTestId}
+        />
 
         <AddBalanceForm />
       </div>

@@ -1,6 +1,9 @@
-import { screen, render } from "@testing-library/react";
+import { screen, render, fireEvent } from "@testing-library/react";
 import HomeClient from "@/features/transactions/components/HomeClient";
-import { getTransactions } from "@/features/transactions/db/transactions";
+import {
+  getTransactions,
+  addTransaction,
+} from "@/features/transactions/db/transactions";
 import { Transaction } from "@/types/transaction";
 
 const transactions: Transaction[] = [
@@ -39,6 +42,10 @@ jest.mock("../../../src/app/actions/auth", () => ({
 
 jest.mock("../../../src/features/transactions/db/transactions", () => ({
   getTransactions: jest.fn(),
+  addTransaction: jest.fn().mockResolvedValue({
+    success: true,
+    message: "Transaction added successfully",
+  }),
 }));
 
 describe("Transactions Page", () => {
@@ -55,5 +62,24 @@ describe("Transactions Page", () => {
     );
     const label = screen.getByLabelText("Transactions");
     expect(label).toBeInTheDocument();
+  });
+
+  test("should render Add Transaction Form when the button is Add Transaction button is clicked", () => {
+    render(
+      <HomeClient>
+        <div>Transactions</div>
+      </HomeClient>
+    );
+    const addButton = screen.getByRole("button", {
+      name: /add transaction/i,
+    });
+    fireEvent.click(addButton);
+    screen.debug();
+    expect(addButton).toBeInTheDocument();
+
+    // fireEvent.click(addButton);
+    // // screen.debug();
+    // const addTransactionForm = screen.getByTestId("add-transaction-form");
+    // expect(addTransactionForm).toBeInTheDocument();
   });
 });

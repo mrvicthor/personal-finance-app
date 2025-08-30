@@ -15,6 +15,7 @@ const HomeClient = ({ children }: { children: React.ReactNode }) => {
         <h1 className="text-[2rem] font-bold capitalize">transactions</h1>
         <Button
           title="add transaction"
+          testId="add-transaction"
           handleModal={() => setShowModal(true)}
         />
         <FaArrowRightFromBracket
@@ -25,7 +26,10 @@ const HomeClient = ({ children }: { children: React.ReactNode }) => {
       </div>
       {showModal &&
         createPortal(
-          <AddTransaction onClose={() => setShowModal(false)} />,
+          <AddTransaction
+            onClose={() => setShowModal(false)}
+            closeButtonTestId="close-button"
+          />,
           document.body
         )}
       {children}

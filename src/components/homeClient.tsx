@@ -17,6 +17,7 @@ const HomeClient = ({ children }: { children: React.ReactNode }) => {
         <Title title="overview" />{" "}
         <Button
           title="add new balance"
+          testId="add-balance"
           handleModal={() => setShowModal(true)}
         />
         <FaArrowRightFromBracket
