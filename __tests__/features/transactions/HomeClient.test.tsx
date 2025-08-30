@@ -1,6 +1,6 @@
 import { screen, render, fireEvent } from "@testing-library/react";
 import HomeClient from "@/features/transactions/components/HomeClient";
-import { addTransaction } from "@/features/transactions/db/transactions";
+// import { addTransaction } from "@/features/transactions/db/transactions";
 import { logout } from "@/app/actions/auth";
 
 jest.mock("lucide-react", () => {

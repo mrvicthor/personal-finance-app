@@ -13,7 +13,11 @@ const HomeClient = ({ children }: { children: React.ReactNode }) => {
     <section className="px-4 sm:px-10">
       <div className="flex items-center justify-between gap-4">
         <h1 className="text-[2rem] font-bold capitalize">budgets</h1>
-        <Button title="add new budget" handleModal={() => setShowModal(true)} />
+        <Button
+          title="add new budget"
+          handleModal={() => setShowModal(true)}
+          testId="add-budget-button"
+        />
         <FaArrowRightFromBracket
           className="md:hidden"
           size={24}
