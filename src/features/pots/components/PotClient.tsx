@@ -12,7 +12,11 @@ const PotClient = ({ children }: { children: ReactNode }) => {
     <section className="px-4 sm:px-10">
       <div className="flex items-center justify-between gap-4">
         <h1 className="text-[2rem] font-bold capitalize">pots</h1>
-        <Button title="add new pot" handleModal={() => setShowModal(true)} />
+        <Button
+          title="add new pot"
+          handleModal={() => setShowModal(true)}
+          testId="add-pot-btn"
+        />
         <FaArrowRightFromBracket
           className="md:hidden"
           size={24}
