@@ -2,7 +2,7 @@ type InputFieldProps = {
   id: string;
   label: string;
   name: string;
-  value?: number | undefined;
+  value?: number | string | undefined;
   placeholder?: string;
   error?: string[];
 };

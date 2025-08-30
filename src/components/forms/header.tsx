@@ -1,5 +1,5 @@
 import Image from "next/image";
-import closeIcon from "../../public/assets/images/icon-close-modal.svg";
+import closeIcon from "../../../public/assets/images/icon-close-modal.svg";
 
 type HeaderProps = {
   onClose: () => void;

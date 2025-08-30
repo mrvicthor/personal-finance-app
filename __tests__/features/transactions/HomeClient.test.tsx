@@ -1,29 +1,7 @@
 import { screen, render, fireEvent } from "@testing-library/react";
 import HomeClient from "@/features/transactions/components/HomeClient";
-import {
-  getTransactions,
-  addTransaction,
-} from "@/features/transactions/db/transactions";
-import { Transaction } from "@/types/transaction";
-
-const transactions: Transaction[] = [
-  {
-    avatar: "./assets/images/avatars/emma-richardson.jpg",
-    name: "Emma Richardson",
-    category: "General",
-    date: "2024-08-19T14:23:11Z",
-    amount: 75.5,
-    recurring: false,
-  },
-  {
-    avatar: "./assets/images/avatars/savory-bites-bistro.jpg",
-    name: "Savory Bites Bistro",
-    category: "Dining Out",
-    date: "2024-08-19T20:23:11Z",
-    amount: -55.5,
-    recurring: false,
-  },
-];
+import { addTransaction } from "@/features/transactions/db/transactions";
+import { logout } from "@/app/actions/auth";
 
 jest.mock("lucide-react", () => {
   return new Proxy(
@@ -41,19 +19,31 @@ jest.mock("../../../src/app/actions/auth", () => ({
 }));
 
 jest.mock("../../../src/features/transactions/db/transactions", () => ({
-  getTransactions: jest.fn(),
   addTransaction: jest.fn().mockResolvedValue({
     success: true,
     message: "Transaction added successfully",
   }),
 }));
 
+jest.mock("react-dom", () => ({
+  ...jest.requireActual("react-dom"),
+  createPortal: (node: React.ReactNode) => node,
+}));
+
+jest.mock("react", () => ({
+  ...jest.requireActual("react"),
+  useActionState: jest.fn(() => [
+    { success: false, message: "" },
+    jest.fn(),
+    false,
+  ]),
+}));
+
 describe("Transactions Page", () => {
   beforeEach(() => {
-    (getTransactions as jest.Mock).mockResolvedValue({
-      data: transactions,
-    });
+    jest.clearAllMocks();
   });
+
   test("should render transactions page", () => {
     render(
       <HomeClient>
@@ -62,6 +52,16 @@ describe("Transactions Page", () => {
     );
     const label = screen.getByLabelText("Transactions");
     expect(label).toBeInTheDocument();
+  });
+
+  test("should call logout function when logout icon is clicked", () => {
+    render(
+      <HomeClient>
+        <div>Test Content</div>
+      </HomeClient>
+    );
+    fireEvent.click(screen.getByTestId("logout-icon"));
+    expect(logout).toHaveBeenCalled();
   });
 
   test("should render Add Transaction Form when the button is Add Transaction button is clicked", () => {
@@ -73,13 +73,16 @@ describe("Transactions Page", () => {
     const addButton = screen.getByRole("button", {
       name: /add transaction/i,
     });
-    fireEvent.click(addButton);
-    screen.debug();
     expect(addButton).toBeInTheDocument();
 
-    // fireEvent.click(addButton);
-    // // screen.debug();
-    // const addTransactionForm = screen.getByTestId("add-transaction-form");
-    // expect(addTransactionForm).toBeInTheDocument();
+    fireEvent.click(addButton);
+
+    expect(screen.getByTestId("add-transaction-form")).toBeInTheDocument();
+
+    const closeBtn = screen.getByTestId("close-button");
+    fireEvent.click(closeBtn);
+    expect(
+      screen.queryByTestId("add-transaction-form")
+    ).not.toBeInTheDocument();
   });
 });

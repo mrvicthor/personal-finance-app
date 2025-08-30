@@ -9,6 +9,14 @@ import AddTransaction from "./AddTransaction";
 const HomeClient = ({ children }: { children: React.ReactNode }) => {
   const [showModal, setShowModal] = useState(false);
 
+  const handleModalOpen = () => {
+    setShowModal(true);
+  };
+
+  const handleModalClose = () => {
+    setShowModal(false);
+  };
+
   return (
     <section aria-label="Transactions" className="px-4 sm:px-10">
       <div className="flex items-center justify-between gap-2 sm:gap-4">
@@ -16,22 +24,33 @@ const HomeClient = ({ children }: { children: React.ReactNode }) => {
         <Button
           title="add transaction"
           testId="add-transaction"
-          handleModal={() => setShowModal(true)}
+          handleModal={handleModalOpen}
         />
         <FaArrowRightFromBracket
           className="md:hidden"
           size={24}
+          data-testid="logout-icon"
           onClick={() => logout()}
         />
       </div>
-      {showModal &&
-        createPortal(
-          <AddTransaction
-            onClose={() => setShowModal(false)}
-            closeButtonTestId="close-button"
-          />,
-          document.body
-        )}
+      {showModal && (
+        <>
+          {typeof document !== "undefined" ? (
+            createPortal(
+              <AddTransaction
+                onClose={handleModalClose}
+                closeButtonTestId="close-button"
+              />,
+              document.body
+            )
+          ) : (
+            <AddTransaction
+              onClose={handleModalClose}
+              closeButtonTestId="close-button"
+            />
+          )}
+        </>
+      )}
       {children}
     </section>
   );

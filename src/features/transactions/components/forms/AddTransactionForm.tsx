@@ -1,12 +1,10 @@
 "use client";
-import React, { useActionState } from "react";
-
+import { useActionState } from "react";
 import { AddTransactionActionResponse } from "@/lib/definition";
 import { addTransaction } from "../../db/transactions";
 import InputField from "@/components/forms/inputField";
 import CategoryField from "@/components/forms/categoryField";
 import DateField from "@/components/forms/dateField";
-
 import RadioInputField from "@/components/forms/radioInputField";
 
 const initialState: AddTransactionActionResponse = {
@@ -28,29 +26,35 @@ const AddTransactionForm = () => {
             name="sender"
             error={state?.errors?.sender}
             placeholder="e.g John Doe"
+            value={state?.inputs?.sender || ""}
           />
+
           <CategoryField
             id="category"
             label="category"
             name="category"
             error={state?.errors?.category}
           />
+
           <DateField
             name="transactionDate"
             error={state?.errors?.transactionDate}
           />
+
           <InputField
             id="amount"
             label="amount"
             name="amount"
             error={state?.errors?.amount}
             placeholder="$ e.g 2000"
+            value={state?.inputs?.amount || ""}
           />
 
           <RadioInputField name="recurring" label="is it Recurring?" />
           <button
             disabled={pending}
             type="submit"
+            data-testid="submit-transaction-button"
             className="mt-8 text-white bg-[#201F24] h-[3.3125rem] w-full rounded-lg capitalize font-bold"
           >
             {pending ? (

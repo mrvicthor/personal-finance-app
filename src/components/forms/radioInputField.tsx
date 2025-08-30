@@ -1,6 +1,3 @@
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/label";
-
 type RadioInputFieldProps = {
   name: string;
   label: string;
@@ -20,14 +17,26 @@ const RadioInputField = ({ name, label }: RadioInputFieldProps) => {
         >
           {label}
         </label>
-        <RadioGroup name={name} defaultValue="false" className="flex mt-2">
+        <div className="flex space-x-4">
           {radioOptions.map((option) => (
             <div className="flex items-center space-x-2" key={option.value}>
-              <RadioGroupItem value={option.value} id={option.value} />
-              <Label htmlFor={option.value}>{option.label}</Label>
+              <input
+                type="radio"
+                id={`${name}-${option.value}`}
+                name={name}
+                value={option.value}
+                defaultChecked={option.value === "false"}
+                className="w-4 h-4 accent-black border-gray-300 focus:ring-gray-500"
+              />
+              <label
+                htmlFor={`${name}-${option.value}`}
+                className="text-sm font-medium text-gray-700"
+              >
+                {option.label}
+              </label>
             </div>
           ))}
-        </RadioGroup>
+        </div>
       </div>
     </>
   );
