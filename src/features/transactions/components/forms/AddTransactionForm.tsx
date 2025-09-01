@@ -17,7 +17,13 @@ const AddTransactionForm = () => {
   return (
     <>
       {state?.success === true ? (
-        <p className="text-green-500">{state?.message}</p>
+        <p
+          aria-live="assertive"
+          data-testid="transaction-success-message"
+          className="text-green-500"
+        >
+          {state?.message}
+        </p>
       ) : (
         <form action={action} className="mt-5 space-y-4">
           <InputField

@@ -1,7 +1,8 @@
 import { screen, render, fireEvent } from "@testing-library/react";
 import HomeClient from "@/features/transactions/components/HomeClient";
-// import { addTransaction } from "@/features/transactions/db/transactions";
+
 import { logout } from "@/app/actions/auth";
+import { addTransaction } from "@/features/transactions/db/transactions";
 
 jest.mock("lucide-react", () => {
   return new Proxy(
@@ -23,20 +24,6 @@ jest.mock("../../../src/features/transactions/db/transactions", () => ({
     success: true,
     message: "Transaction added successfully",
   }),
-}));
-
-jest.mock("react-dom", () => ({
-  ...jest.requireActual("react-dom"),
-  createPortal: (node: React.ReactNode) => node,
-}));
-
-jest.mock("react", () => ({
-  ...jest.requireActual("react"),
-  useActionState: jest.fn(() => [
-    { success: false, message: "" },
-    jest.fn(),
-    false,
-  ]),
 }));
 
 describe("Transactions Page", () => {
@@ -86,5 +73,51 @@ describe("Transactions Page", () => {
     ).not.toBeInTheDocument();
   });
 
-  test("should ");
+  test("should submit add transaction form if successful ", async () => {
+    (addTransaction as jest.Mock).mockImplementation(async () => ({
+      success: true,
+      message: "Transaction added successfully",
+    }));
+
+    render(
+      <HomeClient>
+        <div>Transactions</div>
+      </HomeClient>
+    );
+
+    const addButton = screen.getByRole("button", {
+      name: /add transaction/i,
+    });
+
+    fireEvent.click(addButton);
+
+    const senderField = screen.getByLabelText("recipient / sender", {
+      selector: "input",
+    });
+    const selectCategory = screen.getByTestId("select-category");
+
+    const dateField = screen.getByTestId("date-input");
+
+    const amountField = screen.getByLabelText("amount", { selector: "input" });
+    const trueOption = screen.getByLabelText("True") as HTMLInputElement;
+
+    const submitButton = screen.getByTestId("submit-transaction-button");
+
+    fireEvent.change(senderField, { target: { value: "victor eleanya" } });
+    fireEvent.change(selectCategory, { target: { value: "Entertainment" } });
+    fireEvent.change(dateField, {
+      target: { value: "2025-09-02T23:00:00.000Z" },
+    });
+
+    fireEvent.change(amountField, { target: { value: "400" } });
+    fireEvent.click(trueOption);
+
+    fireEvent.click(submitButton);
+    // screen.debug();
+    const successMessage = await screen.findByText(
+      "Transaction added successfully"
+    );
+
+    expect(successMessage).toBeInTheDocument();
+  });
 });

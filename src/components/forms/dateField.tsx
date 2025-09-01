@@ -19,6 +19,12 @@ const DateField = ({ name, error }: DateFieldProps) => {
   return (
     <>
       <div className="flex flex-col gap-1">
+        <label
+          htmlFor="date"
+          className="capitalize text-[#696868] text-xs font-bold"
+        >
+          transaction date
+        </label>
         <Popover>
           <PopoverTrigger asChild>
             <Button
@@ -34,6 +40,7 @@ const DateField = ({ name, error }: DateFieldProps) => {
           </PopoverTrigger>
           <PopoverContent>
             <Calendar
+              id="date"
               mode="single"
               selected={date}
               onSelect={setDate}
@@ -41,7 +48,13 @@ const DateField = ({ name, error }: DateFieldProps) => {
             />
           </PopoverContent>
         </Popover>
-        <input type="hidden" name={name} value={date?.toISOString()} />
+        <input
+          id="date"
+          data-testid="date-input"
+          type="hidden"
+          name={name}
+          value={date?.toISOString()}
+        />
       </div>
       {error && (
         <p className="text-red-500">

@@ -14,6 +14,7 @@ const RadioInputField = ({ name, label }: RadioInputFieldProps) => {
         <label
           htmlFor={name}
           className="capitalize text-[#696868] text-xs font-bold"
+          data-testid="recurring"
         >
           {label}
         </label>
