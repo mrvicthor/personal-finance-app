@@ -16,21 +16,23 @@ type Props = {
   onHandleCategory: React.Dispatch<React.SetStateAction<CategoryProps>>;
   category: string;
 };
+
+const categories = [
+  { label: "All Transactions" },
+  { label: "General" },
+  { label: "Dining Out" },
+  { label: "Groceries" },
+  { label: "Entertainment" },
+  { label: "Transportation" },
+  { label: "Lifestyle" },
+  { label: "Personal Care" },
+  { label: "Education" },
+  { label: "Bills" },
+  { label: "Shopping" },
+];
 const Category = ({ onHandleCategory, category }: Props) => {
   const [showOptions, setShowOptions] = useState(false);
-  const categories = [
-    { label: "All Transactions" },
-    { label: "General" },
-    { label: "Dining Out" },
-    { label: "Groceries" },
-    { label: "Entertainment" },
-    { label: "Transportation" },
-    { label: "Lifestyle" },
-    { label: "Personal Care" },
-    { label: "Education" },
-    { label: "Bills" },
-    { label: "Shopping" },
-  ];
+
   return (
     <div className="relative flex items-center gap-2 category">
       <div className="sm:hidden">
