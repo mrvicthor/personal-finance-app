@@ -159,6 +159,7 @@ describe("Initial render", () => {
       name: "add balance",
     });
 
+    // Act
     await user.type(balanceInput, "2000");
     await user.type(incomeInput, "3000");
     await user.type(expensesInput, "1000");
@@ -168,6 +169,7 @@ describe("Initial render", () => {
       "Balance added successfully"
     );
 
+    // Assert
     expect(successMessage).toBeVisible();
   });
 
