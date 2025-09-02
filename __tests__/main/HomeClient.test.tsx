@@ -2,6 +2,7 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import HomeClient from "@/components/homeClient";
 import { logout } from "@/app/actions/auth";
 import { addBalance } from "@/app/actions/balance";
+import userEvent from "@testing-library/user-event";
 
 jest.mock("../../src/app/actions/auth", () => ({
   logout: jest.fn(),
@@ -91,6 +92,47 @@ describe("Initial render", () => {
     );
     fireEvent.click(screen.getByTestId("logout-icon"));
     expect(logout).toHaveBeenCalled();
+  });
+
+  test("should render form instructions and fields when success=false", () => {
+    (addBalance as jest.Mock).mockReturnValue(async () => ({
+      success: false,
+      message: "",
+    }));
+    render(
+      <HomeClient>
+        <div>Test Content</div>
+      </HomeClient>
+    );
+
+    const { balanceInput, incomeInput, expensesInput } = getInputFields();
+    expect(screen.getByTestId("form-instructions")).toBeInTheDocument();
+    expect(balanceInput).toBeInTheDocument();
+    expect(incomeInput).toBeInTheDocument();
+    expect(expensesInput).toBeInTheDocument();
+  });
+
+  test("should have placeholder for input field", async () => {
+    (addBalance as jest.Mock).mockReturnValue(async () => ({
+      success: false,
+      message: "",
+    }));
+    const user = userEvent.setup();
+    render(
+      <HomeClient>
+        <div>Test Content</div>
+      </HomeClient>
+    );
+
+    const openModalForm = screen.getByRole("button", {
+      name: /add new balance/i,
+    });
+
+    await user.click(openModalForm);
+
+    expect(
+      screen.queryAllByPlaceholderText("$ e.g 2000")[0]
+    ).toBeInTheDocument();
   });
 
   test("should submit form if successful", async () => {

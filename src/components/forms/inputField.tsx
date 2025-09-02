@@ -1,4 +1,4 @@
-type InputFieldProps = {
+export type InputFieldProps = {
   id: string;
   label: string;
   name: string;
@@ -33,9 +33,9 @@ const InputField = ({
         required
       />
       {error && (
-        <p aria-live="polite" className="text-red-500">
+        <span aria-live="polite" className="text-red-500">
           {error}
-        </p>
+        </span>
       )}
     </div>
   );
