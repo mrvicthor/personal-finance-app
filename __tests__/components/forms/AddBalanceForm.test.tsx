@@ -68,5 +68,17 @@ describe("AddBalanceForm", () => {
       expect(submitButton).toHaveTextContent("add balance");
       expect(submitButton).not.toBeDisabled();
     });
+
+    test("should render input fields with correct labels and placeholders", () => {
+      render(<AddBalanceForm />);
+
+      expect(screen.getByLabelText(/current balance/i)).toBeInTheDocument();
+      expect(screen.getByLabelText(/income/i)).toBeInTheDocument();
+      expect(screen.getByLabelText(/expenses/i)).toBeInTheDocument();
+
+      expect(
+        screen.getAllByPlaceholderText("$ e.g 2000", { exact: false })[0]
+      ).toBeInTheDocument();
+    });
   });
 });
