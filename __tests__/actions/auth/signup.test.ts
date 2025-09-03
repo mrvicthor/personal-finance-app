@@ -1,7 +1,6 @@
 import { signup } from "@/app/actions/auth";
 import { authAdapter } from "@/adapters/auth.adapter";
 import { redirect } from "next/navigation";
-// import { redirect } from "next/navigation";
 
 jest.mock("../../../src/adapters/auth.adapter", () => ({
   authAdapter: {
@@ -84,7 +83,7 @@ describe("Signup Action", () => {
     });
 
     const response = await signup(null, formData);
-    console.log(response);
+
     expect(response?.success).toBe(false);
     expect(response?.message).toBe("Unable to create user");
   });

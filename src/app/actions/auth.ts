@@ -89,31 +89,31 @@ export async function login(
   }
   const { email, password } = validateFields.data;
 
-  const user = await authAdapter.findUserByEmail(email);
+  // const user = await authAdapter.findUserByEmail(email);
 
-  if (!user) {
-    return {
-      success: false,
-      message: "Invalid Credentials",
-      inputs: rawData,
-    };
-  }
+  // if (!user) {
+  //   return {
+  //     success: false,
+  //     message: "Invalid Credentials",
+  //     inputs: rawData,
+  //   };
+  // }
 
-  const isPasswordCorrect = await authAdapter.comparePasswords(
-    password,
-    user.password
-  );
+  // const isPasswordCorrect = await authAdapter.comparePasswords(
+  //   password,
+  //   user.password
+  // );
 
-  if (!isPasswordCorrect) {
-    return {
-      success: false,
-      message: "Invalid Credentials",
-      inputs: rawData,
-    };
-  }
+  // if (!isPasswordCorrect) {
+  //   return {
+  //     success: false,
+  //     message: "Invalid Credentials",
+  //     inputs: rawData,
+  //   };
+  // }
 
-  await authAdapter.createSession(user.id);
-  redirect("/");
+  // await authAdapter.createSession(user.id);
+  // redirect("/");
 }
 
 export async function logout() {
