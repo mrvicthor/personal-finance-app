@@ -1,5 +1,6 @@
 import { signup } from "@/app/actions/auth";
 import { authAdapter } from "@/adapters/auth.adapter";
+import { redirect } from "next/navigation";
 // import { redirect } from "next/navigation";
 
 jest.mock("../../../src/adapters/auth.adapter", () => ({
@@ -86,5 +87,23 @@ describe("Signup Action", () => {
     console.log(response);
     expect(response?.success).toBe(false);
     expect(response?.message).toBe("Unable to create user");
+  });
+
+  test("should successfully create a user and redirect the user to the home page", async () => {
+    (authAdapter.findUserByEmail as jest.Mock).mockResolvedValue(undefined);
+    (authAdapter.hashPassword as jest.Mock).mockResolvedValue("hashed");
+    (authAdapter.createUser as jest.Mock).mockResolvedValue({ id: 1 });
+
+    const formData = mockFormData({
+      name: "john doe",
+      email: "johndoe@gmail.com",
+      password: "test@1234",
+    });
+
+    await signup(null, formData);
+    expect(authAdapter.hashPassword).toHaveBeenCalledWith("test@1234");
+    expect(authAdapter.createUser).toHaveBeenCalled();
+    expect(authAdapter.createSession).toHaveBeenCalledWith(1);
+    expect(redirect).toHaveBeenCalledWith("/");
   });
 });
