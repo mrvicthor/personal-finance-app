@@ -1,6 +1,4 @@
 "use server";
-
-import { eq } from "drizzle-orm";
 import {
   ForgotPasswordActionResponse,
   ForgotPasswordFormData,
@@ -13,9 +11,6 @@ import {
   signupFormSchema,
 } from "../../lib/definition";
 
-import { db } from "@/db";
-import { users } from "@/db/schema";
-import bcrypt from "bcrypt";
 import { redirect } from "next/navigation";
 import { deleteSession } from "./session";
 import { capitaliseFirstLetters } from "@/helpers/capitaliseFirstLetters";
@@ -145,9 +140,7 @@ export async function forgotPassword(
   }
 
   const { email } = validateFields.data;
-  const existingUser = await db.query.users.findFirst({
-    where: eq(users.email, email),
-  });
+  const existingUser = await authAdapter.findUserByEmail(email);
   if (!existingUser) {
     return {
       success: true,
