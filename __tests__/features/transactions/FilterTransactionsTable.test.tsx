@@ -43,24 +43,24 @@ describe("FilterTransactionsTable page", () => {
   });
 
   test("should view all transactions on transactions page", () => {
-    render(<FilterTransactionsTable transactions={transactions} />);
+    renderFilterTransactionsTable();
   });
 
   test("should render search bar", () => {
-    render(<FilterTransactionsTable transactions={transactions} />);
+    renderFilterTransactionsTable();
     const searchBar = screen.getByTestId("search-transactions");
     expect(searchBar).toBeInTheDocument();
   });
 
   test("should filter transactions based on search input", () => {
-    render(<FilterTransactionsTable transactions={transactions} />);
+    renderFilterTransactionsTable();
     filterTransactionsByName("Emma");
     const transaction = screen.getByText("Emma Richardson");
     expect(transaction).toBeInTheDocument();
   });
 
   test("should show no transaction found if search input does not match any transaction", async () => {
-    render(<FilterTransactionsTable transactions={transactions} />);
+    renderFilterTransactionsTable();
     const inputField = screen.getByTestId("search-transactions");
     act(() => {
       fireEvent.change(inputField, { target: { value: "Non Existent" } });
@@ -76,7 +76,7 @@ describe("FilterTransactionsTable page", () => {
   });
 
   test("should filter transactions based on category selected", () => {
-    render(<FilterTransactionsTable transactions={transactions} />);
+    renderFilterTransactionsTable();
     const selectCategory = screen.getByTestId("select-category");
     fireEvent.click(selectCategory);
 
@@ -88,7 +88,7 @@ describe("FilterTransactionsTable page", () => {
   });
 
   test("should sort transactions by latest - Date", () => {
-    render(<FilterTransactionsTable transactions={transactions} />);
+    renderFilterTransactionsTable();
 
     sortTransaction("Latest");
 
@@ -97,7 +97,7 @@ describe("FilterTransactionsTable page", () => {
   });
 
   test("should sort transactions by oldest - Date", () => {
-    render(<FilterTransactionsTable transactions={transactions} />);
+    renderFilterTransactionsTable();
 
     sortTransaction("Oldest");
     const rows = screen.getAllByRole("row");
@@ -105,33 +105,37 @@ describe("FilterTransactionsTable page", () => {
   });
 
   test("should sort transactions from A to Z - name", () => {
-    render(<FilterTransactionsTable transactions={transactions} />);
+    renderFilterTransactionsTable();
     sortTransaction("A to Z");
     const rows = screen.getAllByRole("row");
     expect(rows[1]).toHaveTextContent(transactions[0].name);
   });
 
   test("should sort transactions from Z to A - name", () => {
-    render(<FilterTransactionsTable transactions={transactions} />);
+    renderFilterTransactionsTable();
     sortTransaction("Z to A");
     const rows = screen.getAllByRole("row");
     expect(rows[1]).toHaveTextContent(transactions[1].name);
   });
 
   test("should sort transaction by highest amount", () => {
-    render(<FilterTransactionsTable transactions={transactions} />);
+    renderFilterTransactionsTable();
     sortTransaction("Highest");
     const rows = screen.getAllByRole("row");
     expect(rows[1]).toHaveTextContent(transactions[0].name);
   });
 
   test("should sort transaction by lowest amount", () => {
-    render(<FilterTransactionsTable transactions={transactions} />);
+    renderFilterTransactionsTable();
     sortTransaction("Lowest");
     const rows = screen.getAllByRole("row");
     expect(rows[1]).toHaveTextContent(transactions[1].name);
   });
 });
+
+function renderFilterTransactionsTable() {
+  render(<FilterTransactionsTable transactions={transactions} />);
+}
 
 function sortTransaction(sortValue: SortOption) {
   const sortButton = screen.getByTestId("sort-option-btn");

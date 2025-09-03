@@ -30,9 +30,10 @@ const AddTransactionForm = () => {
             id="sender"
             label="recipient / sender"
             name="sender"
-            error={state?.errors?.sender}
+            error={state?.errors?.sender?.[0]}
             placeholder="e.g John Doe"
             value={state?.inputs?.sender || ""}
+            type="text"
           />
 
           <CategoryField
@@ -51,9 +52,10 @@ const AddTransactionForm = () => {
             id="amount"
             label="amount"
             name="amount"
-            error={state?.errors?.amount}
+            error={state?.errors?.amount?.[0]}
             placeholder="$ e.g 2000"
             value={state?.inputs?.amount || ""}
+            type="text"
           />
 
           <RadioInputField name="recurring" label="is it Recurring?" />

@@ -5,6 +5,7 @@ import eyeIcon from "../../../../public/assets/images/icon-show-password.svg";
 import Link from "next/link";
 import { SignupActionResponse } from "@/lib/definition";
 import { signup } from "@/app/actions/auth";
+import InputField from "@/components/forms/inputField";
 
 const initialState: SignupActionResponse = {
   success: false,
@@ -19,43 +20,22 @@ const SignupForm = () => {
   return (
     <form action={action} className="mt-8">
       <div className="space-y-4">
-        <div className="flex flex-col gap-1">
-          <label
-            htmlFor="name"
-            className="capitalize text-[#696868] text-xs font-bold"
-          >
-            name
-          </label>
-          <input
-            id="name"
-            name="name"
-            defaultValue={state.inputs?.name}
-            className="border-[#98908B] border rounded-lg h-[2.8125rem] px-5"
-            type="text"
-            required
-          />
-        </div>
-        {state.errors?.name && (
-          <p className="text-red-500">{state.errors?.name}</p>
-        )}
-        <div className="flex flex-col gap-1">
-          <label
-            htmlFor="email"
-            className="capitalize text-[#696868] text-xs font-bold"
-          >
-            email
-          </label>
-          <input
-            id="email"
-            name="email"
-            defaultValue={state.inputs?.email}
-            className="border-[#98908B] border rounded-lg h-[2.8125rem] px-5"
-            type="email"
-          />
-        </div>
-        {state.errors?.email && (
-          <p className="text-red-500">{state.errors?.email}</p>
-        )}
+        <InputField
+          id="name"
+          name="name"
+          value={state.inputs?.name}
+          label="name"
+          error={state.errors?.name?.[0]}
+          type="text"
+        />
+        <InputField
+          id="email"
+          label="email"
+          name="email"
+          type="email"
+          value={state.inputs?.email}
+        />
+
         <div className="flex flex-col gap-1">
           <label
             htmlFor="password"
@@ -98,6 +78,7 @@ const SignupForm = () => {
       <button
         type="submit"
         disabled={pending}
+        data-testid="signup-button"
         className="mt-8 bg-[#201F24] text-white w-full h-[3.3125rem] rounded-lg text-sm font-bold capitalize cursor-pointer"
       >
         {pending ? (

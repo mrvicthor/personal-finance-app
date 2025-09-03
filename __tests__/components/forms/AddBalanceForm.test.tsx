@@ -7,6 +7,7 @@ jest.mock("../../../src/app/actions/balance", () => ({
   addBalance: jest.fn(),
 }));
 
+
 describe("AddBalanceForm", () => {
   const mockAddBalance = addBalance as jest.MockedFunction<typeof addBalance>;
 

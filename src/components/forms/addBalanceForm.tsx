@@ -31,7 +31,8 @@ const AddBalanceForm = () => {
                 name="current"
                 value={state?.inputs?.current}
                 placeholder="$ e.g 2000"
-                error={state?.errors?.current}
+                error={state?.errors?.current?.[0]}
+                type="text"
               />
               <InputField
                 id="income"
@@ -39,7 +40,8 @@ const AddBalanceForm = () => {
                 name="income"
                 value={state?.inputs?.income}
                 placeholder="$ e.g 2000"
-                error={state?.errors?.income}
+                error={state?.errors?.income?.[0]}
+                type="text"
               />
               <InputField
                 id="expenses"
@@ -47,7 +49,8 @@ const AddBalanceForm = () => {
                 name="expenses"
                 value={state?.inputs?.expenses}
                 placeholder="$ e.g 2000"
-                error={state?.errors?.expenses}
+                error={state?.errors?.expenses?.[0]}
+                type="text"
               />
             </div>
             <button

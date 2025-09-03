@@ -15,12 +15,13 @@ export async function addBalance(
   formData: FormData
 ) {
   const rawData: AddBalanceFormData = {
-    current: Number(formData.get("current")) as unknown as number,
-    income: Number(formData.get("income")) as unknown as number,
-    expenses: Number(formData.get("expenses")) as unknown as number,
+    current: formData.get("current") as string,
+    income: formData.get("income") as string,
+    expenses: formData.get("expenses") as string,
   };
 
   const validateFields = addBalanceFormSchema.safeParse(rawData);
+
   if (!validateFields.success) {
     return {
       success: false,
