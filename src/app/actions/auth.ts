@@ -64,9 +64,9 @@ export async function signup(
       inputs: rawData,
     };
   }
-  //   create session
-  await authAdapter.createSession(user.id);
-  redirect("/");
+  // //   create session
+  // await authAdapter.createSession(user.id);
+  // redirect("/");
 }
 
 export async function login(
