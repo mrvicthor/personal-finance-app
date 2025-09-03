@@ -4,7 +4,8 @@ export type InputFieldProps = {
   name: string;
   value?: number | string | undefined;
   placeholder?: string;
-  error?: string[];
+  error?: string;
+  type: string;
 };
 
 const InputField = ({
@@ -14,6 +15,7 @@ const InputField = ({
   value,
   placeholder,
   error,
+  type,
 }: InputFieldProps) => {
   return (
     <div className="flex flex-col gap-1">
@@ -28,7 +30,7 @@ const InputField = ({
         name={name}
         defaultValue={value}
         className="border-[#98908B] border rounded-lg h-[2.8125rem] px-5"
-        type="text"
+        type={type}
         placeholder={placeholder}
         required
       />

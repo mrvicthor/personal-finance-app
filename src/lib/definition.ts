@@ -51,15 +51,42 @@ export type LoginFormData = {
 export type LoginActionResponse = ActionResponse<LoginFormData>;
 
 export const addBalanceFormSchema = z.object({
-  current: z.number().min(0, { message: "balance cannot be negative" }),
-  income: z.number().min(0, { message: "income cannot be negative" }),
-  expenses: z.number().min(0, { message: "expenses cannot be negative" }),
+  current: z
+    .string()
+    .min(1, { message: "balance is required" })
+    .refine((val) => !isNaN(Number(val)), {
+      message: "balance must be a number",
+    })
+    .refine((val) => Number(val) >= 0, {
+      message: "balance cannot be negative",
+    })
+    .transform((val) => Number(val)),
+  income: z
+    .string()
+    .min(1, { message: "income is required" })
+    .refine((val) => !isNaN(Number(val)), {
+      message: "income must be a number",
+    })
+    .refine((val) => Number(val) >= 0, {
+      message: "income cannot be negative",
+    })
+    .transform((val) => Number(val)),
+  expenses: z
+    .string()
+    .min(1, { message: "expenses is required" })
+    .refine((val) => !isNaN(Number(val)), {
+      message: "expenses must be a number",
+    })
+    .refine((val) => Number(val) >= 0, {
+      message: "expenses cannot be negative",
+    })
+    .transform((val) => Number(val)),
 });
 
 export type AddBalanceFormData = {
-  current: number;
-  income: number;
-  expenses: number;
+  current: string;
+  income: string;
+  expenses: string;
 };
 
 export type AddBalanceActionResponse = ActionResponse<AddBalanceFormData>;

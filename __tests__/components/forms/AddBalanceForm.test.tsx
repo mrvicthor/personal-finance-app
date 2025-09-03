@@ -15,6 +15,7 @@ jest.mock("../../../src/components/forms/inputField", () => {
     value,
     placeholder,
     error,
+    type,
   }: InputFieldProps) {
     return (
       <div data-testid={`input-field-${name}`} className="flex flex-col gap-1">
@@ -29,7 +30,7 @@ jest.mock("../../../src/components/forms/inputField", () => {
           name={name}
           defaultValue={value}
           className="border-[#98908B] border rounded-lg h-[2.8125rem] px-5"
-          type="text"
+          type={type}
           placeholder={placeholder}
           required
           data-testid={`input-${name}`}
