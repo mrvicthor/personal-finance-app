@@ -2,7 +2,7 @@ import { db } from "@/db";
 import { users } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import bcrypt from "bcrypt";
-import { createSession } from "../app/actions/session";
+import { createSession, deleteSession } from "../app/actions/session";
 import { UserData } from "@/lib/definition";
 
 export interface AuthAdapter {
@@ -14,6 +14,8 @@ export interface AuthAdapter {
     hashedPassword: string
   ): Promise<{ id: number } | null>;
   createSession(userId: number): Promise<void>;
+  comparePasswords(password: string, hashedPassword: string): Promise<boolean>;
+  deleteSession(): Promise<void>;
 }
 
 export const authAdapter: AuthAdapter = {
@@ -32,12 +34,24 @@ export const authAdapter: AuthAdapter = {
   async createUser(name, email, hashedPassword) {
     const [user] = await db
       .insert(users)
-      .values({ name, email, password: hashedPassword })
+      .values({
+        name,
+        email,
+        password: hashedPassword,
+      })
       .returning({ id: users.id });
     return user ?? null;
   },
 
   async createSession(userId) {
     return createSession(userId);
+  },
+
+  async comparePasswords(password, hashedPassword) {
+    return bcrypt.compare(password, hashedPassword);
+  },
+
+  async deleteSession() {
+    return deleteSession();
   },
 };

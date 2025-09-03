@@ -17,9 +17,10 @@ import { db } from "@/db";
 import { users } from "@/db/schema";
 import bcrypt from "bcrypt";
 import { redirect } from "next/navigation";
-import { createSession, deleteSession } from "./session";
+import { deleteSession } from "./session";
 import { capitaliseFirstLetters } from "@/helpers/capitaliseFirstLetters";
 import { handlePasswordResetEmail } from "@/resend/sendMail";
+import { authAdapter } from "@/adapters/auth.adapter";
 
 const APP_ORIGIN =
   process.env.NODE_ENV === "development"
@@ -46,35 +47,31 @@ export async function signup(
   }
   const { name, email, password } = validateFields.data;
   //   check if user already exists
-  const existingUser = await db.query.users.findFirst({
-    where: eq(users.email, email),
-  });
-  // if (existingUser) {
-  //   return {
-  //     success: false,
-  //     message: "User already exists",
-  //     inputs: rawData,
-  //   };
-  // }
-  // const hashedPassword = await bcrypt.hash(password, 10);
-  // const [user] = await db
-  //   .insert(users)
-  //   .values({
-  //     name: capitaliseFirstLetters(name),
-  //     email,
-  //     password: hashedPassword,
-  //   })
-  //   .returning({ id: users.id });
-  // if (!user) {
-  //   return {
-  //     success: false,
-  //     message: "Unable to create user",
-  //     inputs: rawData,
-  //   };
-  // }
-  // //   create session
-  // await createSession(user.id);
-  // redirect("/");
+  const existingUser = await authAdapter.findUserByEmail(email);
+  if (existingUser) {
+    return {
+      success: false,
+      message: "User already exists",
+      inputs: rawData,
+    };
+  }
+  const hashedPassword = await authAdapter.hashPassword(password);
+  const user = await authAdapter.createUser(
+    capitaliseFirstLetters(name),
+    email,
+    hashedPassword
+  );
+
+  if (!user) {
+    return {
+      success: false,
+      message: "Unable to create user",
+      inputs: rawData,
+    };
+  }
+  //   create session
+  await authAdapter.createSession(user.id);
+  redirect("/");
 }
 
 export async function login(
@@ -97,9 +94,7 @@ export async function login(
   }
   const { email, password } = validateFields.data;
 
-  const user = await db.query.users.findFirst({
-    where: eq(users.email, email),
-  });
+  const user = await authAdapter.findUserByEmail(email);
 
   if (!user) {
     return {
@@ -109,7 +104,10 @@ export async function login(
     };
   }
 
-  const isPasswordCorrect = await bcrypt.compare(password, user.password);
+  const isPasswordCorrect = await authAdapter.comparePasswords(
+    password,
+    user.password
+  );
 
   if (!isPasswordCorrect) {
     return {
@@ -119,7 +117,7 @@ export async function login(
     };
   }
 
-  await createSession(user.id);
+  await authAdapter.createSession(user.id);
   redirect("/");
 }
 
