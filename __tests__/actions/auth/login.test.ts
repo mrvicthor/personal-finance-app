@@ -4,6 +4,7 @@ import { login } from "@/app/actions/auth";
 jest.mock("../../../src/adapters/auth.adapter", () => ({
   authAdapter: {
     findUserByEmail: jest.fn(),
+    comparePasswords: jest.fn(),
   },
 }));
 
@@ -54,6 +55,28 @@ describe("Login Action", () => {
     });
 
     const response = await login(null, formData);
+    expect(response?.success).toBe(false);
+    expect(response?.message).toBe("Invalid Credentials");
+  });
+
+  test("should fail if the the password do not match", async () => {
+    (authAdapter.findUserByEmail as jest.Mock).mockResolvedValue({
+      id: 1,
+      name: "victor doom",
+      email: "test@gmail.com",
+      password: "test7889",
+      createdAt: "2025-03-21 15:03:18.071572+00",
+      updatedAt: "2025-03-21 15:03:18.071572+00",
+    });
+    (authAdapter.comparePasswords as jest.Mock).mockResolvedValue(false);
+
+    const formData = mockFormData({
+      email: "test@gmail.com",
+      password: "testing@123",
+    });
+
+    const response = await login(null, formData);
+    console.log(response);
     expect(response?.success).toBe(false);
     expect(response?.message).toBe("Invalid Credentials");
   });

@@ -99,18 +99,18 @@ export async function login(
     };
   }
 
-  // const isPasswordCorrect = await authAdapter.comparePasswords(
-  //   password,
-  //   user.password
-  // );
+  const isPasswordCorrect = await authAdapter.comparePasswords(
+    password,
+    user.password
+  );
 
-  // if (!isPasswordCorrect) {
-  //   return {
-  //     success: false,
-  //     message: "Invalid Credentials",
-  //     inputs: rawData,
-  //   };
-  // }
+  if (!isPasswordCorrect) {
+    return {
+      success: false,
+      message: "Invalid Credentials",
+      inputs: rawData,
+    };
+  }
 
   // await authAdapter.createSession(user.id);
   // redirect("/");
