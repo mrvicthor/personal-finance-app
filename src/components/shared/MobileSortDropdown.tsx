@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
-import sortIcon from "../../../public/assets/images/icon-sort-mobile.svg";
 import { SortOption } from "../../features/transactions/components/FilterTransactionsTable";
 
 type MobileSortDropdownProps = {
@@ -29,7 +28,12 @@ const MobileSortDropdown = ({
         aria-expanded={showOptions}
         onClick={() => setShowOptions((prev) => !prev)}
       >
-        <Image src={sortIcon} alt="sort icon" />
+        <Image
+          src="/assets/images/icon-sort-mobile.svg"
+          alt="sort icon"
+          height={20}
+          width={20}
+        />
       </button>
       {showOptions && (
         <ul

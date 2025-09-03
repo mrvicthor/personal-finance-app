@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useActionState } from "react";
 import Image from "next/image";
-import eyeIcon from "../../../../public/assets/images/icon-show-password.svg";
 import Link from "next/link";
 import { LoginActionResponse } from "@/lib/definition";
 import { login } from "@/app/actions/auth";
@@ -54,7 +53,7 @@ const LoginForm = () => {
             />
             <Image
               onClick={toggleVisibility}
-              src={eyeIcon}
+              src="/assets/images/icon-show-password.svg"
               alt="eye-icon"
               width={16}
               height={16}

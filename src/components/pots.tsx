@@ -1,7 +1,6 @@
 import React from "react";
 import { getFinanceData } from "../../lib/data";
 import Image from "next/image";
-import potIcon from "../../public/assets/images/icon-pot.svg";
 import { formatNumber } from "@/helpers/currencyFormatter";
 import Subheader from "./subheader";
 import { Pot } from "@/types/pot";
@@ -21,7 +20,12 @@ const Pots = async () => {
       <div className="h-[6.8725rem] grid sm:grid-cols-2 gap-5">
         <div className="bg-[#f8f4f0] sm:col-span-1 flex rounded-lg px-4 py-5 gap-4 items-center">
           <div>
-            <Image src={potIcon} alt="pot icon" />
+            <Image
+              src="/assets/images/icon-pot.svg"
+              alt="pot icon"
+              width={26.88}
+              height={34.38}
+            />
           </div>
           <div>
             <p className="capitalize text-sm text-[#696868]">total saved</p>

@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useActionState } from "react";
 import Image from "next/image";
-import eyeIcon from "../../../../public/assets/images/icon-show-password.svg";
 import Link from "next/link";
 import { SignupActionResponse } from "@/lib/definition";
 import { signup } from "@/app/actions/auth";
@@ -53,7 +52,7 @@ const SignupForm = () => {
             />
             <Image
               onClick={toggleVisibility}
-              src={eyeIcon}
+              src="/assets/images/icon-show-password.svg"
               alt="eye-icon"
               width={16}
               height={16}

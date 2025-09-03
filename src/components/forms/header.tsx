@@ -1,5 +1,4 @@
 import Image from "next/image";
-import closeIcon from "../../../public/assets/images/icon-close-modal.svg";
 
 type HeaderProps = {
   onClose: () => void;
@@ -23,7 +22,12 @@ const FormHeader = ({ onClose, closeButtonTestId, heading }: HeaderProps) => {
         data-testid={closeButtonTestId}
         className="cursor-pointer"
       >
-        <Image src={closeIcon} alt="close-icon" width={32} height={32} />
+        <Image
+          src="/assets/images/icon-close-modal.svg"
+          alt="close-icon"
+          width={32}
+          height={32}
+        />
       </button>
     </div>
   );
