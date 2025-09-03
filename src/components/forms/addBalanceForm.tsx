@@ -29,9 +29,9 @@ const AddBalanceForm = () => {
                 id="current"
                 label="current balance"
                 name="current"
-                value={state?.inputs?.current}
+                value={state?.inputs?.currentBalance}
                 placeholder="$ e.g 2000"
-                error={state?.errors?.current?.[0]}
+                error={state?.errors?.currentBalance?.[0]}
                 type="text"
               />
               <InputField
