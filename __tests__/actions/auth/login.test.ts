@@ -1,11 +1,17 @@
 import { authAdapter } from "@/adapters/auth.adapter";
 import { login } from "@/app/actions/auth";
+import { redirect } from "next/navigation";
 
 jest.mock("../../../src/adapters/auth.adapter", () => ({
   authAdapter: {
     findUserByEmail: jest.fn(),
     comparePasswords: jest.fn(),
+    createSession: jest.fn(),
   },
+}));
+
+jest.mock("next/navigation", () => ({
+  redirect: jest.fn(),
 }));
 
 jest.mock("jose", () => {
@@ -76,8 +82,34 @@ describe("Login Action", () => {
     });
 
     const response = await login(null, formData);
-    console.log(response);
+
     expect(response?.success).toBe(false);
     expect(response?.message).toBe("Invalid Credentials");
+  });
+
+  test("should successfully login and redirect user to home page", async () => {
+    (authAdapter.findUserByEmail as jest.Mock).mockResolvedValue({
+      id: 1,
+      name: "victor doom",
+      email: "test@gmail.com",
+      password: "testing@123",
+      createdAt: "2025-03-21 15:03:18.071572+00",
+      updatedAt: "2025-03-21 15:03:18.071572+00",
+    });
+    (authAdapter.comparePasswords as jest.Mock).mockResolvedValue(true);
+
+    const formData = mockFormData({
+      email: "test@gmail.com",
+      password: "testing@123",
+    });
+
+    await login(null, formData);
+    expect(authAdapter.findUserByEmail).toHaveBeenCalledWith("test@gmail.com");
+    expect(authAdapter.comparePasswords).toHaveBeenCalledWith(
+      "testing@123",
+      "testing@123"
+    );
+    expect(authAdapter.createSession).toHaveBeenCalledWith(1);
+    expect(redirect).toHaveBeenCalledWith("/");
   });
 });

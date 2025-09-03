@@ -112,8 +112,8 @@ export async function login(
     };
   }
 
-  // await authAdapter.createSession(user.id);
-  // redirect("/");
+  await authAdapter.createSession(user.id);
+  redirect("/");
 }
 
 export async function logout() {
