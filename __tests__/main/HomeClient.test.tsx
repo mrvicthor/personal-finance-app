@@ -95,6 +95,7 @@ describe("Initial render", () => {
   });
 
   test("should render form instructions and fields when success=false", () => {
+    // Arrange
     (addBalance as jest.Mock).mockReturnValue(async () => ({
       success: false,
       message: "",
@@ -104,9 +105,13 @@ describe("Initial render", () => {
         <div>Test Content</div>
       </HomeClient>
     );
-
     const { balanceInput, incomeInput, expensesInput } = getInputFields();
-    expect(screen.getByTestId("form-instructions")).toBeInTheDocument();
+    const formHeading = screen.getByRole("heading", {
+      level: 1,
+      name: "overview",
+    });
+    // Assert
+    expect(formHeading).toBeInTheDocument();
     expect(balanceInput).toBeInTheDocument();
     expect(incomeInput).toBeInTheDocument();
     expect(expensesInput).toBeInTheDocument();
@@ -136,30 +141,36 @@ describe("Initial render", () => {
   });
 
   test("should submit form if successful", async () => {
+    // Arrange
     (addBalance as jest.Mock).mockImplementation(async () => ({
       success: true,
       message: "Balance added successfully",
     }));
+
+    const user = userEvent.setup();
 
     render(
       <HomeClient>
         <div>Test Content</div>
       </HomeClient>
     );
-
     const { balanceInput, incomeInput, expensesInput } = getInputFields();
+    const addBalanceSubmitButton = screen.getByRole("button", {
+      name: "add balance",
+    });
 
-    const button = screen.getByTestId("submit-button");
-    fireEvent.change(balanceInput, { target: { value: "2000" } });
-    fireEvent.change(incomeInput, { target: { value: "3000" } });
-    fireEvent.change(expensesInput, { target: { value: "1000" } });
+    // Act
+    await user.type(balanceInput, "2000");
+    await user.type(incomeInput, "3000");
+    await user.type(expensesInput, "1000");
+    await user.click(addBalanceSubmitButton);
 
-    fireEvent.click(button);
     const successMessage = await screen.findByText(
       "Balance added successfully"
     );
 
-    expect(successMessage).toBeInTheDocument();
+    // Assert
+    expect(successMessage).toBeVisible();
   });
 
   test("should show error message if form submission fails", async () => {
