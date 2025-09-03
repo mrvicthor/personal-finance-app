@@ -1,12 +1,11 @@
 import { addBalance } from "@/app/actions/balance";
 import AddBalanceForm from "@/components/forms/addBalanceForm";
-import { InputFieldProps } from "@/components/forms/inputField";
+
 import { render, screen } from "@testing-library/react";
 
 jest.mock("../../../src/app/actions/balance", () => ({
   addBalance: jest.fn(),
 }));
-
 
 describe("AddBalanceForm", () => {
   const mockAddBalance = addBalance as jest.MockedFunction<typeof addBalance>;

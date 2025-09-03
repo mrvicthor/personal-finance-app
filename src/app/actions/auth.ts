@@ -35,7 +35,6 @@ export async function signup(
     email: formData.get("email") as string,
     password: formData.get("password") as string,
   };
-
   const validateFields = signupFormSchema.safeParse(rawData);
   if (!validateFields.success) {
     return {
@@ -45,43 +44,37 @@ export async function signup(
       errors: validateFields.error.flatten().fieldErrors,
     };
   }
-
   const { name, email, password } = validateFields.data;
-
   //   check if user already exists
   const existingUser = await db.query.users.findFirst({
     where: eq(users.email, email),
   });
-
-  if (existingUser) {
-    return {
-      success: false,
-      message: "User already exists",
-      inputs: rawData,
-    };
-  }
-  const hashedPassword = await bcrypt.hash(password, 10);
-
-  const [user] = await db
-    .insert(users)
-    .values({
-      name: capitaliseFirstLetters(name),
-      email,
-      password: hashedPassword,
-    })
-    .returning({ id: users.id });
-
-  if (!user) {
-    return {
-      success: false,
-      message: "Unable to create user",
-      inputs: rawData,
-    };
-  }
-  //   create session
-  await createSession(user.id);
-
-  redirect("/");
+  // if (existingUser) {
+  //   return {
+  //     success: false,
+  //     message: "User already exists",
+  //     inputs: rawData,
+  //   };
+  // }
+  // const hashedPassword = await bcrypt.hash(password, 10);
+  // const [user] = await db
+  //   .insert(users)
+  //   .values({
+  //     name: capitaliseFirstLetters(name),
+  //     email,
+  //     password: hashedPassword,
+  //   })
+  //   .returning({ id: users.id });
+  // if (!user) {
+  //   return {
+  //     success: false,
+  //     message: "Unable to create user",
+  //     inputs: rawData,
+  //   };
+  // }
+  // //   create session
+  // await createSession(user.id);
+  // redirect("/");
 }
 
 export async function login(

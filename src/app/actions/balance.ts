@@ -15,7 +15,7 @@ export async function addBalance(
   formData: FormData
 ) {
   const rawData: AddBalanceFormData = {
-    current: formData.get("current") as string,
+    currentBalance: formData.get("current") as string,
     income: formData.get("income") as string,
     expenses: formData.get("expenses") as string,
   };
@@ -31,7 +31,7 @@ export async function addBalance(
     };
   }
 
-  const { current, income, expenses } = validateFields.data;
+  const { currentBalance, income, expenses } = validateFields.data;
   // get user from session
   const sessionId = await getSessionId();
   await db.query.users.findFirst({
@@ -44,7 +44,7 @@ export async function addBalance(
     await db
       .update(balance)
       .set({
-        current,
+        current: currentBalance,
         income,
         expenses,
       })
@@ -59,7 +59,7 @@ export async function addBalance(
     .insert(balance)
     .values({
       userId: Number(sessionId),
-      current,
+      current: currentBalance,
       income,
       expenses,
     })

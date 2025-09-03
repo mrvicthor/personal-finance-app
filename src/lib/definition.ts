@@ -51,7 +51,7 @@ export type LoginFormData = {
 export type LoginActionResponse = ActionResponse<LoginFormData>;
 
 export const addBalanceFormSchema = z.object({
-  current: z
+  currentBalance: z
     .string()
     .min(1, { message: "balance is required" })
     .refine((val) => !isNaN(Number(val)), {
@@ -84,7 +84,7 @@ export const addBalanceFormSchema = z.object({
 });
 
 export type AddBalanceFormData = {
-  current: string;
+  currentBalance: string;
   income: string;
   expenses: string;
 };
@@ -207,3 +207,9 @@ export type ForgotPasswordFormData = {
 
 export type ForgotPasswordActionResponse =
   ActionResponse<ForgotPasswordFormData>;
+
+export interface UserData extends SignupFormData {
+  id: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
