@@ -89,15 +89,15 @@ export async function login(
   }
   const { email, password } = validateFields.data;
 
-  // const user = await authAdapter.findUserByEmail(email);
+  const user = await authAdapter.findUserByEmail(email);
 
-  // if (!user) {
-  //   return {
-  //     success: false,
-  //     message: "Invalid Credentials",
-  //     inputs: rawData,
-  //   };
-  // }
+  if (!user) {
+    return {
+      success: false,
+      message: "Invalid Credentials",
+      inputs: rawData,
+    };
+  }
 
   // const isPasswordCorrect = await authAdapter.comparePasswords(
   //   password,

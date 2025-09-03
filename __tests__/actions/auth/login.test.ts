@@ -1,4 +1,11 @@
+import { authAdapter } from "@/adapters/auth.adapter";
 import { login } from "@/app/actions/auth";
+
+jest.mock("../../../src/adapters/auth.adapter", () => ({
+  authAdapter: {
+    findUserByEmail: jest.fn(),
+  },
+}));
 
 jest.mock("jose", () => {
   const mockSignJWT = jest.fn().mockImplementation(() => ({
@@ -37,5 +44,17 @@ describe("Login Action", () => {
 
     expect(response?.success).toBe(false);
     expect(response?.message).toBe("Please fix all errors in the form");
+  });
+
+  test("should fail if user is not found", async () => {
+    (authAdapter.findUserByEmail as jest.Mock).mockResolvedValue(undefined);
+    const formData = mockFormData({
+      email: "test@gmail.com",
+      password: "testing@123",
+    });
+
+    const response = await login(null, formData);
+    expect(response?.success).toBe(false);
+    expect(response?.message).toBe("Invalid Credentials");
   });
 });
