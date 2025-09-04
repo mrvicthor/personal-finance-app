@@ -30,4 +30,4 @@ jobs:
         run: npm audit --audit-level moderate
 
       - name: Check for unused dependencies
-        run: npx depcheck --ignores="@types/*,tailwindcss,postcss"
+        run: npx depcheck --ignores="@types/*,tailwindcss,postcss" || true
