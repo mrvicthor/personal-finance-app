@@ -4,11 +4,11 @@ import { logout } from "@/app/actions/auth";
 import { addBalance } from "@/app/actions/balance";
 import userEvent from "@testing-library/user-event";
 
-jest.mock("../../src/app/actions/auth", () => ({
+jest.mock("../../app/actions/auth", () => ({
   logout: jest.fn(),
 }));
 
-jest.mock("../../src/app/actions/balance", () => ({
+jest.mock("../../app/actions/balance", () => ({
   addBalance: jest.fn().mockResolvedValue({
     success: true,
     message: "Balance added successfully",
@@ -16,7 +16,7 @@ jest.mock("../../src/app/actions/balance", () => ({
 }));
 
 // Mock the notification hook
-jest.mock("../../src/hooks/useNotification", () => ({
+jest.mock("../../hooks/useNotification", () => ({
   usePushNotificationManager: jest.fn(),
 }));
 

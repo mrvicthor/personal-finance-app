@@ -3,7 +3,7 @@ import AddBalanceForm from "@/components/forms/addBalanceForm";
 
 import { render, screen } from "@testing-library/react";
 
-jest.mock("../../../src/app/actions/balance", () => ({
+jest.mock("../../../app/actions/balance", () => ({
   addBalance: jest.fn(),
 }));
 

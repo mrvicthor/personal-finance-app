@@ -6,6 +6,7 @@ import { cookies } from "next/headers";
 import { SessionPayload } from "../../lib/definition";
 import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
+import { authAdapter } from "@/lib/adapters/auth.adapter";
 
 const secretKey = process.env.JWT_SECRET_KEY;
 const key = new TextEncoder().encode(secretKey);
@@ -27,24 +28,6 @@ export async function decrypt(session: string | undefined = "") {
   } catch (error) {
     console.log("Failed to decrypt session", error);
   }
-}
-
-export async function createSession(id: number) {
-  const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
-  const data = await db
-    .insert(sessions)
-    .values({ userId: id, expiresAt })
-    .returning({ id: sessions.id });
-
-  const session = await encrypt({ id: data[0].id, userId: id, expiresAt });
-
-  (await cookies()).set("session", session, {
-    httpOnly: true,
-    secure: true,
-    expires: expiresAt,
-    sameSite: "lax",
-    path: "/",
-  });
 }
 
 export async function updateSession() {
@@ -84,12 +67,11 @@ export async function updateSession() {
     path: "/",
   });
 }
-
 export async function deleteSession() {
   const cookie = (await cookies()).get("session")?.value;
   const session = await decrypt(cookie);
   if (session) {
-    await db.delete(sessions).where(eq(sessions.id, Number(session.id)));
+    await authAdapter.deleteSession(Number(session.id));
   }
   (await cookies()).delete("session");
   redirect("/login");

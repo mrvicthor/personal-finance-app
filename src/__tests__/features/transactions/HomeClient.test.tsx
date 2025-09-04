@@ -15,11 +15,11 @@ jest.mock("lucide-react", () => {
   );
 });
 
-jest.mock("../../../src/app/actions/auth", () => ({
+jest.mock("../../../app/actions/auth", () => ({
   logout: jest.fn(),
 }));
 
-jest.mock("../../../src/features/transactions/db/transactions", () => ({
+jest.mock("../../../features/transactions/db/transactions", () => ({
   addTransaction: jest.fn().mockResolvedValue({
     success: true,
     message: "Transaction added successfully",

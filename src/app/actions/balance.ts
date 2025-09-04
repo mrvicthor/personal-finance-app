@@ -7,7 +7,7 @@ import {
 
 import { revalidatePath } from "next/cache";
 import { getSessionId } from "./session";
-import { balanceAdapter } from "@/adapters/balance.adapter";
+import { balanceAdapter } from "@/lib/adapters/balance.adapter";
 
 export async function addBalance(
   state: AddBalanceActionResponse | null,

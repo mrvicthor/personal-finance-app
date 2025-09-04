@@ -15,7 +15,7 @@ import { redirect } from "next/navigation";
 import { deleteSession } from "./session";
 import { capitaliseFirstLetters } from "@/helpers/capitaliseFirstLetters";
 import { handlePasswordResetEmail } from "@/resend/sendMail";
-import { authAdapter } from "@/adapters/auth.adapter";
+import { authAdapter } from "@/lib/adapters/auth.adapter";
 
 const APP_ORIGIN =
   process.env.NODE_ENV === "development"
@@ -65,7 +65,7 @@ export async function signup(
     };
   }
   //   create session
-  await authAdapter.createSession(user.id);
+  await authAdapter.createSessionWithCookie(user.id);
   redirect("/");
 }
 
@@ -112,7 +112,7 @@ export async function login(
     };
   }
 
-  await authAdapter.createSession(user.id);
+  await authAdapter.createSessionWithCookie(user.id);
   redirect("/");
 }
 

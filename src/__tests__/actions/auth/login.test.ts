@@ -1,14 +1,9 @@
-import { authAdapter } from "@/adapters/auth.adapter";
+import { authAdapter } from "@/lib/adapters/auth.adapter";
 import { login } from "@/app/actions/auth";
 import { redirect } from "next/navigation";
+import { mockFormData, mockUser } from "@/test-utils";
 
 describe("Login Action", () => {
-  const mockFormData = (data: Record<string, string>) =>
-    Object.entries(data).reduce((formData, [key, value]) => {
-      formData.append(key, value);
-      return formData;
-    }, new FormData());
-
   beforeEach(() => {
     jest.clearAllMocks();
   });
@@ -34,14 +29,7 @@ describe("Login Action", () => {
   });
 
   test("should fail if the the password do not match", async () => {
-    (authAdapter.findUserByEmail as jest.Mock).mockResolvedValue({
-      id: 1,
-      name: "victor doom",
-      email: "test@gmail.com",
-      password: "test7889",
-      createdAt: "2025-03-21 15:03:18.071572+00",
-      updatedAt: "2025-03-21 15:03:18.071572+00",
-    });
+    (authAdapter.findUserByEmail as jest.Mock).mockResolvedValue(mockUser);
     (authAdapter.comparePasswords as jest.Mock).mockResolvedValue(false);
 
     const formData = mockFormData({
@@ -55,15 +43,8 @@ describe("Login Action", () => {
     expect(response?.message).toBe("Invalid Credentials");
   });
 
-  test("should successfully login and redirect user to home page", async () => {
-    (authAdapter.findUserByEmail as jest.Mock).mockResolvedValue({
-      id: 1,
-      name: "victor doom",
-      email: "test@gmail.com",
-      password: "testing@123",
-      createdAt: "2025-03-21 15:03:18.071572+00",
-      updatedAt: "2025-03-21 15:03:18.071572+00",
-    });
+  test("should successfully login, create session and redirect user to home page", async () => {
+    (authAdapter.findUserByEmail as jest.Mock).mockResolvedValue(mockUser);
     (authAdapter.comparePasswords as jest.Mock).mockResolvedValue(true);
 
     const formData = mockFormData({
@@ -73,11 +54,12 @@ describe("Login Action", () => {
 
     await login(null, formData);
     expect(authAdapter.findUserByEmail).toHaveBeenCalledWith("test@gmail.com");
+    expect(authAdapter.createSessionWithCookie).toHaveBeenCalledWith(1);
     expect(authAdapter.comparePasswords).toHaveBeenCalledWith(
       "testing@123",
       "testing@123"
     );
-    expect(authAdapter.createSession).toHaveBeenCalledWith(1);
+
     expect(redirect).toHaveBeenCalledWith("/");
   });
 });

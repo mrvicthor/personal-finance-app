@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import FilterTransactionsTable from "@/features/transactions/components/FilterTransactionsTable";
 import { Transaction } from "@/types/transaction";
-import { getFinanceData } from "../../../lib/data";
+import { getFinanceData } from "../../../../lib/data";
 
 let transactions: Transaction[] = [];
 

@@ -1,4 +1,4 @@
-import { balanceAdapter } from "@/adapters/balance.adapter";
+import { balanceAdapter } from "@/lib/adapters/balance.adapter";
 
 export const getBalance = async (id: number) => {
   const response = await balanceAdapter.fetchBalance(id);

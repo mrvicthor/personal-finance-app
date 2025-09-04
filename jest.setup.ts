@@ -4,13 +4,15 @@ import { TextEncoder, TextDecoder } from "util";
 global.TextEncoder = TextEncoder as never;
 global.TextDecoder = TextDecoder as never;
 
-jest.mock("/src/adapters/auth.adapter", () => ({
+jest.mock("/src/lib/adapters/auth.adapter", () => ({
   authAdapter: {
     findUserByEmail: jest.fn(),
     createUser: jest.fn(),
-    createSession: jest.fn(),
+    createSession: jest.fn().mockResolvedValue({ id: 123 }),
     hashPassword: jest.fn(),
     comparePasswords: jest.fn(),
+    createSessionWithCookie: jest.fn().mockResolvedValue(undefined),
+    deleteSession: jest.fn(),
   },
 }));
 
@@ -50,5 +52,16 @@ jest.mock("jose", () => {
     __esModule: true,
     SignJWT: mockSignJWT,
     jwtVerify: mockJwtVerify,
+  };
+});
+
+jest.mock("next/headers", () => {
+  return {
+    cookies: jest.fn(() => ({
+      set: jest.fn(),
+      get: jest.fn(),
+      delete: jest.fn(),
+    })),
+    headers: jest.fn(),
   };
 });

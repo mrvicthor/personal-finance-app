@@ -4,7 +4,7 @@ import { signup } from "@/app/actions/auth";
 import userEvent from "@testing-library/user-event";
 import { useActionState } from "react";
 
-jest.mock("../../src/app/actions/auth", () => ({
+jest.mock("../../app/actions/auth", () => ({
   signup: jest.fn(),
 }));
 

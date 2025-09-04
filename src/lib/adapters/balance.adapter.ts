@@ -68,6 +68,7 @@ export const balanceAdapter: BalanceAdapter = {
       expenses: result.expenses ?? 0,
     };
   },
+
   async updateBalance(id: number, data: Partial<BalanceData>) {
     await db
       .update(balance)

@@ -1,14 +1,9 @@
 import { signup } from "@/app/actions/auth";
-import { authAdapter } from "@/adapters/auth.adapter";
+import { authAdapter } from "@/lib/adapters/auth.adapter";
+import { mockUser, mockFormData } from "@/test-utils";
 import { redirect } from "next/navigation";
 
 describe("Signup Action", () => {
-  const mockFormData = (data: Record<string, string>) =>
-    Object.entries(data).reduce((formData, [key, value]) => {
-      formData.append(key, value);
-      return formData;
-    }, new FormData());
-
   beforeEach(() => {
     jest.clearAllMocks();
   });
@@ -22,14 +17,7 @@ describe("Signup Action", () => {
   });
 
   test("should fail if user already exist", async () => {
-    (authAdapter.findUserByEmail as jest.Mock).mockResolvedValue({
-      id: 1,
-      name: "victor doom",
-      email: "johndoe@gmail.com",
-      password: "test7889",
-      createdAt: "2025-03-21 15:03:18.071572+00",
-      updatedAt: "2025-03-21 15:03:18.071572+00",
-    });
+    (authAdapter.findUserByEmail as jest.Mock).mockResolvedValue(mockUser);
     const formData = mockFormData({
       name: "john doe",
       email: "johndoe@gmail.com",
@@ -71,7 +59,7 @@ describe("Signup Action", () => {
     await signup(null, formData);
     expect(authAdapter.hashPassword).toHaveBeenCalledWith("test@1234");
     expect(authAdapter.createUser).toHaveBeenCalled();
-    expect(authAdapter.createSession).toHaveBeenCalledWith(1);
+    expect(authAdapter.createSessionWithCookie).toHaveBeenCalledWith(1);
     expect(redirect).toHaveBeenCalledWith("/");
   });
 });
