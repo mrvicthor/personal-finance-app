@@ -2,37 +2,6 @@ import { signup } from "@/app/actions/auth";
 import { authAdapter } from "@/adapters/auth.adapter";
 import { redirect } from "next/navigation";
 
-jest.mock("../../../src/adapters/auth.adapter", () => ({
-  authAdapter: {
-    findUserByEmail: jest.fn(),
-    createUser: jest.fn(),
-    createSession: jest.fn(),
-    hashPassword: jest.fn(),
-  },
-}));
-
-jest.mock("next/navigation", () => ({ redirect: jest.fn() }));
-
-jest.mock("jose", () => {
-  const mockSignJWT = jest.fn().mockImplementation(() => ({
-    setProtectedHeader: jest.fn().mockReturnThis(),
-    setIssuedAt: jest.fn().mockReturnThis(),
-    setExpirationTime: jest.fn().mockReturnThis(),
-    sign: jest.fn().mockResolvedValue("mock-jwt-token"),
-  }));
-
-  const mockJwtVerify = jest.fn().mockResolvedValue({
-    payload: { sub: "test-user", exp: Date.now() / 1000 + 3600 },
-    protectedHeader: { alg: "HS256" },
-  });
-
-  return {
-    __esModule: true,
-    SignJWT: mockSignJWT,
-    jwtVerify: mockJwtVerify,
-  };
-});
-
 describe("Signup Action", () => {
   const mockFormData = (data: Record<string, string>) =>
     Object.entries(data).reduce((formData, [key, value]) => {
