@@ -1,10 +1,39 @@
-import { updateSession } from "@/app/actions/session";
+import { deleteSession, updateSession } from "@/app/actions/session";
 import { authAdapter } from "@/lib/adapters/auth.adapter";
 import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
+import { redirect } from "next/navigation";
 
 jest.mock("../../../lib/adapters/auth.adapter");
 
 describe("Session", () => {
+  const mockGet = jest.fn();
+  const mockDelete = jest.fn();
+  const mockCookies = {
+    get: mockGet,
+    set: jest.fn(),
+    delete: mockDelete,
+  } as unknown as ReadonlyRequestCookies;
+  const mockDecrypt = jest.fn();
+  const mockAuthAdapter = {
+    findUserSessionById: jest.fn(),
+    updateSession: jest.fn(),
+    deleteSession: jest.fn(),
+  };
+  const dependencies = {
+    cookies: () => Promise.resolve(mockCookies),
+    decrypt: mockDecrypt,
+    authAdapter: mockAuthAdapter,
+  };
+  const mockNow = new Date("2025-09-04T00:00:00Z").getTime();
+
+  beforeEach(() => {
+    jest.useFakeTimers().setSystemTime(mockNow);
+    jest.clearAllMocks();
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
+  });
   describe("Create Session", () => {
     test("should create a session with correct userId", async () => {
       jest.useFakeTimers().setSystemTime(new Date("2025-09-04T00:00:00Z"));
@@ -22,35 +51,6 @@ describe("Session", () => {
   });
 
   describe("Update Session", () => {
-    const mockGet = jest.fn();
-    const mockCookies = {
-      get: mockGet,
-      set: jest.fn(),
-      getAll: jest.fn(),
-      has: jest.fn(),
-      size: 0,
-      [Symbol.iterator]: jest.fn(),
-    } as unknown as ReadonlyRequestCookies;
-    const mockDecrypt = jest.fn();
-    const mockAuthAdapter = {
-      findUserSessionById: jest.fn(),
-      updateSession: jest.fn(),
-    };
-    const dependencies = {
-      cookies: () => Promise.resolve(mockCookies),
-      decrypt: mockDecrypt,
-      authAdapter: mockAuthAdapter,
-    };
-    const mockNow = new Date("2025-09-04T00:00:00Z").getTime();
-
-    beforeEach(() => {
-      jest.useFakeTimers().setSystemTime(mockNow);
-      jest.clearAllMocks();
-    });
-
-    afterEach(() => {
-      jest.useRealTimers();
-    });
     test("should return null if no session cookie", async () => {
       mockGet.mockReturnValue(undefined);
       mockDecrypt.mockResolvedValue(null);
@@ -87,6 +87,30 @@ describe("Session", () => {
         expect.any(Date)
       );
       expect(mockCookies.set).toHaveBeenCalled();
+    });
+  });
+
+  describe("Delete Session", () => {
+    test("should delete session from DB, cookie and redirect user", async () => {
+      const fakeSession = { id: 123, userid: 1 };
+      mockGet.mockReturnValue({ value: "encrypted-session" });
+      mockDecrypt.mockResolvedValue(fakeSession);
+      mockAuthAdapter.deleteSession(undefined);
+      await deleteSession(dependencies);
+      expect(mockCookies.get).toHaveBeenCalledWith("session");
+      expect(mockDecrypt).toHaveBeenCalledWith("encrypted-session");
+      expect(mockAuthAdapter.deleteSession).toHaveBeenCalledWith(123);
+      expect(mockCookies.delete).toHaveBeenCalledWith("session");
+      expect(redirect).toHaveBeenCalledWith("/login");
+    });
+
+    test("should still delete cookie and redirect even if session is not found", async () => {
+      mockDecrypt.mockResolvedValue(undefined);
+      await deleteSession(dependencies);
+      expect(mockCookies.get).toHaveBeenCalledWith("session");
+      expect(mockAuthAdapter.deleteSession).not.toHaveBeenCalled();
+      expect(mockCookies.delete).toHaveBeenCalledWith("session");
+      expect(redirect).toHaveBeenCalledWith("/login");
     });
   });
 });

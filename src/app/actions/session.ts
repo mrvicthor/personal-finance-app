@@ -72,13 +72,25 @@ export async function updateSession(
     path: "/",
   });
 }
-export async function deleteSession() {
-  const cookie = (await cookies()).get("session")?.value;
-  const session = await decrypt(cookie);
+export async function deleteSession(dependencies?: {
+  cookies?: typeof cookies;
+  decrypt?: typeof decrypt;
+  authAdapter?: Partial<AuthAdapter>;
+}) {
+  const {
+    cookies: cookiesFn = cookies,
+    decrypt: decryptFn = decrypt,
+    authAdapter: adapter = authAdapter,
+  } = dependencies ?? {};
+
+  const cookie = (await cookiesFn()).get("session")?.value;
+  const session = await decryptFn(cookie);
   if (session) {
-    await authAdapter.deleteSession(Number(session.id));
+    if (adapter.deleteSession) {
+      adapter.deleteSession(Number(session.id));
+    }
   }
-  (await cookies()).delete("session");
+  (await cookiesFn()).delete("session");
   redirect("/login");
 }
 
