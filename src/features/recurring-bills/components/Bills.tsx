@@ -2,7 +2,6 @@
 import React, { useMemo } from "react";
 import { Transaction } from "@/types/transaction";
 import Image from "next/image";
-import billsIcon from "../../../../public/assets/images/icon-nav-recurring-bills.svg";
 import { containerVariants, itemVariants } from "@/helpers";
 import { motion } from "motion/react";
 import { formatCurrency } from "@/helpers/currencyFormatter";
@@ -28,7 +27,12 @@ const Bills = ({ data }: BillsProps) => {
         className="grid grid-cols-5 justify-center items-center sm:grid-cols-1 py-6 px-6 bg-[#201F24] rounded-lg sm:space-y-8"
       >
         <div className="col-span-1">
-          <Image src={billsIcon} alt="recurring bills" />
+          <Image
+            src="/assets/images/icon-nav-recurring-bills.svg"
+            alt="recurring bills"
+            height={26.88}
+            width={31.88}
+          />
         </div>
         <div className="space-y-[0.6875rem] col-span-4">
           <p className="text-sm text-white capitalize">total bills</p>

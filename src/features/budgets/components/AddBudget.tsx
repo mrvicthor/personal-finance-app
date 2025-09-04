@@ -1,6 +1,5 @@
 import React from "react";
 import Image from "next/image";
-import closeIcon from "../../../../public/assets/images/icon-close-modal.svg";
 import CreateBudgetForm from "./forms/CreateForm";
 
 type AddBudgetProps = {
@@ -19,14 +18,20 @@ const AddBudget = ({ onClose }: AddBudgetProps) => {
           <p className="text-[#201F24] font-bold text-[2rem] capitalize">
             add new budget
           </p>
-          <Image
-            src={closeIcon}
+          <button
+            type="button"
             onClick={onClose}
-            alt="close-icon"
-            width={32}
-            height={32}
+            aria-label="Close modal"
             className="cursor-pointer"
-          />
+          >
+            <Image
+              src="/assets/images/icon-close-modal.svg"
+              alt="close-icon"
+              width={32}
+              height={32}
+              className="cursor-pointer"
+            />
+          </button>
         </div>
 
         <CreateBudgetForm />

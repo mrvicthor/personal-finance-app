@@ -1,8 +1,6 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import leftArrow from "../../../../public/assets/images/icon-caret-left.svg";
-import rightArrow from "../../../../public/assets/images/icon-caret-right.svg";
 import { renderPaginationButtons } from "@/helpers/renderPaginationButtons";
 
 type PaginationProps = {
@@ -33,7 +31,12 @@ const RenderPagination = ({
                 : "cursor-pointer hover:bg-[#98908B] hover:text-white"
             }`}
           >
-            <Image src={leftArrow} alt="previous arrow icon" className="" />
+            <Image
+              src="/assets/images/icon-caret-left.svg"
+              alt="previous arrow icon"
+              height={16}
+              width={16}
+            />
             <span className="hidden sm:block capitalize">prev</span>
           </button>
           <div className="flex items-center gap-1 sm:hidden ">
@@ -87,7 +90,12 @@ const RenderPagination = ({
                 : "cursor-pointer hover:bg-[#98908B] hover:text-white"
             }`}
           >
-            <Image src={rightArrow} alt="next arrow icon" />
+            <Image
+              src="/assets/images/icon-caret-right.svg"
+              alt="next arrow icon"
+              height={16}
+              width={16}
+            />
             <span className="hidden sm:block capitalize">next</span>
           </button>
         </div>

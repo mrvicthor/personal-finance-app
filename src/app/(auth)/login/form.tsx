@@ -51,14 +51,20 @@ const LoginForm = () => {
               defaultValue={state.inputs?.password}
               className="border-[#98908B] border rounded-lg h-[2.8125rem] w-full px-5"
             />
-            <Image
+            <button
+              type="button"
               onClick={toggleVisibility}
-              src="/assets/images/icon-show-password.svg"
-              alt="eye-icon"
-              width={16}
-              height={16}
-              className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer"
-            />
+              aria-label="Close modal"
+              className="cursor-pointer absolute right-2 top-1/2 -translate-y-1/2"
+            >
+              <Image
+                onClick={toggleVisibility}
+                src="/assets/images/icon-show-password.svg"
+                alt="eye-icon"
+                width={16}
+                height={16}
+              />
+            </button>
           </div>
           <div className="flex justify-end">
             <Link

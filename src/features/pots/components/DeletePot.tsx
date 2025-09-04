@@ -1,7 +1,6 @@
 import React, { Suspense } from "react";
 import Image from "next/image";
 import Loading from "@/components/loading";
-import closeIcon from "../../../../public/assets/images/icon-close-modal.svg";
 
 import DeletePotForm from "./forms/DeletePotForm";
 import { SelectedPot } from "@/types/pot";
@@ -24,14 +23,19 @@ const DeletePot = ({ onClose, selected, selectedPot }: DeletePotProps) => {
           <p className="text-[#201F24] font-bold text-[2rem] capitalize">
             delete `{selectedPot?.name ? selectedPot.name : selected}`?
           </p>
-          <Image
-            src={closeIcon}
+          <button
+            type="button"
             onClick={onClose}
-            alt="close-icon"
-            width={32}
-            height={32}
+            aria-label="Close modal"
             className="cursor-pointer"
-          />
+          >
+            <Image
+              src="/assets/images/icon-close-modal.svg"
+              alt="close-icon"
+              width={32}
+              height={32}
+            />
+          </button>
         </div>
         {selectedPot ? (
           <DeletePotForm selected={selectedPot} handleModal={onClose} />

@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import closeIcon from "../../../../public/assets/images/icon-close-modal.svg";
 import { SelectedPot } from "@/types/pot";
 import AddMoneyForm from "./forms/AddMoneyForm";
 import Loading from "@/components/loading";
@@ -28,14 +27,19 @@ const AddMoney = ({ onClose, selectedPot, selected }: AddMoneyProps) => {
           <p className="text-[#201F24] font-bold text-[2rem]">
             Add to `{selectedPot?.name ? selectedPot.name : selected}`
           </p>
-          <Image
-            src={closeIcon}
+          <button
+            type="button"
             onClick={onClose}
-            alt="close-icon"
-            width={32}
-            height={32}
+            aria-label="Close modal"
             className="cursor-pointer"
-          />
+          >
+            <Image
+              src="/assets/images/icon-close-modal.svg"
+              alt="close-icon"
+              width={32}
+              height={32}
+            />
+          </button>
         </div>
         {hasMounted && !selectedPot ? (
           <Loading />

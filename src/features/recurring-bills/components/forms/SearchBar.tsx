@@ -1,6 +1,5 @@
 import React from "react";
 import Image from "next/image";
-import searchIcon from "../../../../../public/assets/images/icon-search.svg";
 
 type SearchBarProps = {
   filterText: string;
@@ -19,9 +18,11 @@ const SearchBar = ({ filterText, onFilterTextChange }: SearchBarProps) => {
         className=" w-full h-[2.8125rem] px-4 border border-[#98908b] rounded-lg"
       />
       <Image
-        src={searchIcon}
+        src="/assets/images/icon-search.svg"
         alt="search icon"
         className="absolute top-4 right-4"
+        height={16}
+        width={16}
       />
     </form>
   );

@@ -1,6 +1,5 @@
 import React from "react";
 import Image from "next/image";
-import ellipsisIcon from "../../../../public/assets/images/icon-ellipsis.svg";
 
 type TitleProps = {
   title: string;
@@ -17,12 +16,19 @@ const Title = ({ title, theme, toggleOptions }: TitleProps) => {
       <h2 className="capitalize mr-auto text-[#201F24] text-[1.25rem] font-bold">
         {title}
       </h2>
-      <Image
-        src={ellipsisIcon}
-        alt="ellipsis"
+      <button
+        type="button"
         onClick={toggleOptions}
+        aria-label="Close modal"
         className="cursor-pointer"
-      />
+      >
+        <Image
+          src="/assets/images/icon-ellipsis.svg"
+          alt="ellipsis"
+          height={3.5}
+          width={13.5}
+        />
+      </button>
     </div>
   );
 };

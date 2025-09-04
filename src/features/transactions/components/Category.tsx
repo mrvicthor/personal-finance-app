@@ -10,7 +10,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import Image from "next/image";
-import filterIcon from "../../../../public/assets/images/icon-filter-mobile.svg";
 
 type Props = {
   onHandleCategory: React.Dispatch<React.SetStateAction<CategoryProps>>;
@@ -36,12 +35,19 @@ const Category = ({ onHandleCategory, category }: Props) => {
   return (
     <div className="relative flex items-center gap-2 category">
       <div className="sm:hidden">
-        <Image
-          src={filterIcon}
-          alt="sort icon"
-          className=""
+        <button
+          type="button"
+          aria-label="Close modal"
+          className="cursor-pointer"
           onClick={() => setShowOptions(!showOptions)}
-        />
+        >
+          <Image
+            src="/assets/images/icon-filter-mobile.svg"
+            alt="sort icon"
+            height={20}
+            width={20}
+          />
+        </button>
         {showOptions && (
           <ul className="absolute top-8 bg-white z-40 w-[10.125rem] my-shadow divide-y-2 px-5 sort-list">
             {categories.map((option) => (

@@ -1,7 +1,5 @@
 import React, { Suspense } from "react";
 import Image from "next/image";
-import closeIcon from "../../../../public/assets/images/icon-close-modal.svg";
-
 import Loading from "@/components/loading";
 import DeleteBudgetForm from "./forms/DeleteBudgetForm";
 import { SelectedBudget } from "@/types/budget";
@@ -29,14 +27,20 @@ const DeleteBudget = ({
             delete `
             {selectedBudget?.category ? selectedBudget?.category : selected}` ?
           </p>
-          <Image
-            src={closeIcon}
+          <button
+            type="button"
             onClick={onClose}
-            alt="close-icon"
-            width={32}
-            height={32}
+            aria-label="Close modal"
             className="cursor-pointer"
-          />
+          >
+            <Image
+              src="/assets/images/icon-close-modal.svg"
+              alt="close-icon"
+              width={32}
+              height={32}
+              className="cursor-pointer"
+            />
+          </button>
         </div>
 
         {selectedBudget ? (
