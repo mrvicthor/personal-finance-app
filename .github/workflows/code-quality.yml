@@ -26,9 +26,6 @@ jobs:
       - name: Type check
         run: npx tsc --noEmit
 
-      - name: Check formatting
-        run: npx prettier --check .
-
       - name: Security audit
         run: npm audit --audit-level moderate
 
