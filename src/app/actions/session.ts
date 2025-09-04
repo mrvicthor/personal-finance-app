@@ -57,20 +57,20 @@ export async function updateSession(
     };
   }
 
-  // const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
-  // const refreshSession =
-  //   Number(sessionInDatabase?.expiresAt.getTime()) - now <= 24 * 60 * 60 * 1000;
-  // if (refreshSession && sessionInDatabase && adapter.updateSession) {
-  //   await adapter.updateSession(sessionInDatabase.id, expiresAt);
-  // }
+  const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+  const refreshSession =
+    Number(sessionInDatabase?.expiresAt.getTime()) - now <= 24 * 60 * 60 * 1000;
+  if (refreshSession && sessionInDatabase && adapter.updateSession) {
+    await adapter.updateSession(sessionInDatabase.id, expiresAt);
+  }
 
-  // (await cookiesFn()).set("session", session, {
-  //   httpOnly: true,
-  //   secure: true,
-  //   expires: expiresAt,
-  //   sameSite: "lax",
-  //   path: "/",
-  // });
+  (await cookiesFn()).set("session", session, {
+    httpOnly: true,
+    secure: true,
+    expires: expiresAt,
+    sameSite: "lax",
+    path: "/",
+  });
 }
 export async function deleteSession() {
   const cookie = (await cookies()).get("session")?.value;

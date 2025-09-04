@@ -71,22 +71,22 @@ describe("Session", () => {
       expect(result).toEqual({ message: "Session expired" });
     });
 
-    // test("should return session expired if session has expired", async () => {
-    //   mockGet.mockReturnValue({ value: "fake-session" });
-    //   mockDecrypt.mockResolvedValue({
-    //     id: 1,
-    //   });
-    //   mockAuthAdapter.findUserSessionById.mockResolvedValue({
-    //     id: 1,
-    //     expiresAt: new Date(mockNow + 23 * 60 * 60 * 1000),
-    //   });
-    //   await updateSession(dependencies);
+    test("should retfresh session if expiry < 24h", async () => {
+      mockGet.mockReturnValue({ value: "fake-session" });
+      mockDecrypt.mockResolvedValue({
+        id: 1,
+      });
+      mockAuthAdapter.findUserSessionById.mockResolvedValue({
+        id: 1,
+        expiresAt: new Date(mockNow + 23 * 60 * 60 * 1000),
+      });
+      await updateSession(dependencies);
 
-    //   expect(mockAuthAdapter.updateSession).toHaveBeenCalledWith(
-    //     1,
-    //     expect.any(Date)
-    //   );
-    //   expect(mockCookies.set).toHaveBeenCalled();
-    // });
+      expect(mockAuthAdapter.updateSession).toHaveBeenCalledWith(
+        1,
+        expect.any(Date)
+      );
+      expect(mockCookies.set).toHaveBeenCalled();
+    });
   });
 });
