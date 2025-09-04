@@ -12,22 +12,43 @@ import {
 
 export const runtime = "nodejs";
 
-webpush.setVapidDetails(
-  "mailto:victoreleanya07@gmail.com",
-  process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!,
-  process.env.VAPID_PRIVATE_KEY!
-);
+let isConfigured = false;
+function getWebPush() {
+  const publicKey = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY;
+  const privateKey = process.env.VAPID_PRIVATE_KEY;
+  if (!publicKey || !privateKey) {
+    console.warn("Missing VAPID keys. Push notification will be skipped.");
+    return null;
+  }
+  if (!isConfigured) {
+    webpush.setVapidDetails(
+      "mailto:victoreleanya07@gmail.com",
+      publicKey,
+      privateKey
+    );
+    isConfigured = true;
+  }
+  return webpush;
+}
 
 export async function GET() {
+  const webpush = getWebPush();
+  if (!webpush) {
+    return NextResponse.json(
+      {
+        error: "VAPID keys not set",
+      },
+      { status: 500 }
+    );
+  }
   const upcomingBills = await db
     .select()
     .from(transactions)
     .where(eq(transactions.recurring, true));
 
+  const today = new Date();
   for (const bill of upcomingBills) {
     const originalDate = new Date(bill.date);
-    const today = new Date();
-
     const dueDay = originalDate.getDate();
 
     let nextDueDate = setDate(today, dueDay);
@@ -50,19 +71,31 @@ export async function GET() {
       .select()
       .from(pushSubscription)
       .where(eq(pushSubscription.userId, bill.userId));
-    for (const sub of subs) {
-      try {
-        await webpush.sendNotification(
-          {
-            endpoint: sub.endpoint,
-            keys: sub.keys as { p256dh: string; auth: string },
-          },
-          JSON.stringify({ title: "Bill reminder", body: message })
-        );
-      } catch (error) {
-        console.log("Failed to push notification:", error);
-      }
-    }
+
+    await Promise.all(
+      subs.map((sub) =>
+        webpush
+          .sendNotification(
+            {
+              endpoint: sub.endpoint,
+              keys: sub.keys as { p256dh: string; auth: string },
+            },
+            JSON.stringify({
+              notification: { title: "Bill reminder", body: message },
+            })
+          )
+          .catch(async (error) => {
+            if (error.statusCode === 410 || error.statusCode === 404) {
+              console.log("Cleaning up expired subscription:", sub.id);
+              await db
+                .delete(pushSubscription)
+                .where(eq(pushSubscription.id, sub.id));
+            } else {
+              console.error("Push error:", error);
+            }
+          })
+      )
+    );
   }
 
   return NextResponse.json({ status: "notifications sent" });

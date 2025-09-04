@@ -16,11 +16,17 @@ webpush.setVapidDetails(
 export async function subscribeUser(sub: SubscriptionPayload) {
   const userId = await getSessionId();
   if (!userId) return;
-  await db.insert(pushSubscription).values({
-    userId: Number(userId),
-    keys: sub.keys,
-    endpoint: sub.endpoint,
-  });
+  await db
+    .insert(pushSubscription)
+    .values({
+      userId: Number(userId),
+      keys: sub.keys,
+      endpoint: sub.endpoint,
+    })
+    .onConflictDoUpdate({
+      target: [pushSubscription.userId, pushSubscription.endpoint],
+      set: { keys: sub.keys },
+    });
 
   return { success: true };
 }
@@ -29,6 +35,6 @@ export async function unsubscribeUser() {
   const userId = await getSessionId();
   await db
     .delete(pushSubscription)
-    .where(eq(pushSubscription.id, Number(userId)));
+    .where(eq(pushSubscription.userId, Number(userId)));
   return { success: true };
 }

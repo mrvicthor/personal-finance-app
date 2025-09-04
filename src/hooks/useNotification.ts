@@ -29,6 +29,11 @@ export function usePushNotificationManager() {
 
   async function registerServiceWorker() {
     const registration = await navigator.serviceWorker.register("/sw.js");
+    const permission = await Notification.requestPermission();
+    if (permission !== "granted") {
+      console.warn("Push notification denied");
+      return;
+    }
     const sub = await registration.pushManager.getSubscription();
     if (!sub) {
       const newSub = await registration.pushManager.subscribe({
