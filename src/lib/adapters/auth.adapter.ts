@@ -18,6 +18,15 @@ export interface AuthAdapter {
   comparePasswords(password: string, hashedPassword: string): Promise<boolean>;
   deleteSession(id: number): Promise<void>;
   createSessionWithCookie(id: number): Promise<void>;
+  findUserSessionById(id: number): Promise<
+    | {
+        id: number;
+        userId: number;
+        expiresAt: Date;
+      }
+    | undefined
+  >;
+  updateSession(id: number, expiresAt: Date): Promise<void>;
 }
 
 export const authAdapter: AuthAdapter = {
@@ -79,5 +88,17 @@ export const authAdapter: AuthAdapter = {
       sameSite: "lax",
       path: "/",
     });
+  },
+
+  async findUserSessionById(id) {
+    const data = await db.query.sessions.findFirst({
+      where: eq(sessions.id, id),
+    });
+
+    return data ?? undefined;
+  },
+
+  async updateSession(id, expiresAt) {
+    await db.update(sessions).set({ expiresAt }).where(eq(sessions.id, id));
   },
 };

@@ -1,12 +1,9 @@
 import "server-only";
 import { SignJWT, jwtVerify } from "jose";
-import { sessions } from "@/db/schema";
-import { db } from "@/db";
 import { cookies } from "next/headers";
 import { SessionPayload } from "../../lib/definition";
-import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
-import { authAdapter } from "@/lib/adapters/auth.adapter";
+import { AuthAdapter, authAdapter } from "@/lib/adapters/auth.adapter";
 
 const secretKey = process.env.JWT_SECRET_KEY;
 const key = new TextEncoder().encode(secretKey);
@@ -30,42 +27,50 @@ export async function decrypt(session: string | undefined = "") {
   }
 }
 
-export async function updateSession() {
-  const session = (await cookies()).get("session")?.value;
-  const payload = await decrypt(session);
+export async function updateSession(
+  dependencies: {
+    cookies: () => ReturnType<typeof cookies>;
+    decrypt: typeof decrypt;
+    authAdapter: Partial<AuthAdapter>;
+  } = { cookies, decrypt, authAdapter }
+) {
+  const {
+    cookies: cookiesFn,
+    decrypt: decryptFn,
+    authAdapter: adapter,
+  } = dependencies;
+  const session = (await cookiesFn()).get("session")?.value;
+  const payload = await decryptFn(session);
   const now = Date.now();
   if (!session || !payload) {
     return null;
   }
 
   // check for session in db and update it
-  const sessionInDatabase = await db.query.sessions.findFirst({
-    where: eq(sessions.id, Number(payload.id)),
-  });
+  const sessionInDatabase = adapter.findUserSessionById
+    ? await adapter.findUserSessionById(Number(payload.id))
+    : null;
 
-  if (sessionInDatabase && sessionInDatabase?.expiresAt.getTime() > now) {
+  if (sessionInDatabase && sessionInDatabase?.expiresAt.getTime() <= now) {
     return {
       message: "Session expired",
     };
   }
 
-  const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
-  const refreshSession =
-    Number(sessionInDatabase?.expiresAt.getTime()) - now <= 24 * 60 * 60 * 1000;
-  if (refreshSession && sessionInDatabase) {
-    await db
-      .update(sessions)
-      .set({ expiresAt })
-      .where(eq(sessions.id, sessionInDatabase.id));
-  }
+  // const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+  // const refreshSession =
+  //   Number(sessionInDatabase?.expiresAt.getTime()) - now <= 24 * 60 * 60 * 1000;
+  // if (refreshSession && sessionInDatabase && adapter.updateSession) {
+  //   await adapter.updateSession(sessionInDatabase.id, expiresAt);
+  // }
 
-  (await cookies()).set("session", session, {
-    httpOnly: true,
-    secure: true,
-    expires: expiresAt,
-    sameSite: "lax",
-    path: "/",
-  });
+  // (await cookiesFn()).set("session", session, {
+  //   httpOnly: true,
+  //   secure: true,
+  //   expires: expiresAt,
+  //   sameSite: "lax",
+  //   path: "/",
+  // });
 }
 export async function deleteSession() {
   const cookie = (await cookies()).get("session")?.value;
