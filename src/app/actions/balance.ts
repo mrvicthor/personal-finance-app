@@ -1,14 +1,13 @@
 "use server";
-import { db } from "@/db";
 import {
   AddBalanceActionResponse,
   AddBalanceFormData,
   addBalanceFormSchema,
 } from "../../lib/definition";
-import { balance, users } from "@/db/schema";
-import { eq } from "drizzle-orm";
+
 import { revalidatePath } from "next/cache";
 import { getSessionId } from "./session";
+import { balanceAdapter } from "@/adapters/balance.adapter";
 
 export async function addBalance(
   state: AddBalanceActionResponse | null,
@@ -34,41 +33,28 @@ export async function addBalance(
   const { currentBalance, income, expenses } = validateFields.data;
   // get user from session
   const sessionId = await getSessionId();
-  await db.query.users.findFirst({
-    where: eq(users.id, Number(sessionId)),
-  });
-  const existingBalance = await db.query.balance.findFirst({
-    where: eq(balance.userId, Number(sessionId)),
-  });
+
+  const existingBalance = await balanceAdapter.findBalanceBySessionId(
+    Number(sessionId)
+  );
   if (existingBalance) {
-    await db
-      .update(balance)
-      .set({
-        current: currentBalance,
-        income,
-        expenses,
-      })
-      .where(eq(balance.id, existingBalance.id));
+    await balanceAdapter.updateBalance(existingBalance.id, {
+      current: currentBalance,
+      income,
+      expenses,
+    });
     revalidatePath("/");
     return {
       success: true,
       message: "Balance updated successfully",
     };
   }
-  await db
-    .insert(balance)
-    .values({
-      userId: Number(sessionId),
-      current: currentBalance,
-      income,
-      expenses,
-    })
-    .returning({
-      id: balance.id,
-      current: balance.current,
-      income: balance.income,
-      expenses: balance.expenses,
-    });
+  await balanceAdapter.createBalance({
+    userId: Number(sessionId),
+    current: currentBalance,
+    income,
+    expenses,
+  });
   revalidatePath("/");
   return {
     success: true,
