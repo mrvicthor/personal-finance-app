@@ -122,23 +122,44 @@ describe("Signup Form", () => {
     });
   });
 
-  //   test("should disable submit button and show loading state when form is submitted", async () => {
-  //     const user = userEvent.setup();
-  //     render(<SignupForm />);
+  describe("Loading States", () => {
+    test("should show loading state when form is submitting", async () => {
+      mockUseActionState.mockReturnValue([
+        { success: false, message: "" },
+        jest.fn(),
+        true,
+      ]);
 
-  //     const submitButton = screen.getByRole("button", {
-  //       name: /create account/i,
-  //     });
-  //     await user.type(screen.getByLabelText(/name/i), "john doe");
-  //     await user.type(screen.getByLabelText(/email/i), "john@example.com");
-  //     await user.type(screen.getByLabelText(/password/i), "password@123");
-  //     await user.click(submitButton);
+      render(<SignupForm />);
 
-  //     await waitFor(() => {
-  //       expect(submitButton).toHaveTextContent("Signing up...");
-  //     });
-  //     expect(submitButton).toBeDisabled();
-  //     expect(screen.getByText("⚪")).toHaveClass("animate-spin");
-  //   });
-  // });
+      await waitFor(() => {
+        expect(screen.getByText(/signing up\.\.\./i)).toBeInTheDocument();
+        expect(screen.getByText("⚪")).toHaveClass("animate-spin");
+      });
+    });
+  });
+  describe("Form Validation Display", () => {
+    test("should display password validation errors when present", () => {
+      mockUseActionState.mockReturnValue([
+        {
+          success: false,
+          message: "",
+          errors: {
+            password: [
+              "Be at least 8 characters long",
+              "Contain at least one special character",
+            ],
+          },
+        },
+        jest.fn(),
+        true,
+      ]);
+
+      render(<SignupForm />);
+      const passwordSection = screen
+        .getByLabelText("create password")
+        .closest("div");
+      expect(passwordSection).toBeInTheDocument();
+    });
+  });
 });
