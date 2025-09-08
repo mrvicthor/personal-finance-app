@@ -57,7 +57,7 @@ const SignupForm = () => {
             <button
               type="button"
               onClick={toggleVisibility}
-              aria-label="Close modal"
+              aria-label="toggle password visibility"
               className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer"
             >
               <Image

@@ -33,7 +33,7 @@ describe("Signup Form", () => {
       render(<SignupForm />);
       expect(screen.getByLabelText(/name/i)).toBeInTheDocument();
       expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
-      expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
+      expect(screen.getByLabelText("create password")).toBeInTheDocument();
     });
 
     test("should render the submit button with correct initial state", () => {
@@ -67,6 +67,20 @@ describe("Signup Form", () => {
     });
   });
 
+  describe("Password Visibility Toggle", () => {
+    test("should toggle password visibility when the icon is clicked", async () => {
+      const user = userEvent.setup();
+      render(<SignupForm />);
+      const passwordInput = screen.getByLabelText("create password");
+      const toggleButton = screen.getByLabelText("toggle password visibility");
+      expect(passwordInput).toHaveAttribute("type", "password");
+      await user.click(toggleButton);
+      expect(passwordInput).toHaveAttribute("type", "text");
+      await user.click(toggleButton);
+      expect(passwordInput).toHaveAttribute("type", "password");
+    });
+  });
+
   describe("Form Input interaction", () => {
     test("should allow typing in all input fields", async () => {
       const user = userEvent.setup();
@@ -74,7 +88,7 @@ describe("Signup Form", () => {
 
       const nameInput = screen.getByLabelText(/name/i);
       const emailInput = screen.getByLabelText(/email/i);
-      const passwordInput = screen.getByLabelText(/create password/i);
+      const passwordInput = screen.getByLabelText("create password");
 
       await user.type(nameInput, "John Doe");
       await user.type(emailInput, "john@example.com");
@@ -98,7 +112,7 @@ describe("Signup Form", () => {
       render(<SignupForm />);
       await user.type(screen.getByLabelText(/name/i), "john doe");
       await user.type(screen.getByLabelText(/email/i), "john@example.com");
-      await user.type(screen.getByLabelText(/password/i), "password@123");
+      await user.type(screen.getByLabelText("create password"), "password@123");
       const submitButton = screen.getByTestId("signup-button");
       await userEvent.click(submitButton);
       await waitFor(() => {
