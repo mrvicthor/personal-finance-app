@@ -1,21 +1,31 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import SignupForm from "@/app/(auth)/signup/form";
-import { signup } from "@/app/actions/auth";
 import userEvent from "@testing-library/user-event";
 import { useActionState } from "react";
 
-jest.mock("../../app/actions/auth", () => ({
+jest.mock("react", () => ({
+  ...jest.requireActual("react"),
+  useActionState: jest.fn(),
+}));
+
+jest.mock("../../../src/app/actions/auth", () => ({
   signup: jest.fn(),
 }));
 
 describe("Signup Form", () => {
-  const mockSignup = signup as jest.MockedFunction<typeof signup>;
   const mockUseActionState = useActionState as jest.MockedFunction<
     typeof useActionState
   >;
-
   beforeEach(() => {
     jest.clearAllMocks();
+    mockUseActionState.mockReturnValue([
+      {
+        success: false,
+        message: "",
+      },
+      jest.fn(),
+      false,
+    ]);
   });
 
   describe("Initial Rendering", () => {
@@ -41,33 +51,79 @@ describe("Signup Form", () => {
       expect(screen.queryByTestId("error-email")).not.toBeInTheDocument();
       expect(screen.queryByTestId("error-password")).not.toBeInTheDocument();
     });
+
+    test("should render login link", () => {
+      render(<SignupForm />);
+      expect(screen.getByText(/already have an account/i)).toBeInTheDocument();
+      expect(screen.getByRole("link", { name: /login/i })).toBeInTheDocument();
+    });
+
+    test("should show password requirements text", () => {
+      render(<SignupForm />);
+
+      expect(
+        screen.getByText(/password must be at least 8 characters/i)
+      ).toBeInTheDocument();
+    });
   });
 
-  // describe("Form Submission - Pending State", () => {
+  describe("Form Input interaction", () => {
+    test("should allow typing in all input fields", async () => {
+      const user = userEvent.setup();
+      render(<SignupForm />);
+
+      const nameInput = screen.getByLabelText(/name/i);
+      const emailInput = screen.getByLabelText(/email/i);
+      const passwordInput = screen.getByLabelText(/create password/i);
+
+      await user.type(nameInput, "John Doe");
+      await user.type(emailInput, "john@example.com");
+      await user.type(passwordInput, "password123");
+
+      expect(nameInput).toHaveValue("John Doe");
+      expect(emailInput).toHaveValue("john@example.com");
+      expect(passwordInput).toHaveValue("password123");
+    });
+
+    test("should handle form submission with valid data", async () => {
+      const user = userEvent.setup();
+      mockUseActionState.mockReturnValue([
+        {
+          success: false,
+          message: "",
+        },
+        jest.fn(),
+        true,
+      ]);
+      render(<SignupForm />);
+      await user.type(screen.getByLabelText(/name/i), "john doe");
+      await user.type(screen.getByLabelText(/email/i), "john@example.com");
+      await user.type(screen.getByLabelText(/password/i), "password@123");
+      const submitButton = screen.getByTestId("signup-button");
+      await userEvent.click(submitButton);
+      await waitFor(() => {
+        expect(screen.getByText(/signing up\.\.\./i)).toBeInTheDocument();
+        expect(submitButton).toBeDisabled();
+      });
+    });
+  });
+
   //   test("should disable submit button and show loading state when form is submitted", async () => {
   //     const user = userEvent.setup();
-  //     const userData = {
-  //       name: "Victor Eleanya",
-  //       email: "victor@gmail.com",
-  //       password: "test1234",
-  //     };
-  //     mockSignup.mockImplementation(async () => {
-  //       await new Promise((resolve) => setTimeout(resolve, 1000));
-  //       return {
-  //         success: true,
-  //         message: "Balance added successfully",
-  //         inputs: userData,
-  //       };
-  //     });
-
   //     render(<SignupForm />);
 
   //     const submitButton = screen.getByRole("button", {
   //       name: /create account/i,
   //     });
+  //     await user.type(screen.getByLabelText(/name/i), "john doe");
+  //     await user.type(screen.getByLabelText(/email/i), "john@example.com");
+  //     await user.type(screen.getByLabelText(/password/i), "password@123");
   //     await user.click(submitButton);
-  //     //   screen.debug();
-  //     expect(submitButton).toHaveTextContent("Signing up...");
+
+  //     await waitFor(() => {
+  //       expect(submitButton).toHaveTextContent("Signing up...");
+  //     });
+  //     expect(submitButton).toBeDisabled();
   //     expect(screen.getByText("⚪")).toHaveClass("animate-spin");
   //   });
   // });

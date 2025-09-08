@@ -11,7 +11,7 @@ jest.mock("/src/lib/adapters/auth.adapter", () => ({
     createSession: jest.fn().mockResolvedValue({ id: 123 }),
     hashPassword: jest.fn(),
     comparePasswords: jest.fn(),
-    createSessionWithCookie: jest.fn().mockResolvedValue(undefined),
+    createSessionWithCookie: jest.fn(),
     deleteSession: jest.fn(),
   },
 }));

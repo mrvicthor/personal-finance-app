@@ -5,9 +5,10 @@ export type InputFieldProps = {
   value?: number | string | undefined;
   placeholder?: string;
   error?: string;
-  type: string;
+  type?: InputTypes;
 };
 
+type InputTypes = "text" | "email" | "password";
 const InputField = ({
   id,
   label,
@@ -15,7 +16,7 @@ const InputField = ({
   value,
   placeholder,
   error,
-  type,
+  type = "text",
 }: InputFieldProps) => {
   return (
     <div className="flex flex-col gap-1">

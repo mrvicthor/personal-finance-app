@@ -1,4 +1,3 @@
-import { addBalance } from "@/app/actions/balance";
 import AddBalanceForm from "@/components/forms/addBalanceForm";
 
 import { render, screen } from "@testing-library/react";
@@ -8,8 +7,6 @@ jest.mock("../../../app/actions/balance", () => ({
 }));
 
 describe("AddBalanceForm", () => {
-  const mockAddBalance = addBalance as jest.MockedFunction<typeof addBalance>;
-
   beforeEach(() => {
     jest.clearAllMocks();
   });

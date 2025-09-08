@@ -9,12 +9,17 @@ import InputField from "@/components/forms/inputField";
 const initialState: SignupActionResponse = {
   success: false,
   message: "",
+  inputs: {
+    name: "",
+    email: "",
+    password: "",
+  },
 };
 
 const SignupForm = () => {
   const [state, action, pending] = useActionState(signup, initialState);
   const [showPassword, setShowPassword] = useState(false);
-
+  const safeState = state || initialState;
   const toggleVisibility = () => setShowPassword(!showPassword);
   return (
     <form action={action} className="mt-8">
@@ -22,17 +27,16 @@ const SignupForm = () => {
         <InputField
           id="name"
           name="name"
-          value={state.inputs?.name}
+          value={safeState.inputs?.name || ""}
           label="name"
-          error={state.errors?.name?.[0]}
-          type="text"
+          error={safeState.errors?.name?.[0]}
         />
         <InputField
           id="email"
           label="email"
           name="email"
           type="email"
-          value={state.inputs?.email}
+          value={safeState.inputs?.email || ""}
         />
 
         <div className="flex flex-col gap-1">
@@ -47,7 +51,7 @@ const SignupForm = () => {
               id="password"
               name="password"
               type={showPassword ? "text" : "password"}
-              defaultValue={state.inputs?.password}
+              defaultValue={safeState.inputs?.password}
               className="border-[#98908B] border rounded-lg h-[2.8125rem] w-full px-5"
             />
             <button
