@@ -8,6 +8,7 @@ const protectedRoutes = [
   "/budgets",
   "/pots",
   "/recurring-bills",
+  "/overview",
 ];
 const publicRoutes = ["/login", "/signup"];
 
@@ -27,7 +28,7 @@ export default async function middleware(req: NextRequest) {
     session?.userId &&
     !req.nextUrl.pathname.startsWith("/")
   ) {
-    return NextResponse.redirect(new URL("/", req.nextUrl));
+    return NextResponse.redirect(new URL("/overview", req.nextUrl));
   }
   await updateSession();
   return NextResponse.next();

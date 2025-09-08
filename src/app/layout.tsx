@@ -1,11 +1,6 @@
 import type { Metadata } from "next";
 import { Public_Sans } from "next/font/google";
 import "./globals.css";
-import LayoutWrapper from "@/components/layoutWrapper";
-import { CollapseStoreProvider } from "@/providers/collapse-store-provider";
-import Sidebar from "@/components/sidebar";
-import Header from "./(auth)/header";
-import { AiFloatingButton } from "@/components/ai-cta-buttons";
 
 const publicSans = Public_Sans({
   variable: "--font-public-sans",
@@ -24,18 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${publicSans.variable} antialiased`}>
-        <CollapseStoreProvider>
-          <LayoutWrapper>
-            <Sidebar />
-            <main className="main pt-6 sm:pt-8 md:h-screen overflow-hidden overflow-y-scroll">
-              {children}
-              <Header />
-              <AiFloatingButton />
-            </main>
-          </LayoutWrapper>
-        </CollapseStoreProvider>
-      </body>
+      <body className={`${publicSans.variable} antialiased`}>{children}</body>
     </html>
   );
 }
