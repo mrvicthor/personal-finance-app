@@ -60,6 +60,6 @@ describe("Signup Action", () => {
     expect(authAdapter.hashPassword).toHaveBeenCalledWith("test@1234");
     expect(authAdapter.createUser).toHaveBeenCalled();
     expect(authAdapter.createSessionWithCookie).toHaveBeenCalledWith(1);
-    expect(redirect).toHaveBeenCalledWith("/");
+    expect(redirect).toHaveBeenCalledWith("/overview");
   });
 });
