@@ -31,4 +31,19 @@ describe("Login Form", () => {
       expect(passwordField).toHaveAttribute("type", "password");
     });
   });
+
+  describe("Form Input Interaction", () => {
+    test("should allow typing in all input fields", async () => {
+      const user = userEvent.setup();
+      render(<LoginForm />);
+      const emailField = screen.getByLabelText(/email/i);
+      const passwordField = screen.getByLabelText(/password/i);
+
+      await user.type(emailField, "johndoe@gmail.com");
+      await user.type(passwordField, "Testing@123");
+
+      expect(emailField).toHaveValue("johndoe@gmail.com");
+      expect(passwordField).toHaveValue("Testing@123");
+    });
+  });
 });
