@@ -1,8 +1,29 @@
 import LoginForm from "@/app/(auth)/login/form";
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { useActionState } from "react";
+
+jest.mock("react", () => ({
+  ...jest.requireActual("react"),
+  useActionState: jest.fn(),
+}));
 
 describe("Login Form", () => {
+  const mockUseActionState = useActionState as jest.MockedFunction<
+    typeof useActionState
+  >;
+  beforeEach(() => {
+    jest.clearAllMocks();
+    mockUseActionState.mockReturnValue([
+      {
+        success: false,
+        message: "",
+      },
+      jest.fn(),
+      false,
+    ]);
+  });
+
   describe("Initial render", () => {
     test("should render the form", () => {
       render(<LoginForm />);
@@ -44,6 +65,20 @@ describe("Login Form", () => {
 
       expect(emailField).toHaveValue("johndoe@gmail.com");
       expect(passwordField).toHaveValue("Testing@123");
+    });
+  });
+  describe("Loading States", () => {
+    test("should show loading state when form is submitting", async () => {
+      mockUseActionState.mockReturnValue([
+        { success: false, message: "" },
+        jest.fn(),
+        true,
+      ]);
+      render(<LoginForm />);
+      await waitFor(() => {
+        expect(screen.getByText(/logging in\.\.\./i)).toBeInTheDocument();
+        expect(screen.getByText("⚪")).toHaveClass("animate-spin");
+      });
     });
   });
 });
