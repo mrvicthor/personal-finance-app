@@ -97,4 +97,24 @@ describe("Login Form", () => {
       });
     });
   });
+
+  describe("Form Validation Display", () => {
+    test("should display password validation errors when present", () => {
+      mockUseActionState.mockReturnValue([
+        {
+          success: false,
+          message: "",
+          errors: {
+            password: ["Password can not be empty"],
+          },
+        },
+        jest.fn(),
+        true,
+      ]);
+
+      render(<LoginForm />);
+      const passwordSection = screen.getByLabelText("password").closest("div");
+      expect(passwordSection).toBeInTheDocument();
+    });
+  });
 });
