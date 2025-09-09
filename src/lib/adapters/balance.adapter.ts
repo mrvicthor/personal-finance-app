@@ -47,7 +47,7 @@ export const balanceAdapter: BalanceAdapter = {
     const result = data.length
       ? data[0]
       : { current: 4836, income: 3814.25, expenses: 1700.5 };
-    console.log(result);
+
     return {
       current: result.current ?? 0,
       income: result.income ?? 0,

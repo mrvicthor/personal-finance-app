@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { LoginActionResponse } from "@/lib/definition";
 import { login } from "@/app/actions/auth";
+import PasswordInputField from "@/components/forms/passwordInputField";
 
 const initialState: LoginActionResponse = {
   success: false,
@@ -36,52 +37,15 @@ const LoginForm = () => {
         {state.errors?.email && (
           <p className="text-red-500">{state.errors.email}</p>
         )}
-        <div className="flex flex-col gap-1">
-          <label
-            htmlFor="password"
-            className="capitalize text-[#696868] text-xs font-bold"
-          >
-            password
-          </label>
-          <div className="relative w-full">
-            <input
-              id="password"
-              name="password"
-              type={showPassword ? "text" : "password"}
-              defaultValue={state.inputs?.password}
-              className="border-[#98908B] border rounded-lg h-[2.8125rem] w-full px-5"
-            />
-            <button
-              type="button"
-              onClick={toggleVisibility}
-              aria-label="Close modal"
-              className="cursor-pointer absolute right-2 top-1/2 -translate-y-1/2"
-            >
-              <Image
-                onClick={toggleVisibility}
-                src="/assets/images/icon-show-password.svg"
-                alt="eye-icon"
-                width={16}
-                height={16}
-              />
-            </button>
-          </div>
-          <div className="flex justify-end">
-            <Link
-              href="/forgot-password"
-              className="text-[#696868] text-xs font-bold"
-            >
-              Forgot password?
-            </Link>
-          </div>
-        </div>
-        {state.errors?.password && (
-          <p className="text-red-500">{state.errors.password}</p>
-        )}
+        <PasswordInputField
+          value={state.inputs?.password as string}
+          error={state.errors?.password}
+        />
       </div>
       <button
         disabled={pending}
         type="submit"
+        data-testid="login-button"
         className="mt-8 bg-[#201F24] text-white w-full h-[3.3125rem] rounded-lg text-sm font-bold capitalize cursor-pointer"
       >
         {pending ? (
