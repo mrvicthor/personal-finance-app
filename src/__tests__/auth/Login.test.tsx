@@ -80,5 +80,21 @@ describe("Login Form", () => {
         expect(screen.getByText("⚪")).toHaveClass("animate-spin");
       });
     });
+
+    test("should handle form submission with valid data", async () => {
+      const user = userEvent.setup();
+      mockUseActionState.mockReturnValue([
+        { success: false, message: "" },
+        jest.fn(),
+        true,
+      ]);
+      render(<LoginForm />);
+      await user.type(screen.getByLabelText(/email/i), "johndoe@gmail.com");
+      await user.type(screen.getByLabelText(/password/i), "Testing@123");
+      await waitFor(() => {
+        expect(screen.getByText(/logging in\.\.\./i)).toBeInTheDocument();
+        expect(screen.getByText("⚪")).toHaveClass("animate-spin");
+      });
+    });
   });
 });
