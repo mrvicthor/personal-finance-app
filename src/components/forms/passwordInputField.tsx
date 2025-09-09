@@ -31,7 +31,7 @@ const PasswordInputField = ({ value, error }: PasswordInputFieldProps) => {
           <button
             type="button"
             onClick={toggleVisibility}
-            aria-label="Close modal"
+            data-testid="toggle-show-password"
             className="cursor-pointer absolute right-2 top-1/2 -translate-y-1/2"
           >
             <Image
