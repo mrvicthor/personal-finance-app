@@ -12,8 +12,17 @@ const Subheader = ({ title, description, href }: SubheaderProps) => {
   return (
     <div className="flex justify-between items-center">
       <h2 className="capitalize text-[#201f24] text-xl font-bold">{title}</h2>
-      <Link href={`${href}`} className="capitalize flex gap-3">
-        <span className="text-sm text-[#696868]">{description}</span>
+      <Link
+        data-testid="subheader-link"
+        href={`${href}`}
+        className="capitalize flex gap-3"
+      >
+        <span
+          data-testid="subheader-description"
+          className="text-sm text-[#696868]"
+        >
+          {description}
+        </span>
         <Image
           src="/assets/images/icon-caret-right.svg"
           alt="arrow right"
