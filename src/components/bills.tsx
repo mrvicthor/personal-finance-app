@@ -39,6 +39,7 @@ const Bills = ({ data }: Bills) => {
       initial="hidden"
       animate="visible"
       className="mt-8 flex flex-col gap-3"
+      data-testid="bills-container"
     >
       {bills.map((bill, index: number) => (
         <motion.li
