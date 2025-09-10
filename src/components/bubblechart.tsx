@@ -1,5 +1,5 @@
 "use client";
-import React, { useMemo } from "react";
+import { useEffect, useState } from "react";
 import { Label, Pie, PieChart } from "recharts";
 import {
   ChartConfig,
@@ -27,14 +27,16 @@ const Bubblechart = ({ data, transactions }: BudgetsProps) => {
   const filteredBudget = transactions.filter((item) =>
     data.some((budget) => budget.category === item.category)
   );
-  const totalAmountSpent = useMemo(() => {
-    return filteredBudget.reduce((acc, item) => acc + item.amount, 0);
-  }, [filteredBudget]);
+  const totalAmountSpent = filteredBudget.reduce(
+    (acc, item) => acc + item.amount,
+    0
+  );
 
-  const [mounted, setMounted] = React.useState(false);
-  const totalBudget = useMemo(() => {
-    return data.reduce((acc: number, item: Budget) => acc + item.maximum, 0);
-  }, [data]);
+  const [mounted, setMounted] = useState(false);
+  const totalBudget = data.reduce(
+    (acc: number, item: Budget) => acc + item.maximum,
+    0
+  );
 
   const chartData = getCategoryTotal(filteredBudget, data);
 
@@ -43,7 +45,7 @@ const Bubblechart = ({ data, transactions }: BudgetsProps) => {
     label: "Total",
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     setMounted(true);
   }, [mounted]);
 

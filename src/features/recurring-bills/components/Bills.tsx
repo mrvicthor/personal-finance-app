@@ -1,5 +1,4 @@
 "use client";
-import React, { useMemo } from "react";
 import { Transaction } from "@/types/transaction";
 import Image from "next/image";
 import { containerVariants, itemVariants } from "@/helpers";
@@ -10,9 +9,9 @@ type BillsProps = {
   data: Transaction[];
 };
 const Bills = ({ data }: BillsProps) => {
-  const totalBills = useMemo(
-    () => data.reduce((acc: number, item: Transaction) => acc + item.amount, 0),
-    [data]
+  const totalBills = data.reduce(
+    (acc: number, item: Transaction) => acc + item.amount,
+    0
   );
 
   return (
