@@ -6,12 +6,19 @@ type CategoryFieldProps = {
   label: string;
   name: string;
   error?: string[];
+  selectLabel: string;
 };
 
-const CategoryField = ({ id, label, name, error }: CategoryFieldProps) => {
+const SelectField = ({
+  id,
+  label,
+  name,
+  error,
+  selectLabel,
+}: CategoryFieldProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState("");
-  const [selectedLabel, setSelectedLabel] = useState("Select category");
+  const [selectedLabel, setSelectedLabel] = useState(selectLabel);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -99,4 +106,4 @@ const CategoryField = ({ id, label, name, error }: CategoryFieldProps) => {
   );
 };
 
-export default CategoryField;
+export default SelectField;

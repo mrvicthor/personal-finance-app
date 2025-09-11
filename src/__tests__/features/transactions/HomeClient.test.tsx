@@ -1,5 +1,6 @@
-import { screen, render, fireEvent } from "@testing-library/react";
+import { screen, render } from "@testing-library/react";
 import HomeClient from "@/features/transactions/components/HomeClient";
+import userEvent from "@testing-library/user-event";
 
 import { logout } from "@/app/actions/auth";
 import { addTransaction } from "@/features/transactions/db/transactions";
@@ -41,17 +42,19 @@ describe("Transactions Page", () => {
     expect(label).toBeInTheDocument();
   });
 
-  test("should call logout function when logout icon is clicked", () => {
+  test("should call logout function when logout icon is clicked", async () => {
+    const user = userEvent.setup();
     render(
       <HomeClient>
         <div>Test Content</div>
       </HomeClient>
     );
-    fireEvent.click(screen.getByTestId("logout-icon"));
+    await user.click(screen.getByTestId("logout-icon"));
     expect(logout).toHaveBeenCalled();
   });
 
-  test("should render Add Transaction Form when the button is Add Transaction button is clicked", () => {
+  test("should render Add Transaction Form when the button is Add Transaction button is clicked", async () => {
+    const user = userEvent.setup();
     render(
       <HomeClient>
         <div>Transactions</div>
@@ -62,18 +65,19 @@ describe("Transactions Page", () => {
     });
     expect(addButton).toBeInTheDocument();
 
-    fireEvent.click(addButton);
+    await user.click(addButton);
 
     expect(screen.getByTestId("add-transaction-form")).toBeInTheDocument();
 
     const closeBtn = screen.getByTestId("close-button");
-    fireEvent.click(closeBtn);
+    await user.click(closeBtn);
     expect(
       screen.queryByTestId("add-transaction-form")
     ).not.toBeInTheDocument();
   });
 
   test("should submit add transaction form if successful ", async () => {
+    const user = userEvent.setup();
     (addTransaction as jest.Mock).mockImplementation(async () => ({
       success: true,
       message: "Transaction added successfully",
@@ -89,7 +93,7 @@ describe("Transactions Page", () => {
       name: /add transaction/i,
     });
 
-    fireEvent.click(addButton);
+    await user.click(addButton);
 
     const senderField = screen.getByLabelText("recipient / sender", {
       selector: "input",
@@ -103,16 +107,14 @@ describe("Transactions Page", () => {
 
     const submitButton = screen.getByTestId("submit-transaction-button");
 
-    fireEvent.change(senderField, { target: { value: "victor eleanya" } });
-    fireEvent.change(selectCategory, { target: { value: "Entertainment" } });
-    fireEvent.change(dateField, {
-      target: { value: "2025-09-02T23:00:00.000Z" },
-    });
+    await user.type(senderField, "victor eleanya");
+    await user.type(selectCategory, "Entertainment");
+    await user.type(dateField, "2025-09-02T23:00:00.000Z");
 
-    fireEvent.change(amountField, { target: { value: "400" } });
-    fireEvent.click(trueOption);
+    await user.type(amountField, "400");
+    await user.click(trueOption);
 
-    fireEvent.click(submitButton);
+    await user.click(submitButton);
 
     const successMessage = await screen.findByText(
       "Transaction added successfully"

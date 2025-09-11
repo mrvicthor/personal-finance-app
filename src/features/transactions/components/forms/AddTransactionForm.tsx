@@ -3,9 +3,9 @@ import { useActionState } from "react";
 import { AddTransactionActionResponse } from "@/lib/definition";
 import { addTransaction } from "../../db/transactions";
 import InputField from "@/components/forms/inputField";
-import CategoryField from "@/components/forms/categoryField";
 import DateField from "@/components/forms/dateField";
 import RadioInputField from "@/components/forms/radioInputField";
+import SelectField from "@/components/forms/categoryField";
 
 const initialState: AddTransactionActionResponse = {
   success: false,
@@ -36,11 +36,12 @@ const AddTransactionForm = () => {
             type="text"
           />
 
-          <CategoryField
+          <SelectField
             id="category"
             label="category"
             name="category"
             error={state?.errors?.category}
+            selectLabel="Select category"
           />
 
           <DateField

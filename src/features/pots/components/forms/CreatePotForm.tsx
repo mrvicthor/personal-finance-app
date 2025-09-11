@@ -1,16 +1,11 @@
 "use client";
-import React, { useActionState, useEffect, useState } from "react";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { useActionState } from "react";
+
 import { AddPotActionResponse } from "@/lib/definition";
-import { addPot, getPots } from "../../actions/pots";
-import { themes } from "@/helpers";
+import { addPot } from "../../actions/pots";
 import InputField from "@/components/forms/inputField";
+import CustomThemeSelect from "@/components/forms/customSelect";
+import PotInputField from "@/components/forms/potInputField";
 
 const initialState: AddPotActionResponse = {
   success: false,
@@ -19,18 +14,7 @@ const initialState: AddPotActionResponse = {
 
 const CreatePotForm = () => {
   const [state, action, pending] = useActionState(addPot, initialState);
-  const [usedThemes, setUsedThemes] = useState<string[]>([]);
-  const [nameCount, setNameCount] = useState("");
 
-  useEffect(() => {
-    const updateTheme = async () => {
-      const data = await getPots();
-      if (!data) return;
-      const themes = data.map((pot) => pot.theme);
-      setUsedThemes(themes);
-    };
-    updateTheme();
-  }, []);
   return (
     <>
       {state?.success === true ? (
@@ -48,31 +32,13 @@ const CreatePotForm = () => {
             className="mt-5 space-y-4"
           >
             <input type="hidden" value={0} name="total" />
-            <div className="flex flex-col gap-1">
-              <label
-                htmlFor="potName"
-                className="capitalize text-[#696868] text-xs font-bold"
-              >
-                pot name
-              </label>
-              <input
-                id="potName"
-                name="potName"
-                className="border-[#98908B] border rounded-lg h-[2.8125rem] px-5"
-                defaultValue={state?.inputs?.potName}
-                onChange={(e) => setNameCount(e.target.value)}
-                type="text"
-                placeholder="e.g Rainy Days"
-                required
-              />
-              <p className="text-right text-xs text-[#696868]">
-                {nameCount.length ? 30 - nameCount.length : 30}
-                <span className="pl-1">characters left</span>
-              </p>
-            </div>
-            {state?.errors?.potName && (
-              <p className="text-red-500">{state.errors.potName}</p>
-            )}
+            <PotInputField
+              id="potName"
+              name="potName"
+              label="pot name"
+              error={state?.errors?.potName}
+              value={state?.inputs?.potName as string}
+            />
 
             <InputField
               id="target"
@@ -84,51 +50,12 @@ const CreatePotForm = () => {
               type="text"
             />
 
-            <div className="flex flex-col gap-1">
-              <label
-                htmlFor="theme"
-                className="capitalize text-[#696868] text-xs font-bold"
-              >
-                color tag
-              </label>
-              <Select name="theme">
-                <SelectTrigger
-                  id="theme"
-                  className="h-[45px] w-full border-[#98908B]"
-                >
-                  <SelectValue placeholder="Theme" />
-                </SelectTrigger>
-
-                <SelectContent>
-                  {themes.map((theme) => {
-                    const isUsed = usedThemes.includes(theme.theme);
-                    return (
-                      <SelectItem
-                        key={theme.theme}
-                        value={theme.theme}
-                        disabled={isUsed}
-                        className="flex justify-between item-center gap-4 text-xs"
-                      >
-                        <span
-                          className="h-4 w-4 rounded-full relative top-[2px] inline-block"
-                          style={{ backgroundColor: theme.theme }}
-                        />
-
-                        <span className="inline-block pl-2">{theme.label}</span>
-                        {isUsed && (
-                          <span className="absolute top-[6px] right-4">
-                            Already Used
-                          </span>
-                        )}
-                      </SelectItem>
-                    );
-                  })}
-                </SelectContent>
-              </Select>
-            </div>
-            {state?.errors?.theme && (
-              <p className="text-red-500">{state.errors.theme}</p>
-            )}
+            <CustomThemeSelect
+              id="theme"
+              label="color tag"
+              name="theme"
+              error={state?.errors?.theme?.[0]}
+            />
 
             <button
               disabled={pending}

@@ -40,4 +40,6 @@ describe("Create Pot Form", () => {
     render(<CreatePotForm />);
     expect(getPots).toHaveBeenCalled();
   });
+
+  test("");
 });
