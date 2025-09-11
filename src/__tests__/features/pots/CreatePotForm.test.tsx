@@ -49,7 +49,6 @@ describe("Create Pot Form", () => {
       const form = screen.queryByTestId("add-pot-form");
       const potNameInput = screen.getByLabelText("pot name");
       const targetInput = screen.getByLabelText("target");
-      const colorTagInput = screen.getByTestId("select-theme");
       const trigger = screen.getByTestId("select-trigger-theme");
 
       await user.type(potNameInput, "Vacation");
