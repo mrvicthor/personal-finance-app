@@ -3,19 +3,22 @@ import Image from "next/image";
 import Loading from "@/components/loading";
 import { SelectedPot } from "@/types/pot";
 import WithdrawMoneyForm from "./forms/WithdrawMoneyForm";
+import { usePotStore } from "@/providers/pot-store-provider";
 
-type WithdrawMoneyProps = {
-  onClose: () => void;
-  selected: string;
-  selectedPot: SelectedPot | null;
-};
-
-const WithdrawMoney = ({
-  onClose,
-  selected,
-  selectedPot,
-}: WithdrawMoneyProps) => {
+const WithdrawMoney = () => {
   const [hasMounted, setHasMounted] = useState(false);
+  const {
+    setSelected,
+    setSelectedPot,
+    toggleShouldWithdraw,
+    selected,
+    selectedPot,
+  } = usePotStore((state) => state);
+  const handleClose = () => {
+    setSelected("");
+    setSelectedPot(null);
+    toggleShouldWithdraw();
+  };
   useEffect(() => {
     setHasMounted(true);
   }, []);
@@ -23,7 +26,7 @@ const WithdrawMoney = ({
     <>
       <div
         className="fixed inset-0 bg-black bg-opacity-50 z-40"
-        onClick={onClose}
+        onClick={handleClose}
       />
       <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg w-full max-w-[20.9375rem] sm:max-w-[35rem] py-8 px-5 sm:px-8 z-50">
         <div className="flex items-center justify-between">
@@ -32,7 +35,7 @@ const WithdrawMoney = ({
           </p>
           <button
             type="button"
-            onClick={onClose}
+            onClick={handleClose}
             aria-label="Close modal"
             className="cursor-pointer"
           >

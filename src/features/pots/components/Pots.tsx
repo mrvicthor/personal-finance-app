@@ -142,19 +142,7 @@ const Pots = ({ data }: PotsProps) => {
       {editPot && createPortal(<EditPot />, document.body)}
       {deletePot && createPortal(<DeletePot />, document.body)}
       {shouldAddMoney && createPortal(<AddMoney />, document.body)}
-      {shouldWithdraw &&
-        createPortal(
-          <WithdrawMoney
-            onClose={() => {
-              setSelected("");
-              setSelectedPot(null);
-              toggleShouldWithdraw();
-            }}
-            selected={selected}
-            selectedPot={selectedPot}
-          />,
-          document.body
-        )}
+      {shouldWithdraw && createPortal(<WithdrawMoney />, document.body)}
     </motion.ul>
   );
 };
