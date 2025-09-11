@@ -2,20 +2,21 @@ import React, { Suspense } from "react";
 import Image from "next/image";
 import Loading from "@/components/loading";
 import EditPotForm from "./forms/EditForm";
-import { SelectedPot } from "@/types/pot";
+import { usePotStore } from "@/providers/pot-store-provider";
 
-type EditPotProps = {
-  onClose: () => void;
-  usedThemes: string[];
-  selectedPot: SelectedPot | null;
-};
-
-const EditPot = ({ onClose, usedThemes, selectedPot }: EditPotProps) => {
+const EditPot = () => {
+  const { setSelected, setSelectedPot, toggleEditPot, selectedPot } =
+    usePotStore((state) => state);
+  const handleClose = () => {
+    setSelected("");
+    setSelectedPot(null);
+    toggleEditPot();
+  };
   return (
     <Suspense fallback={<Loading />}>
       <div
         className="fixed inset-0 bg-black bg-opacity-20 z-40"
-        onClick={onClose}
+        onClick={handleClose}
       />
       <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg w-full max-w-[20.9375rem] sm:max-w-[35rem] py-8 px-5 sm:px-8 z-50">
         <div className="flex items-center justify-between">
@@ -24,7 +25,7 @@ const EditPot = ({ onClose, usedThemes, selectedPot }: EditPotProps) => {
           </p>
           <button
             type="button"
-            onClick={onClose}
+            onClick={handleClose}
             aria-label="Close modal"
             className="cursor-pointer"
           >
@@ -37,7 +38,7 @@ const EditPot = ({ onClose, usedThemes, selectedPot }: EditPotProps) => {
           </button>
         </div>
         {selectedPot ? (
-          <EditPotForm selected={selectedPot} usedThemes={usedThemes} />
+          <EditPotForm />
         ) : (
           <p className="text-red-500">
             Oops! Nothing to edit. Please close the modal.

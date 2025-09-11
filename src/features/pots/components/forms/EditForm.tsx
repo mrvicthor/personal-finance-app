@@ -12,21 +12,20 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { SelectedPot } from "@/types/pot";
+import { usePotStore } from "@/providers/pot-store-provider";
 
 const initialState: EditPotsActionResponse = {
   success: false,
   message: "",
 };
 
-type EditFormProps = {
-  selected: SelectedPot;
-  usedThemes: string[];
-};
-
-const EditPotForm = ({ selected, usedThemes }: EditFormProps) => {
+const EditPotForm = () => {
+  const { selectedPot, usedThemes } = usePotStore((state) => state);
   const [state, action, pending] = useActionState(editPot, initialState);
-  const [nameCount, setNameCount] = useState(selected.name);
-  const [selectedTheme, setSelectedTheme] = useState<string>(selected.theme);
+  const [nameCount, setNameCount] = useState(selectedPot?.name);
+  const [selectedTheme, setSelectedTheme] = useState<string>(
+    selectedPot?.theme as string
+  );
 
   return (
     <Suspense fallback={<Loading />}>
@@ -39,16 +38,16 @@ const EditPotForm = ({ selected, usedThemes }: EditFormProps) => {
           </p>
 
           <form action={action} className="mt-5 space-y-4">
-            <input type="hidden" name="id" defaultValue={selected.id} />
+            <input type="hidden" name="id" defaultValue={selectedPot?.id} />
             <input
               type="hidden"
               name="theme"
-              value={selected.theme ? selected.theme : selectedTheme}
+              value={selectedPot?.theme ? selectedPot.theme : selectedTheme}
             />
 
             <input
               type="hidden"
-              value={selected.total as number}
+              value={selectedPot?.total as number}
               name="total"
             />
             <div className="flex flex-col gap-1">
@@ -63,7 +62,7 @@ const EditPotForm = ({ selected, usedThemes }: EditFormProps) => {
                 name="potName"
                 className="border-[#98908B] border rounded-lg h-[2.8125rem] px-5"
                 defaultValue={
-                  selected.name ? selected.name : state?.inputs?.potName
+                  selectedPot?.name ? selectedPot.name : state?.inputs?.potName
                 }
                 onChange={(e) => setNameCount(e.target.value)}
                 type="text"
@@ -71,7 +70,7 @@ const EditPotForm = ({ selected, usedThemes }: EditFormProps) => {
                 required
               />
               <p className="text-right text-xs text-[#696868]">
-                {nameCount.length ? 30 - nameCount.length : 30}
+                {nameCount?.length ? 30 - nameCount.length : 30}
                 <span className="pl-1">characters left</span>
               </p>
             </div>
@@ -91,7 +90,9 @@ const EditPotForm = ({ selected, usedThemes }: EditFormProps) => {
                 name="target"
                 className="border-[#98908B] border rounded-lg h-[2.8125rem] px-5"
                 defaultValue={
-                  selected.target ? selected.target : state?.inputs?.target
+                  selectedPot?.target
+                    ? selectedPot.target
+                    : state?.inputs?.target
                 }
                 type="text"
                 placeholder="$ e.g 2000"
@@ -110,7 +111,7 @@ const EditPotForm = ({ selected, usedThemes }: EditFormProps) => {
               </label>
               <Select
                 name="theme"
-                defaultValue={selected.theme}
+                defaultValue={selectedPot?.theme}
                 onValueChange={(value) => setSelectedTheme(value)}
               >
                 <SelectTrigger
@@ -136,7 +137,7 @@ const EditPotForm = ({ selected, usedThemes }: EditFormProps) => {
                         />
 
                         <span className="inline-block pl-2">{theme.label}</span>
-                        {isUsed && !selected.theme && (
+                        {isUsed && !selectedPot?.theme && (
                           <span className="absolute top-[2px] right-4">
                             Already Used
                           </span>

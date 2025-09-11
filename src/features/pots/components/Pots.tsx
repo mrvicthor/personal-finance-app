@@ -141,15 +141,7 @@ const Pots = ({ data }: PotsProps) => {
       ))}
       {editPot &&
         createPortal(
-          <EditPot
-            onClose={() => {
-              setSelected("");
-              setSelectedPot(null);
-              toggleEditPot();
-            }}
-            selectedPot={selectedPot}
-            usedThemes={usedThemes}
-          />,
+          <EditPot />,
 
           document.body
         )}
