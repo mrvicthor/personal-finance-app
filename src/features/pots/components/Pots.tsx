@@ -139,38 +139,9 @@ const Pots = ({ data }: PotsProps) => {
           )}
         </motion.li>
       ))}
-      {editPot &&
-        createPortal(
-          <EditPot />,
-
-          document.body
-        )}
-      {deletePot &&
-        createPortal(
-          <DeletePot
-            onClose={() => {
-              setSelected("");
-              setSelectedPot(null);
-              toggleDeletePot();
-            }}
-            selected={selected}
-            selectedPot={selectedPot}
-          />,
-          document.body
-        )}
-      {shouldAddMoney &&
-        createPortal(
-          <AddMoney
-            onClose={() => {
-              setSelected("");
-              setSelectedPot(null);
-              toggleShouldAddMoney();
-            }}
-            selected={selected}
-            selectedPot={selectedPot}
-          />,
-          document.body
-        )}
+      {editPot && createPortal(<EditPot />, document.body)}
+      {deletePot && createPortal(<DeletePot />, document.body)}
+      {shouldAddMoney && createPortal(<AddMoney />, document.body)}
       {shouldWithdraw &&
         createPortal(
           <WithdrawMoney

@@ -4,14 +4,21 @@ import Image from "next/image";
 import { SelectedPot } from "@/types/pot";
 import AddMoneyForm from "./forms/AddMoneyForm";
 import Loading from "@/components/loading";
+import { usePotStore } from "@/providers/pot-store-provider";
 
-type AddMoneyProps = {
-  onClose: () => void;
-  selected: string;
-  selectedPot: SelectedPot | null;
-};
-
-const AddMoney = ({ onClose, selectedPot, selected }: AddMoneyProps) => {
+const AddMoney = () => {
+  const {
+    setSelected,
+    setSelectedPot,
+    toggleShouldAddMoney,
+    selectedPot,
+    selected,
+  } = usePotStore((state) => state);
+  const handleClose = () => {
+    setSelected("");
+    setSelectedPot(null);
+    toggleShouldAddMoney();
+  };
   const [hasMounted, setHasMounted] = useState(false);
   useEffect(() => {
     setHasMounted(true);
@@ -20,7 +27,7 @@ const AddMoney = ({ onClose, selectedPot, selected }: AddMoneyProps) => {
     <>
       <div
         className="fixed inset-0 bg-black bg-opacity-50 z-40"
-        onClick={onClose}
+        onClick={handleClose}
       />
       <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg w-full max-w-[20.9375rem] sm:max-w-[35rem] py-8 px-5 sm:px-8 z-50">
         <div className="flex items-center justify-between">
@@ -29,7 +36,7 @@ const AddMoney = ({ onClose, selectedPot, selected }: AddMoneyProps) => {
           </p>
           <button
             type="button"
-            onClick={onClose}
+            onClick={handleClose}
             aria-label="Close modal"
             className="cursor-pointer"
           >
