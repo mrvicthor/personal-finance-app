@@ -13,20 +13,31 @@ import { getPots } from "../actions/pots";
 import { Pot, SelectedPot } from "@/types/pot";
 import AddMoney from "./AddMoney";
 import WithdrawMoney from "./WithdrawMoney";
+import { usePotStore } from "@/providers/pot-store-provider";
 
 type PotsProps = {
   data: Pot[];
 };
 
 const Pots = ({ data }: PotsProps) => {
-  const [showOptions, setShowOptions] = useState(false);
-  const [selected, setSelected] = useState<string>("");
-  const [editPot, setEditPot] = useState(false);
-  const [deletePot, setDeletePot] = useState(false);
-  const [selectedPot, setSelectedPot] = useState<SelectedPot | null>(null);
-  const [usedThemes, setUsedThemes] = useState<string[]>([]);
-  const [shouldAddMoney, setShouldAddMoney] = useState(false);
-  const [shouldWithdraw, setShouldWithdraw] = useState(false);
+  const {
+    shouldAddMoney,
+    shouldWithdraw,
+    showOptions,
+    selected,
+    selectedPot,
+    usedThemes,
+    setSelected,
+    setUsedThemes,
+    setSelectedPot,
+    deletePot,
+    toggleDeletePot,
+    editPot,
+    toggleEditPot,
+    toggleShouldAddMoney,
+    toggleShouldWithdraw,
+    toggleShowOptions,
+  } = usePotStore((state) => state);
 
   useEffect(() => {
     const updateTheme = async () => {
@@ -56,7 +67,7 @@ const Pots = ({ data }: PotsProps) => {
             title={pot.name}
             theme={pot.theme}
             toggleOptions={() => {
-              setShowOptions(!showOptions);
+              toggleShowOptions();
               setSelected(pot.name);
             }}
           />
@@ -87,7 +98,7 @@ const Pots = ({ data }: PotsProps) => {
               <button
                 onClick={() => {
                   setSelected(pot.name);
-                  setShouldAddMoney(true);
+                  toggleShouldAddMoney();
                 }}
                 className=" bg-[#F8F4F0] h-[3.3125rem] capitalize text-[#201F24] text-sm font-bold rounded-md"
               >
@@ -96,7 +107,7 @@ const Pots = ({ data }: PotsProps) => {
               <button
                 onClick={() => {
                   setSelected(pot.name);
-                  setShouldWithdraw(true);
+                  toggleShouldWithdraw();
                 }}
                 className=" bg-[#F8F4F0] h-[3.3125rem] capitalize text-[#201F24] text-sm font-bold rounded-md"
               >
@@ -109,8 +120,8 @@ const Pots = ({ data }: PotsProps) => {
               <button
                 className="text-sm text-[#201F24] pb-3 capitalize"
                 onClick={() => {
-                  setShowOptions(false);
-                  setEditPot(true);
+                  toggleShowOptions();
+                  toggleEditPot();
                 }}
               >
                 edit pot
@@ -118,8 +129,8 @@ const Pots = ({ data }: PotsProps) => {
               <button
                 className="text-sm text-[#C94736] capitalize pt-3"
                 onClick={() => {
-                  setShowOptions(false);
-                  setDeletePot(true);
+                  toggleShowOptions();
+                  toggleDeletePot();
                 }}
               >
                 delete pot
@@ -134,7 +145,7 @@ const Pots = ({ data }: PotsProps) => {
             onClose={() => {
               setSelected("");
               setSelectedPot(null);
-              setEditPot(false);
+              toggleEditPot();
             }}
             selectedPot={selectedPot}
             usedThemes={usedThemes}
@@ -148,7 +159,7 @@ const Pots = ({ data }: PotsProps) => {
             onClose={() => {
               setSelected("");
               setSelectedPot(null);
-              setDeletePot(false);
+              toggleDeletePot();
             }}
             selected={selected}
             selectedPot={selectedPot}
@@ -161,7 +172,7 @@ const Pots = ({ data }: PotsProps) => {
             onClose={() => {
               setSelected("");
               setSelectedPot(null);
-              setShouldAddMoney(false);
+              toggleShouldAddMoney();
             }}
             selected={selected}
             selectedPot={selectedPot}
@@ -174,7 +185,7 @@ const Pots = ({ data }: PotsProps) => {
             onClose={() => {
               setSelected("");
               setSelectedPot(null);
-              setShouldWithdraw(false);
+              toggleShouldWithdraw();
             }}
             selected={selected}
             selectedPot={selectedPot}
