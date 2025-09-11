@@ -10,6 +10,7 @@ import {
 import { AddPotActionResponse } from "@/lib/definition";
 import { addPot, getPots } from "../../actions/pots";
 import { themes } from "@/helpers";
+import InputField from "@/components/forms/inputField";
 
 const initialState: AddPotActionResponse = {
   success: false,
@@ -73,26 +74,16 @@ const CreatePotForm = () => {
               <p className="text-red-500">{state.errors.potName}</p>
             )}
 
-            <div className="flex flex-col gap-1">
-              <label
-                htmlFor="target"
-                className="capitalize text-[#696868] text-xs font-bold"
-              >
-                target
-              </label>
-              <input
-                id="target"
-                name="target"
-                className="border-[#98908B] border rounded-lg h-[2.8125rem] px-5"
-                defaultValue={state?.inputs?.target}
-                type="text"
-                placeholder="$ e.g 2000"
-                required
-              />
-            </div>
-            {state?.errors?.target && (
-              <p className="text-red-500">{state.errors.target}</p>
-            )}
+            <InputField
+              id="target"
+              label="target"
+              name="target"
+              value={state?.inputs?.target}
+              placeholder="$ e.g 2000"
+              error={state?.errors?.target?.[0]}
+              type="text"
+            />
+
             <div className="flex flex-col gap-1">
               <label
                 htmlFor="theme"
