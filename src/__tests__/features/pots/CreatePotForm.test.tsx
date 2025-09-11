@@ -1,3 +1,4 @@
+import { getPots } from "@/features/pots/actions/pots";
 import CreatePotForm from "@/features/pots/components/forms/CreatePotForm";
 import { screen, render } from "@testing-library/react";
 
@@ -14,13 +15,13 @@ jest.mock("lucide-react", () => {
 
 jest.mock("../../../features/pots/actions/pots", () => ({
   addPot: jest.fn(),
-}));
-
-jest.mock("../../../features/pots/actions/pots", () => ({
   getPots: jest.fn(),
 }));
 
 describe("Create Pot Form", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
   test("should render the form modal correctly", () => {
     render(<CreatePotForm />);
     const form = screen.queryByTestId("add-pot-form");
@@ -33,5 +34,10 @@ describe("Create Pot Form", () => {
     expect(targetInput).toBeInTheDocument();
     expect(colorTagInput).toBeInTheDocument();
     expect(submitButton).toBeInTheDocument();
+  });
+
+  test("should call getPots on mount", () => {
+    render(<CreatePotForm />);
+    expect(getPots).toHaveBeenCalled();
   });
 });

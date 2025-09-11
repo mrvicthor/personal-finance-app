@@ -15,9 +15,6 @@ jest.mock("lucide-react", () => {
 
 jest.mock("../../../features/pots/actions/pots", () => ({
   addPot: jest.fn(),
-}));
-
-jest.mock("../../../features/pots/actions/pots", () => ({
   getPots: jest.fn(),
 }));
 
