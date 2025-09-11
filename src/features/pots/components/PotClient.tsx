@@ -25,7 +25,10 @@ const PotClient = ({ children }: { children: ReactNode }) => {
       </div>
       {showModal &&
         createPortal(
-          <AddPot onClose={() => setShowModal(false)} />,
+          <AddPot
+            onClose={() => setShowModal(false)}
+            closeButtonTestId="close-pot-modal"
+          />,
           document.body
         )}
       {children}

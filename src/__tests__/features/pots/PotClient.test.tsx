@@ -1,5 +1,6 @@
 import PotClient from "@/features/pots/components/PotClient";
 import { screen, render } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 
 jest.mock("lucide-react", () => {
   return new Proxy(
@@ -32,6 +33,17 @@ describe("Pot Client", () => {
       const toggleFormModalButton = screen.getByTestId("add-pot-btn");
       expect(toggleFormModalButton).toBeInTheDocument();
       expect(formHeading).toBeInTheDocument();
+    });
+
+    test("should not render form modal on initial rendering", async () => {
+      render(
+        <PotClient>
+          <div>Test content</div>
+        </PotClient>
+      );
+
+      const form = screen.queryByTestId("add-pot-form");
+      expect(form).not.toBeInTheDocument();
     });
   });
 });

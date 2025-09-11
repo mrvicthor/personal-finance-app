@@ -41,7 +41,11 @@ const CreatePotForm = () => {
             track as you save for special purchases.
           </p>
 
-          <form action={action} className="mt-5 space-y-4">
+          <form
+            data-testid="add-pot-form"
+            action={action}
+            className="mt-5 space-y-4"
+          >
             <input type="hidden" value={0} name="total" />
             <div className="flex flex-col gap-1">
               <label
