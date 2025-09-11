@@ -17,6 +17,10 @@ jest.mock("../../../features/pots/actions/pots", () => ({
   addPot: jest.fn(),
 }));
 
+jest.mock("../../../features/pots/actions/pots", () => ({
+  getPots: jest.fn(),
+}));
+
 describe("Pot Client", () => {
   describe("Initial Render", () => {
     test("should render Pots Page", () => {
@@ -35,7 +39,7 @@ describe("Pot Client", () => {
       expect(formHeading).toBeInTheDocument();
     });
 
-    test("should not render form modal on initial rendering", async () => {
+    test("should not render form modal on initial rendering", () => {
       render(
         <PotClient>
           <div>Test content</div>
@@ -44,6 +48,23 @@ describe("Pot Client", () => {
 
       const form = screen.queryByTestId("add-pot-form");
       expect(form).not.toBeInTheDocument();
+    });
+
+    test("should render the form when the toggle button is clicked", async () => {
+      const user = userEvent.setup();
+      render(
+        <PotClient>
+          <div>Test content</div>
+        </PotClient>
+      );
+      const toggleFormModalButton = screen.getByTestId("add-pot-btn");
+      const formBefore = screen.queryByTestId("add-pot-form");
+      expect(formBefore).not.toBeInTheDocument();
+
+      await user.click(toggleFormModalButton);
+
+      const formAfter = await screen.findByTestId("add-pot-form");
+      expect(formAfter).toBeInTheDocument();
     });
   });
 });
