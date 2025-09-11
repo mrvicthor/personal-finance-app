@@ -113,7 +113,7 @@ describe("Transactions Page", () => {
     fireEvent.click(trueOption);
 
     fireEvent.click(submitButton);
-    // screen.debug();
+
     const successMessage = await screen.findByText(
       "Transaction added successfully"
     );
