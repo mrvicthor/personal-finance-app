@@ -60,6 +60,6 @@ describe("Login Action", () => {
       "testing@123"
     );
 
-    expect(redirect).toHaveBeenCalledWith("/overview");
+    expect(redirect).toHaveBeenCalledWith("/");
   });
 });

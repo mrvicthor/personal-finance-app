@@ -15,7 +15,7 @@ const Sidebar = () => {
   return (
     <aside className="sidebar bg-[#201f24] h-screen rounded-r-lg relative hidden md:block">
       <div className="px-6 h-[6.36rem] flex items-center">
-        <Link href="/overview">
+        <Link href="/">
           {isCollapsed ? (
             <Image
               src="/assets/images/logo-small.svg"

@@ -66,7 +66,7 @@ export async function signup(
   }
   //   create session
   await authAdapter.createSessionWithCookie(user.id);
-  redirect("/overview");
+  redirect("/");
 }
 
 export async function login(
@@ -113,7 +113,7 @@ export async function login(
   }
 
   await authAdapter.createSessionWithCookie(user.id);
-  redirect("/overview");
+  redirect("/");
 }
 
 export async function logout() {
