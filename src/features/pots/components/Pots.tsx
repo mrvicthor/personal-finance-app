@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Title from "@/features/pots/components/Title";
 import PotRange from "@/features/pots/components/PotRange";
 import PotStats from "@/features/pots/components/PotStats";
@@ -10,7 +10,7 @@ import EditPot from "./EditPot";
 import DeletePot from "./DeletePot";
 import { formatCurrency } from "@/helpers/currencyFormatter";
 import { getPots } from "../actions/pots";
-import { Pot, SelectedPot } from "@/types/pot";
+import { Pot } from "@/types/pot";
 import AddMoney from "./AddMoney";
 import WithdrawMoney from "./WithdrawMoney";
 import { usePotStore } from "@/providers/pot-store-provider";
@@ -48,7 +48,7 @@ const Pots = ({ data }: PotsProps) => {
       if (selectedItem) return setSelectedPot(selectedItem);
     };
     updateTheme();
-  }, [selected]);
+  }, [selected, setSelectedPot, setUsedThemes]);
 
   return (
     <motion.ul

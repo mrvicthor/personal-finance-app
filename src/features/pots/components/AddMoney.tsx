@@ -1,7 +1,6 @@
 "use client";
-import React, { useEffect, useState } from "react";
+
 import Image from "next/image";
-import { SelectedPot } from "@/types/pot";
 import AddMoneyForm from "./forms/AddMoneyForm";
 import Loading from "@/components/loading";
 import { usePotStore } from "@/providers/pot-store-provider";
@@ -19,10 +18,9 @@ const AddMoney = () => {
     setSelectedPot(null);
     toggleShouldAddMoney();
   };
-  const [hasMounted, setHasMounted] = useState(false);
-  useEffect(() => {
-    setHasMounted(true);
-  }, []);
+
+  console.log({ selectedPot });
+
   return (
     <>
       <div
@@ -57,7 +55,7 @@ const AddMoney = () => {
             />
           </button>
         </div>
-        {hasMounted && !selectedPot ? (
+        {!selectedPot ? (
           <Loading />
         ) : selectedPot ? (
           <AddMoneyForm selectedPot={selectedPot} />
