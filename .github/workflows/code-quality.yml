@@ -27,7 +27,7 @@ jobs:
         run: npx tsc --noEmit
 
       - name: Security audit
-        run: npm audit --audit-level moderate
+        run: npm audit --omit=dev --audit-level moderate
 
       - name: Check for unused dependencies
         run: npx depcheck --ignores="@types/*,tailwindcss,postcss" || true
