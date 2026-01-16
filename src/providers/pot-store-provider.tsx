@@ -1,6 +1,6 @@
 "use client";
 
-import { type ReactNode, createContext, useRef, useContext } from "react";
+import { type ReactNode, createContext, useContext, useState } from "react";
 import { useStore } from "zustand";
 
 import { type PotStore, createPotStore } from "@/stores/pot-store";
@@ -16,12 +16,10 @@ export interface PotStoreProviderProps {
 }
 
 export const PotStoreProvider = ({ children }: PotStoreProviderProps) => {
-  const storeRef = useRef<PotStoreApi>(null);
-  if (!storeRef.current) {
-    storeRef.current = createPotStore();
-  }
+  const [store] = useState<PotStoreApi>(() => createPotStore());
+
   return (
-    <PotStoreContext.Provider value={storeRef.current}>
+    <PotStoreContext.Provider value={store}>
       {children}
     </PotStoreContext.Provider>
   );
