@@ -32,7 +32,6 @@ const Bubblechart = ({ data, transactions }: BudgetsProps) => {
     0
   );
 
-  const [mounted, setMounted] = useState(false);
   const totalBudget = data.reduce(
     (acc: number, item: Budget) => acc + item.maximum,
     0
@@ -45,11 +44,6 @@ const Bubblechart = ({ data, transactions }: BudgetsProps) => {
     label: "Total",
   };
 
-  useEffect(() => {
-    setMounted(true);
-  }, [mounted]);
-
-  if (!mounted) return null;
   return (
     <ChartContainer
       config={chartConfig satisfies ChartConfig}
