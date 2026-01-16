@@ -6,7 +6,6 @@ import WithdrawMoneyForm from "./forms/WithdrawMoneyForm";
 import { usePotStore } from "@/providers/pot-store-provider";
 
 const WithdrawMoney = () => {
-  const [hasMounted, setHasMounted] = useState(false);
   const {
     setSelected,
     setSelectedPot,
@@ -19,9 +18,7 @@ const WithdrawMoney = () => {
     setSelectedPot(null);
     toggleShouldWithdraw();
   };
-  useEffect(() => {
-    setHasMounted(true);
-  }, []);
+
   return (
     <>
       <div
@@ -47,7 +44,7 @@ const WithdrawMoney = () => {
             />
           </button>
         </div>
-        {hasMounted && !selectedPot ? (
+        {!selectedPot ? (
           <Loading />
         ) : selectedPot ? (
           <WithdrawMoneyForm selectedPot={selectedPot} />
