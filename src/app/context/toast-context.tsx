@@ -1,5 +1,6 @@
 "use client";
 import { ToastContainer } from "@/components/toast-container";
+import { useTime } from "@/hooks/useTime";
 import { ToastProps } from "@/types/toastProps";
 import { createContext, useState } from "react";
 
@@ -14,10 +15,11 @@ export const ToastContext = createContext<ToastContextType | undefined>(
 );
 
 export const ToastProvider = ({ children }: { children: React.ReactNode }) => {
+  const time = useTime();
   const [toasts, setToasts] = useState<ToastProps[]>([]);
 
   const toast = (props: ToastProps) => {
-    const id = props.id || String(Date.now());
+    const id = props.id || time.toLocaleString();
     const duration = props.duration || 5000;
 
     setToasts((prevToasts) => [...prevToasts, { ...props, id }]);
