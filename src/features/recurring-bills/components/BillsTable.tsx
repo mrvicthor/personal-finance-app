@@ -31,13 +31,15 @@ const BillsTable = ({ bills }: BillsTableProps) => {
           <motion.tr variants={itemVariants} key={index}>
             <td className="flex flex-col justify-center gap-4">
               <div className="flex items-center gap-4">
-                <Image
-                  src={bill.avatar.slice(1)}
-                  width={40}
-                  height={40}
-                  className="rounded-full w-8 h-8 sm:w-10 sm:h-10"
-                  alt={bill.name}
-                />
+                {bill.avatar && (
+                  <Image
+                    src={bill.avatar.slice(1)}
+                    width={40}
+                    height={40}
+                    className="rounded-full w-8 h-8 sm:w-10 sm:h-10"
+                    alt={bill.name}
+                  />
+                )}
                 <span className="font-bold text-sm text-[#201F24]">
                   {bill.name}
                 </span>
