@@ -1,5 +1,11 @@
 "use client";
-import { type ReactNode, createContext, useRef, useContext } from "react";
+import {
+  type ReactNode,
+  createContext,
+  useRef,
+  useContext,
+  useState,
+} from "react";
 import { useStore } from "zustand";
 
 import {
@@ -20,13 +26,9 @@ export interface AiPromptStoreProviderProps {
 export const AiPromptStoreProvider = ({
   children,
 }: AiPromptStoreProviderProps) => {
-  const storeRef = useRef<AiPromptStoreApi | null>(null);
-  if (storeRef.current === null) {
-    storeRef.current = createAiPromptStore();
-  }
-
+  const [store] = useState<AiPromptStoreApi>(() => createAiPromptStore());
   return (
-    <AiPromptStoreContext.Provider value={storeRef.current}>
+    <AiPromptStoreContext.Provider value={store}>
       {children}
     </AiPromptStoreContext.Provider>
   );
