@@ -1,6 +1,12 @@
 "use client";
 
-import { type ReactNode, createContext, useRef, useContext } from "react";
+import {
+  type ReactNode,
+  createContext,
+  useRef,
+  useContext,
+  useState,
+} from "react";
 import { useStore } from "zustand";
 
 import {
@@ -21,12 +27,10 @@ export interface CollapseStoreProviderProps {
 export const CollapseStoreProvider = ({
   children,
 }: CollapseStoreProviderProps) => {
-  const storeRef = useRef<CollapseStoreApi>(null);
-  if (!storeRef.current) {
-    storeRef.current = createCollapseStore();
-  }
+  const [store] = useState<CollapseStoreApi>(() => createCollapseStore());
+
   return (
-    <CollapseStoreContext.Provider value={storeRef.current}>
+    <CollapseStoreContext.Provider value={store}>
       {children}
     </CollapseStoreContext.Provider>
   );
