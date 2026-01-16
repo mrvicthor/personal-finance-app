@@ -21,11 +21,6 @@ export function usePushNotificationManager() {
   const [subscription, setSubscription] = useState<PushSubscription | null>(
     null
   );
-  useEffect(() => {
-    if ("serviceWorker" in navigator && "PushManager" in window) {
-      registerServiceWorker();
-    }
-  }, []);
 
   async function registerServiceWorker() {
     const registration = await navigator.serviceWorker.register("/sw.js");
@@ -48,5 +43,12 @@ export function usePushNotificationManager() {
       setSubscription(sub);
     }
   }
+
+  useEffect(() => {
+    if ("serviceWorker" in navigator && "PushManager" in window) {
+      registerServiceWorker();
+    }
+  }, []);
+
   return { subscription };
 }
