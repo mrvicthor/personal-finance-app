@@ -23,7 +23,6 @@ export default async function Page() {
   );
 
   const sortedBills = sortUniqueArray(recurringBills);
-  console.log({ sortedBills, recurringBills });
 
   return (
     <Suspense fallback={<RecurringBillSkeleton />}>
