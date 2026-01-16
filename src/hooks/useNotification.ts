@@ -46,6 +46,7 @@ export function usePushNotificationManager() {
 
   useEffect(() => {
     if ("serviceWorker" in navigator && "PushManager" in window) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       registerServiceWorker();
     }
   }, []);
